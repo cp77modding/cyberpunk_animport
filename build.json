@@ -1,0 +1,31 @@
+{
+ "_note": "Where the port reads and writes. Relative paths are from this file's folder. tools/retarget/build_config.py reads it and refuses two sources that share a run folder or a pack.",
+ "tools": {
+  "hkxc": "C:\\Modding\\HKX_Edit\\tools\\hkxc.exe",
+  "blender_hkx": "C:\\Work\\WorkSpace\\skyrim\\blender-hkx\\io_hkx_animation\\blender-hkx.exe",
+  "skeletons": "C:\\Modding\\blender_assets\\coache_blender\\HKX exporter",
+  "wolvenkit": "C:\\Modding\\wolwenKit_upacker\\WolvenKit.CLI.exe",
+  "wolvenkit_cook": "tools/retarget/work/wk_nightly",
+  "game": "D:\\SteamLibrary\\steamapps\\common\\Cyberpunk 2077"
+ },
+ "work": "tools/retarget/work",
+ "mod": "../nightcitynet",
+ "packs": "../CyberpunkAnimations",
+ "motionbricks": false,
+ "sources": {
+  "opensex": {
+   "input": "C:\\Work\\WorkSpace\\skyrim\\OpenSex",
+   "run": "tools/retarget/work/skyrim/port",
+   "pack": "opensex",
+   "inventory": "opensex",
+   "ship_glb": false
+  },
+  "ostimng": {
+   "input": "C:\\Work\\WorkSpace\\SKSE\\OStimNG",
+   "run": "tools/retarget/work/skyrim/ostimng",
+   "pack": "ostimng",
+   "inventory": "ostimng",
+   "ship_glb": true
+  }
+ }
+}

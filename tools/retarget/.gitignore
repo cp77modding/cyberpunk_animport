@@ -1,0 +1,5 @@
+# CDPR's and PinkyDude's data, not ours to ship. Rebuild with extract.ps1.
+work/
+# the WolvenKit bridge's build output
+wk_anims/bin/
+wk_anims/obj/
