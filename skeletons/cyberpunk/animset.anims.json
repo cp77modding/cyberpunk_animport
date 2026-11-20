@@ -1,0 +1,41 @@
+{
+  "Header": {
+    "WolvenKitVersion": "8.18.1",
+    "WKitJsonVersion": "0.0.9",
+    "GameVersion": 2310,
+    "ExportedDateTime": "2026-07-28T08:32:14.4144937Z",
+    "DataType": "CR2W"
+  },
+  "Data": {
+    "Version": 195,
+    "BuildVersion": 0,
+    "RootChunk": {
+      "$type": "animAnimSet",
+      "animationDataChunks": [],
+      "animations": [],
+      "cookingPlatform": "PLATFORM_PC",
+      "fallbackAnimDataBuffer": null,
+      "fallbackAnimDescIndexes": [],
+      "fallbackAnimFrameDescs": [],
+      "fallbackDataAddresses": [],
+      "fallbackDataAddressIndexes": [],
+      "fallbackNumFloatTrackData": 0,
+      "fallbackNumPositionData": 0,
+      "fallbackNumRotationData": 0,
+      "rig": {
+        "DepotPath": {
+          "$type": "ResourcePath",
+          "$storage": "string",
+          "$value": "base\\characters\\base_entities\\man_base\\man_base.rig"
+        },
+        "Flags": "Default"
+      },
+      "tags": {
+        "$type": "redTagList",
+        "tags": []
+      },
+      "version": 0
+    },
+    "EmbeddedFiles": []
+  }
+}

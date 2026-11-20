@@ -86,7 +86,7 @@ foreach ($g in $groups) {
   Add-Content $pairs "$(Join-Path $run "$($g.Name).glb")`t$(Join-Path $stage $g.Stem)" -Encoding ascii
 }
 
-$bridge = Join-Path $root 'wk_anims\bin\Release\net8.0\WkAnims.exe'
+$bridge = Join-Path $root 'wk_anims\bin\Release\net10.0\WkAnims.exe'
 Step 'build wk_anims' { dotnet build (Join-Path $root 'wk_anims\WkAnims.csproj') -c Release -v q --nologo | Out-Null }
 Step 'cook' { & $bridge --list $pairs $GamePath $WolvenKitCook }
 

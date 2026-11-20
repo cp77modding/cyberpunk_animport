@@ -15,6 +15,7 @@ $root = Split-Path -Parent $PSScriptRoot
 Set-Location $root
 
 $tests = @(
+  'test_port',   # one command: the local file over build.json, the check naming what is missing, format, unpack
   'retarget\test_build_config',   # build.json: every path read, the sources' run folders apart, MotionBricks off
   'retarget\test_retarget_glb',   # NPC-rig clip onto V's skeleton: motion kept, target lengths, no game data
   'retarget\test_rig_glb',   # a rig json as WolvenKit's armature: axes, parents, bind matrices, A-pose rest

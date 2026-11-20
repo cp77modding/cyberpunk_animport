@@ -226,8 +226,9 @@ def pack_cases(tmp, fails):
     for f in ("depot/opensex/anims/npc/a_ma.anims", "depot/opensex/anims/player/a_pma.anims", "scenes.json",
               "source-map.json"):
         touch(os.path.join(port, f), "new")
-    saved = sp.PORT, sp.manifest, sp.run
+    saved = sp.PORT, sp.manifest, sp.run, sp.write_scene_list
     sp.PORT = port
+    sp.write_scene_list = lambda a, name: None   # its reader needs a real source; scene_list's own test covers it
     sp.manifest = lambda: [{"npcSet": r"opensex\anims\npc\a_ma.anims", "rig": "man_base", "clip": "a",
                             "playerSet": r"opensex\anims\player\a_pma.anims", "playerRig": "player_man"}]
     packed = []
@@ -239,7 +240,7 @@ def pack_cases(tmp, fails):
         if len(packed) != 1:
             fails.append("pack ran WolvenKit %d times for one change, want 1" % len(packed))
     finally:
-        sp.PORT, sp.manifest, sp.run = saved
+        sp.PORT, sp.manifest, sp.run, sp.write_scene_list = saved
     got = sorted("%s=%s" % (os.path.relpath(os.path.join(d, f), anims).replace("\\", "/"), open(os.path.join(d, f)).read())
                  for d, _, fs in os.walk(anims) for f in fs)
     want = ["man_big/a_ma_man_big.anims=old", "man_big/gen_a_ma_man_big.anims=old", "npc/a_ma.anims=new",

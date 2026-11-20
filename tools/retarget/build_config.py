@@ -1,5 +1,8 @@
 """build.json at the repo root: the tools, and per source its input, its own run folder and its pack.
 
+build.json holds what is the same on every machine; build.local.json beside it (gitignored, written by
+tools/port.py setup and run) holds this machine's tool paths, source inputs and added sources, merged over it.
+
   load()            the file, every path absolute; refuses two sources sharing a run folder or a pack, or one inside another
   source(name)      one source's row, with "pack" as the pack's folder
   python build_config.py           prints each source's paths: what a run reads and writes
@@ -10,6 +13,7 @@ import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 FILE = os.environ.get("ANIMPORT_BUILD", os.path.join(ROOT, "build.json"))
+TOOLS = ("hkxc", "blender_hkx", "skeletons", "wolvenkit", "wolvenkit_cook", "game", "skyrim_mods")
 
 
 def _abs(p, base):
@@ -21,18 +25,34 @@ def _inside(a, b):
     return a == b or a.startswith(b.rstrip("\\/") + os.sep)
 
 
+def local_file(path=None):
+    """this machine's half, beside build.json: tool paths, source inputs, sources added here; gitignored"""
+    return os.path.join(os.path.dirname(os.path.abspath(path or FILE)), "build.local.json")
+
+
+def merge(base, over):
+    out = dict(base)
+    for k, v in over.items():
+        out[k] = merge(out[k], v) if isinstance(v, dict) and isinstance(out.get(k), dict) else v
+    return out
+
+
 def load(path=None):
     path = path or FILE
     cfg = json.load(open(path, encoding="utf-8"))
+    if os.path.isfile(local_file(path)):
+        cfg = merge(cfg, json.load(open(local_file(path), encoding="utf-8")))
     base = os.path.dirname(os.path.abspath(path))
     cfg["file"] = path
-    cfg["tools"] = {k: _abs(v, base) for k, v in cfg["tools"].items()}
+    cfg["tools"] = {k: _abs(v, base) if v else None for k, v in cfg.get("tools", {}).items()}
+    for k in TOOLS:
+        cfg["tools"].setdefault(k, None)
     cfg["work"] = _abs(cfg["work"], base)
     cfg["mod"] = _abs(cfg.get("mod", "../nightcitynet"), base)
     cfg["packs"] = _abs(cfg["packs"], base)
     seen = []
     for name, s in cfg["sources"].items():
-        s["input"] = _abs(s["input"], base)
+        s["input"] = _abs(s["input"], base) if s.get("input") else None
         s["run"] = _abs(s["run"], base)
         s["pack"] = os.path.join(cfg["packs"], s["pack"])
         for what in ("run", "pack"):

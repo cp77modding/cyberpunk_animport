@@ -181,12 +181,10 @@ holds and every key lands on a cooked frame (moving only the last key still left
 
 ### Toolchain
 
-The cook needs a WolvenKit with the SIMD encoder (PR #2833, 8.19.1 nightly or later). Build it from a
-WolvenKit checkout into `work/wk_nightly` (gitignored), or pass `-WolvenKitCook <dir>`:
-
-```
-dotnet publish <WolvenKit>\WolvenKit.CLI\WolvenKit.CLI.csproj -c Release -o tools\retarget\work\wk_nightly
-```
+The cook needs a WolvenKit with the SIMD encoder (PR #2833): any release from 8.20.0, the console zip
+(`WolvenKit.Console-<version>.zip`) unpacked, set as build.local.json's `wolvenkit_cook` or `-WolvenKitCook <dir>`.
+`wk_anims` is built for .NET 10, so it loads 9.x (which needs .NET 10) and the older 8.x builds alike; 9.1.1 and an
+8.19.1 nightly both cook and verify the same set at 0.000 deg.
 
 `-WolvenKit` (the source export) can stay the release CLI. `retarget.ps1` refuses to run without a
 `-WolvenKitCook` build, and after the cook serializes the set and fails unless every buffer is

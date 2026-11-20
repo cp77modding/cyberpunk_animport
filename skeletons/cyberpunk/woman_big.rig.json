@@ -1,0 +1,7266 @@
+{
+  "Header": {
+    "WolvenKitVersion": "8.18.1",
+    "WKitJsonVersion": "0.0.9",
+    "GameVersion": 2310,
+    "ExportedDateTime": "2026-10-25T14:57:18.6543615Z",
+    "DataType": "CR2W",
+    "ArchiveFileName": "C:\\Work\\WorkSpace\\Cyberpunk\\nightcitynet\\tools\\retarget\\work\\npcrig\\cr2w\\base\\characters\\base_entities\\woman_big\\woman_big.rig"
+  },
+  "Data": {
+    "Version": 195,
+    "BuildVersion": 0,
+    "RootChunk": {
+      "$type": "animRig",
+      "aPoseLS": [],
+      "aPoseMS": [],
+      "boneNames": [
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "Root"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "Trajectory"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "Hips"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "Spine"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "LeftUpLeg"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "RightUpLeg"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "l_leg_buttock_mscl_Offset_GRP"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "r_leg_buttock_mscl_Offset_GRP"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "Spine1"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "LeftLeg"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "l_thigh_0_JNT"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "l_thigh_1_JNT"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "l_leg_groin_mscl_JNT"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "RightLeg"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "r_thigh_0_JNT"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "r_thigh_1_JNT"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "r_leg_groin_mscl_JNT"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "l_leg_buttock_mscl_JNT"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "r_leg_buttock_mscl_JNT"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "Spine2"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "LeftFoot"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "l_calf_0_JNT"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "l_lowLeg_back_B_mscl_Offset_GRP"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "l_lowLeg_back_A_mscl_Offset_GRP"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "l_knee_mscl_Offset_GRP"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "l_leg_back_B_mscl_Offset_GRP"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "l_leg_back_A_mscl_Offset_GRP"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "RightFoot"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "r_calf_0_JNT"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "r_lowLeg_back_A_mscl_Offset_GRP"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "r_lowLeg_back_B_mscl_Offset_GRP"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "r_knee_mscl_Offset_GRP"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "r_leg_back_B_mscl_Offset_GRP"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "r_leg_back_A_mscl_Offset_GRP"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "Spine3"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "LeftHeel"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "l_lowLeg_back_B_mscl_JNT"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "l_lowLeg_back_A_mscl_JNT"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "l_knee_mscl_JNT"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "l_leg_back_B_mscl_JNT"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "l_leg_back_A_mscl_JNT"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "RightHeel"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "r_lowLeg_back_A_mscl_JNT"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "r_lowLeg_back_B_mscl_JNT"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "r_knee_mscl_JNT"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "r_leg_back_B_mscl_JNT"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "r_leg_back_A_mscl_JNT"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "LeftShoulder"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "RightShoulder"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "Neck"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "l_latissimusDorsi_mscl_JNT_Offset_GRP"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "r_latissimusDorsi_mscl_JNT_Offset_GRP"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "l_trapezius_top_mscl_JNT"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "r_trapezius_top_mscl_JNT"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "arms_ik_master"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "LeftToeBase"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "RightToeBase"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "LeftArm"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "l_trapezius_mscl_Offset_GRP"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "l_chest_mscl_JNT_Offset_GRP"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "RightArm"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "r_trapezius_mscl_Offset_GRP"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "r_chest_mscl_JNT_Offset_GRP"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "Neck1"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "l_sternocleidomastoid_bot_mscl_JNT"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "r_sternocleidomastoid_bot_mscl_JNT"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "l_latissimusDorsi_mscl_JNT"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "r_latissimusDorsi_mscl_JNT"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "arms_ik_master_offset"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "LeftToeTip"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "RightToeTip"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "l_SHL_0_JNT"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "l_SHL_1_JNT"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "LeftForeArm"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "l_trapezius_mscl_JNT"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "l_chest_mscl_JNT"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "r_SHL_0_JNT"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "r_SHL_1_JNT"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "RightForeArm"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "r_trapezius_mscl_JNT"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "r_chest_mscl_JNT"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "Head"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "l_sternocleidomastoid_top_mscl_Offset_GRP"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "r_sternocleidomastoid_top_mscl_Offset_GRP"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "arm_left_ik"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "arm_right_ik"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "l_deltoid_top_mscl_JNT"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "l_deltoid_front_mscl_Offset_GRP"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "l_deltoid_back_mscl_JNT"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "l_triceps_mscl_JNT"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "l_biceps_A_mscl_Offset_GRP"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "l_Wrist_0_JNT"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "l_Wrist_1_JNT"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "l_Wrist_2_JNT"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "LeftHand"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "l_elbow_bend_A_mscl_Offset_GRP"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "l_elbow_back_mscl_Offset_GRP"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "r_deltoid_top_mscl_JNT"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "r_deltoid_front_mscl_Offset_GRP"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "r_deltoid_back_mscl_JNT"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "r_triceps_mscl_JNT"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "r_biceps_A_mscl_Offset_GRP"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "r_Wrist_0_JNT"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "r_Wrist_1_JNT"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "r_Wrist_2_JNT"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "RightHand"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "r_elbow_bend_A_mscl_Offset_GRP"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "r_elbow_back_mscl_Offset_GRP"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "HeadTip"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "l_sternocleidomastoid_top_mscl_JNT"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "r_sternocleidomastoid_top_mscl_JNT"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "arm_left_ik_offset"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "arm_right_ik_offset"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "l_deltoid_front_mscl_JNT"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "l_biceps_A_mscl_JNT"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "l_wrist_A_mscl_Offset_GRP"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "l_wrist_B_mscl_Offset_GRP"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "l_wrist_C_mscl_Offset_GRP"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "LeftHandEnd"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "LeftInHandThumb"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "LeftInHandIndex"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "LeftInHandMiddle"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "LeftInHandRing"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "LeftInHandPinky"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "WeaponLeft"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "l_elbow_bend_A_mscl_JNT"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "l_elbow_bend_B_mscl_JNT"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "l_elbow_back_mscl_JNT"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "r_deltoid_front_mscl_JNT"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "r_biceps_A_mscl_JNT"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "r_wrist_A_mscl_Offset_GRP"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "r_wrist_B_mscl_Offset_GRP"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "r_wrist_C_mscl_Offset_GRP"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "RightHandEnd"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "RightInHandThumb"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "RightInHandIndex"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "RightInHandMiddle"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "RightInHandRing"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "RightInHandPinky"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "WeaponRight"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "r_elbow_bend_A_mscl_JNT"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "r_elbow_bend_B_mscl_JNT"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "r_elbow_back_mscl_JNT"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "l_wrist_A_mscl_JNT"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "l_wrist_B_mscl_JNT"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "l_wrist_C_mscl_JNT"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "LeftHandThumb1"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "l_thumb_side_mscl_Offset_GRP"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "LeftHandIndex1"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "l_thumb_thumb_A_bot_mscl_Offset_GRP"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "LeftHandMiddle1"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "LeftHandRing1"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "LeftHandPinky1"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "l_pinkyBase_A_bot_mscl_Offset_GRP"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "r_wrist_A_mscl_JNT"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "r_wrist_B_mscl_JNT"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "r_wrist_C_mscl_JNT"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "RightHandThumb1"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "r_thumb_side_mscl_Offset_GRP"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "RightHandIndex1"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "r_thumb_thumb_A_bot_mscl_Offset_GRP"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "RightHandMiddle1"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "RightHandRing1"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "RightHandPinky1"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "r_pinkyBase_A_bot_mscl_Offset_GRP"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "LeftHandThumb2"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "l_thumb_side_mscl_JNT"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "LeftHandIndex2"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "l_ind_knuckle_top_mscl_Offset_GRP"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "l_ind_knuckle_bot_mscl_Offset_GRP"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "l_thumb_thumb_A_bot_mscl_JNT"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "l_thumb_thumb_A_top_mscl_JNT"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "LeftHandMiddle2"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "l_mid_knuckle_top_mscl_Offset_GRP"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "l_mid_knuckle_bot_mscl_Offset_GRP"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "LeftHandRing2"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "l_ring_knuckle_top_mscl_Offset_GRP"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "l_ring_knuckle_bot_mscl_Offset_GRP"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "LeftHandPinky2"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "l_pinky_knuckle_top_mscl_Offset_GRP"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "l_pinky_knuckle_bot_mscl_Offset_GRP"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "l_pinkyBase_A_bot_mscl_JNT"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "RightHandThumb2"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "r_thumb_side_mscl_JNT"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "RightHandIndex2"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "r_ind_knuckle_top_mscl_Offset_GRP"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "r_ind_knuckle_bot_mscl_Offset_GRP"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "r_thumb_thumb_A_bot_mscl_JNT"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "r_thumb_thumb_A_top_mscl_JNT"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "RightHandMiddle2"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "r_mid_knuckle_top_mscl_Offset_GRP"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "r_mid_knuckle_bot_mscl_Offset_GRP"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "RightHandRing2"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "r_ring_knuckle_top_mscl_Offset_GRP"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "r_ring_knuckle_bot_mscl_Offset_GRP"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "RightHandPinky2"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "r_pinky_knuckle_top_mscl_Offset_GRP"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "r_pinky_knuckle_bot_mscl_Offset_GRP"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "r_pinkyBase_A_bot_mscl_JNT"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "LeftHandThumb3"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "LeftHandIndex3"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "l_ind_knuckle_B_top_mscl_Offset_GRP"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "l_ind_knuckle_top_mscl_JNT"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "l_ind_knuckle_bot_mscl_JNT"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "LeftHandMiddle3"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "l_mid_knuckle_B_top_mscl_Offset_GRP"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "l_mid_knuckle_top_mscl_JNT"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "l_mid_knuckle_bot_mscl_JNT"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "LeftHandRing3"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "l_ring_knuckle_B_top_mscl_Offset_GRP"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "l_ring_knuckle_top_mscl_JNT"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "l_ring_knuckle_bot_mscl_JNT"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "LeftHandPinky3"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "l_pinky_knuckle_B_top_mscl_Offset_GRP"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "l_pinky_knuckle_top_mscl_JNT"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "l_pinky_knuckle_bot_mscl_JNT"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "RightHandThumb3"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "RightHandIndex3"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "r_ind_knuckle_B_top_mscl_Offset_GRP"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "r_ind_knuckle_top_mscl_JNT"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "r_ind_knuckle_bot_mscl_JNT"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "RightHandMiddle3"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "r_mid_knuckle_B_top_mscl_Offset_GRP"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "r_mid_knuckle_top_mscl_JNT"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "r_mid_knuckle_bot_mscl_JNT"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "RightHandRing3"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "r_ring_knuckle_B_top_mscl_Offset_GRP"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "r_ring_knuckle_top_mscl_JNT"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "r_ring_knuckle_bot_mscl_JNT"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "RightHandPinky3"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "r_pinky_knuckle_B_top_mscl_Offset_GRP"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "r_pinky_knuckle_top_mscl_JNT"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "r_pinky_knuckle_bot_mscl_JNT"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "LeftHandIndex4"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "l_ind_knuckle_B_top_mscl_JNT"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "LeftHandMiddle4"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "l_mid_knuckle_B_top_mscl_JNT"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "LeftHandRing4"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "l_ring_knuckle_B_top_mscl_JNT"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "LeftHandPinky4"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "l_pinky_knuckle_B_top_mscl_JNT"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "RightHandIndex4"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "r_ind_knuckle_B_top_mscl_JNT"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "RightHandMiddle4"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "r_mid_knuckle_B_top_mscl_JNT"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "RightHandRing4"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "r_ring_knuckle_B_top_mscl_JNT"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "RightHandPinky4"
+        },
+        {
+          "$type": "CName",
+          "$storage": "string",
+          "$value": "r_pinky_knuckle_B_top_mscl_JNT"
+        }
+      ],
+      "boneParentIndexes": [-1,0,0,2,2,2,2,2,3,4,4,4,4,5,5,5,5,6,7,8,9,9,9,9,9,11,11,13,13,13,13,13,15,15,19,20,22,23,24,25,26,27,29,30,31,32,33,34,34,34,34,34,34,34,34,35,41,47,47,47,48,48,48,49,49,49,50,51,54,55,56,57,57,57,58,59,60,60,60,61,62,63,63,63,68,68,71,71,71,72,72,73,73,73,73,73,73,76,76,76,77,77,78,78,78,78,78,78,81,82,83,84,85,87,90,93,93,93,94,94,94,94,94,94,94,95,95,96,98,101,104,104,104,105,105,105,105,105,105,105,106,106,107,115,116,117,119,119,120,120,121,122,123,123,130,131,132,134,134,135,135,136,137,138,138,146,147,148,148,148,149,149,150,150,150,151,151,151,152,152,152,153,157,158,159,159,159,160,160,161,161,161,162,162,162,163,163,163,164,165,167,167,168,169,172,172,173,174,175,175,176,177,178,178,179,180,182,184,184,185,186,189,189,190,191,192,192,193,194,195,195,196,197,200,201,204,205,208,209,212,213,217,218,221,222,225,226,229,230
+      ],
+      "boneTransforms": [
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 0,
+            "j": 0,
+            "k": 0,
+            "r": 1
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 1,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 1,
+            "X": 0,
+            "Y": 0,
+            "Z": 0
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 0,
+            "j": 0,
+            "k": 0,
+            "r": 1
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0,
+            "Y": 0,
+            "Z": 0
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 0.705956578,
+            "j": 0.0403127223,
+            "k": 0.705956876,
+            "r": 0.0403127372
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.99999994,
+            "Y": 0.99999994,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1.65420317E-08,
+            "Y": -0.0515359007,
+            "Z": 0.899537742
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": -1.83135285E-09,
+            "j": -2.3404111E-07,
+            "k": -0.0078246817,
+            "r": 0.999969482
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.0864294767,
+            "Y": 9.52127205E-15,
+            "Z": 1.07860106E-15
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": -0.0398874618,
+            "j": -0.00311152195,
+            "k": 0.99872005,
+            "r": -0.0309453066
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.99999994,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 7.50063762E-08,
+            "Y": 4.83438667E-09,
+            "Z": -0.0804805607
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": -0.0031115294,
+            "j": 0.0398869738,
+            "k": 0.0309453029,
+            "r": 0.998720169
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -1.59121394E-09,
+            "Y": 4.77837414E-09,
+            "Z": 0.0804805532
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": -0.112220436,
+            "j": -0.0468262658,
+            "k": 0.382231951,
+            "r": 0.916030884
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 0.99999994,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.0301132705,
+            "Y": 0.00144700485,
+            "Z": -0.0738715231
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 0.112220377,
+            "j": 0.0468261093,
+            "k": 0.38223213,
+            "r": 0.916030824
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.0301132705,
+            "Y": 0.00144700485,
+            "Z": 0.0738715231
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 0,
+            "j": -1.64727354E-07,
+            "k": 0.113461174,
+            "r": 0.993542433
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.0755151957,
+            "Y": -7.1054272E-17,
+            "Z": 3.82011838E-21
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 5.73858627E-10,
+            "j": 3.75165676E-08,
+            "k": -0.0152943479,
+            "r": 0.999883056
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.381220162,
+            "Y": 1.59872109E-16,
+            "Z": 1.42108544E-16
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 2.92286959E-08,
+            "j": 1.67543117E-18,
+            "k": 0,
+            "r": 1
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.127060682,
+            "Y": 0,
+            "Z": -3.5527136E-17
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 2.0460087E-08,
+            "j": 2.60293225E-18,
+            "k": 1.73472348E-18,
+            "r": 1
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.254121363,
+            "Y": 0,
+            "Z": 7.1054272E-17
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 0.0255887769,
+            "j": -0.41855526,
+            "k": 0.90751946,
+            "r": -0.0237728767
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -0.00989444554,
+            "Y": 0.0522219837,
+            "Z": 0.00497984746
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 4.8870108E-10,
+            "j": 3.19493161E-08,
+            "k": -0.0152943479,
+            "r": 0.999883056
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -0.381220162,
+            "Y": -1.77635673E-16,
+            "Z": 4.61852761E-16
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 2.50897685E-08,
+            "j": 2.39286808E-18,
+            "k": 0,
+            "r": 1
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -0.127060682,
+            "Y": 0,
+            "Z": -3.5527136E-17
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 1.75628383E-08,
+            "j": 2.66730675E-18,
+            "k": 1.73472348E-18,
+            "r": 1
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -0.254121363,
+            "Y": 0,
+            "Z": -1.7763568E-17
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 0.418555349,
+            "j": 0.0255889948,
+            "k": 0.0237727705,
+            "r": 0.9075194
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.00989447907,
+            "Y": -0.0522219837,
+            "Z": -0.00497993734
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": -1.38777878E-17,
+            "j": 3.46944695E-18,
+            "k": -1.38777878E-17,
+            "r": 1
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -2.84217088E-16,
+            "Y": 0,
+            "Z": -3.5527136E-17
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 6.9388939E-18,
+            "j": 6.9388939E-18,
+            "k": 0,
+            "r": 1
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0,
+            "Y": 0,
+            "Z": 3.5527136E-17
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 0,
+            "j": 2.8005627E-07,
+            "k": 0.0740632266,
+            "r": 0.997253537
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.089862138,
+            "Y": -9.76996256E-17,
+            "Z": 6.77626343E-23
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 0.00122761016,
+            "j": -0.0986413807,
+            "k": -0.283809096,
+            "r": 0.95379281
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 0.99999994,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.453196138,
+            "Y": 3.01980666E-16,
+            "Z": -1.24344979E-16
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 6.4523924E-08,
+            "j": -5.52265482E-18,
+            "k": -6.9388939E-18,
+            "r": 1
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.339897096,
+            "Y": 1.7763568E-17,
+            "Z": 1.59872109E-16
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": -9.8514109E-18,
+            "j": -0.707106829,
+            "k": -3.06658704E-19,
+            "r": 0.707106829
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.188738495,
+            "Y": -0.0417075232,
+            "Z": 0.0334734321
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 4.8490407E-18,
+            "j": 0.707106829,
+            "k": 3.06658704E-19,
+            "r": 0.707106829
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.18799676,
+            "Y": -0.0518164672,
+            "Z": -0.0322008654
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 1.4333465E-10,
+            "j": -1.87423819E-08,
+            "k": 0.00764739979,
+            "r": 0.999970853
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0,
+            "Y": 1.7763568E-17,
+            "Z": 1.7763568E-17
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 9.58308514E-20,
+            "j": -0.707106829,
+            "k": 2.22327558E-18,
+            "r": 0.707106829
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.00964760222,
+            "Y": 0.00184740347,
+            "Z": 0.0169249382
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 9.58308514E-20,
+            "j": 0.707106829,
+            "k": 2.79826082E-18,
+            "r": 0.707106829
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.0166024733,
+            "Y": -0.00801071245,
+            "Z": -0.0328859091
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 0.00122756243,
+            "j": -0.0986414775,
+            "k": -0.283809096,
+            "r": 0.95379293
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -0.453196138,
+            "Y": 1.10134125E-15,
+            "Z": 2.48689959E-16
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 1.66600049E-08,
+            "j": -1.96850457E-18,
+            "k": -3.46944695E-18,
+            "r": 1
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -0.339897096,
+            "Y": -1.7763568E-17,
+            "Z": 0
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 0.707106829,
+            "j": -2.00918955E-16,
+            "k": 0.707106829,
+            "r": 2.06247149E-16
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -0.18799676,
+            "Y": 0.0518164672,
+            "Z": 0.0322008654
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 0.707106829,
+            "j": -2.01014789E-16,
+            "k": -0.707106829,
+            "r": -2.05902169E-16
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -0.188738495,
+            "Y": 0.0417075232,
+            "Z": -0.0334734321
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 1.22064567E-10,
+            "j": -1.59611133E-08,
+            "k": 0.00764739979,
+            "r": 0.999970853
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1.42108544E-16,
+            "Y": -1.7763568E-17,
+            "Z": 1.7763568E-17
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": -0.707106829,
+            "j": 4.40055255E-17,
+            "k": 0.707106829,
+            "r": 3.91564836E-17
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -0.00964760315,
+            "Y": -0.00184740336,
+            "Z": -0.0169249382
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 0.707106829,
+            "j": -4.65929597E-17,
+            "k": 0.707106829,
+            "r": 3.92139826E-17
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -0.0166024733,
+            "Y": 0.00801071152,
+            "Z": 0.0328859091
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 0,
+            "j": -1.35914888E-07,
+            "k": -0.122588329,
+            "r": 0.992457628
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.114972711,
+            "Y": 3.5527136E-17,
+            "Z": -1.69406579E-22
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 0,
+            "j": -1.67466706E-18,
+            "k": 0.898286343,
+            "r": 0.439410537
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.99999994,
+            "Y": 0.99999994,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.0857940018,
+            "Y": 5.3290704E-17,
+            "Z": -3.5527136E-17
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 4.44655116E-18,
+            "j": -0.707106829,
+            "k": 5.36652778E-18,
+            "r": 0.707106829
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -1.7763568E-17,
+            "Y": -3.5527136E-17,
+            "Z": 3.5527136E-17
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 1.91661703E-19,
+            "j": 0.707106829,
+            "k": 4.75320976E-18,
+            "r": 0.707106829
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -3.5527136E-17,
+            "Y": 0,
+            "Z": 3.5527136E-17
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": -4.06575815E-20,
+            "j": 1.81265051E-19,
+            "k": 0,
+            "r": 1
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 7.1054272E-17,
+            "Y": 0.0679794177,
+            "Z": 1.7763568E-17
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 3.46944695E-18,
+            "j": -6.79659237E-18,
+            "k": 9.48676901E-20,
+            "r": 1
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -1.7763568E-17,
+            "Y": 0,
+            "Z": -7.1054272E-17
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": -1.73472348E-18,
+            "j": 1.35525272E-19,
+            "k": -2.30392962E-19,
+            "r": 1
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0,
+            "Y": 0,
+            "Z": 0
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 1.93114765E-18,
+            "j": 5.31065587E-18,
+            "k": 0.898286343,
+            "r": 0.439410537
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.99999994,
+            "Y": 0.99999994,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -0.0857940018,
+            "Y": 7.1054272E-17,
+            "Z": 8.88178367E-17
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 0.707106829,
+            "j": 4.3660535E-17,
+            "k": 0.707106829,
+            "r": -4.27597253E-17
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -3.5527136E-17,
+            "Y": 3.5527136E-17,
+            "Z": -3.5527136E-17
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": -0.707106829,
+            "j": 4.83179158E-17,
+            "k": 0.707106829,
+            "r": 4.32963803E-17
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1.7763568E-17,
+            "Y": 1.7763568E-17,
+            "Z": 3.5527136E-17
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": -1.35525272E-20,
+            "j": 3.19162015E-18,
+            "k": -6.9388939E-18,
+            "r": 1
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0,
+            "Y": -0.0679794177,
+            "Z": -1.7763568E-17
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 0,
+            "j": 3.63715948E-18,
+            "k": -3.52365706E-19,
+            "r": 1
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0,
+            "Y": 0,
+            "Z": 0
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 0,
+            "j": 7.10745346E-18,
+            "k": 4.06575815E-19,
+            "r": 1
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0,
+            "Y": 0,
+            "Z": 0
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 0.136287093,
+            "j": 0.720854223,
+            "k": 0.119117916,
+            "r": 0.669033587
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 0.99999994
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.126288682,
+            "Y": -0.0681312606,
+            "Z": -0.0160745885
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 0.720854282,
+            "j": -0.13628757,
+            "k": -0.669033527,
+            "r": 0.119117387
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.126288667,
+            "Y": -0.0681313723,
+            "Z": 0.01607484
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 0,
+            "j": 5.33866796E-07,
+            "k": -0.165783033,
+            "r": 0.986162245
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.99999994,
+            "Y": 0.99999994,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.145142898,
+            "Y": -1.06581408E-16,
+            "Z": 7.6232962E-23
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": -0.556655586,
+            "j": 0.387893051,
+            "k": 0.142635256,
+            "r": 0.720644772
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 0.99999994
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.0133546172,
+            "Y": 0.0319272242,
+            "Z": -0.113780573
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": -0.720644653,
+            "j": -0.142635822,
+            "k": -0.387893707,
+            "r": 0.556655109
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 0.99999994
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.0133546088,
+            "Y": 0.0319272242,
+            "Z": 0.113780849
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": -0.322760969,
+            "j": 0.608849883,
+            "k": 0.601605177,
+            "r": 0.403978258
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.182148874,
+            "Y": -0.016331479,
+            "Z": -0.0525955185
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": -0.322761506,
+            "j": 0.608849645,
+            "k": -0.601604819,
+            "r": -0.403978705
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.182148874,
+            "Y": -0.0163314808,
+            "Z": 0.0525955856
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 6.6174449E-24,
+            "j": -2.61482778E-24,
+            "k": 0,
+            "r": 1
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -0.247581586,
+            "Y": -0.22959213,
+            "Z": 2.20058126E-07
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": -4.56633725E-18,
+            "j": 3.47911421E-18,
+            "k": -0.0744959563,
+            "r": 0.997221291
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.20474872,
+            "Y": -4.66293656E-17,
+            "Z": -4.33431079E-15
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": -1.49493186E-19,
+            "j": -6.95822842E-18,
+            "k": -0.0744959563,
+            "r": 0.997221291
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -0.20474872,
+            "Y": 5.55111512E-17,
+            "Z": 2.16715539E-15
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 0.0809949934,
+            "j": 0.38466239,
+            "k": -0.229352012,
+            "r": 0.890433788
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 0.99999994
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.139414683,
+            "Y": -3.5527136E-17,
+            "Z": 2.84217088E-16
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": -0.370931983,
+            "j": 0.747106671,
+            "k": 0.220277801,
+            "r": 0.505686462
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.99999994,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.095720686,
+            "Y": 0.0549750738,
+            "Z": -0.0274611395
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 0.336947858,
+            "j": 0.211780593,
+            "k": 0.909330666,
+            "r": 0.121379212
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.0977447852,
+            "Y": -0.0660151839,
+            "Z": -0.108193308
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 0.0809943676,
+            "j": 0.38466236,
+            "k": -0.22935228,
+            "r": 0.890433788
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -0.139414981,
+            "Y": 2.6645352E-17,
+            "Z": 2.84217088E-16
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": -0.505685806,
+            "j": -0.220277786,
+            "k": 0.74710691,
+            "r": -0.37093237
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -0.0957206637,
+            "Y": -0.0549751669,
+            "Z": 0.0274613015
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": -0.211780772,
+            "j": 0.336948842,
+            "k": -0.121379584,
+            "r": 0.909330189
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -0.0977448225,
+            "Y": 0.0660152435,
+            "Z": 0.108193211
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 0,
+            "j": -1.12068074E-06,
+            "k": 0.0383102931,
+            "r": 0.999265969
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.0736055672,
+            "Y": 7.1054272E-17,
+            "Z": 2.71050537E-22
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": -0.260929614,
+            "j": 0.117888927,
+            "k": 0.225538582,
+            "r": 0.931209028
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.99999994,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.0326571912,
+            "Y": -0.037126828,
+            "Z": -0.0198130775
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 0.931209028,
+            "j": 0.225538373,
+            "k": 0.117889255,
+            "r": -0.260930121
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.0326572098,
+            "Y": -0.0371268466,
+            "Z": 0.0198130924
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 0,
+            "j": -1.38777878E-17,
+            "k": -1.38777878E-17,
+            "r": 1
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1.42108544E-16,
+            "Y": -1.42108544E-16,
+            "Z": 0
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": -1.38777878E-17,
+            "j": 0,
+            "k": -2.08166817E-17,
+            "r": 1
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1.42108544E-16,
+            "Y": 0,
+            "Z": -7.1054272E-17
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 6.6174449E-24,
+            "j": -2.61482778E-24,
+            "k": 0,
+            "r": 1
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0,
+            "Y": 0,
+            "Z": 3.38813171E-23
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": -8.67361738E-19,
+            "j": 0,
+            "k": -6.9388939E-18,
+            "r": 1
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.0476336069,
+            "Y": -3.5527136E-17,
+            "Z": -1.19015901E-15
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 4.33680869E-19,
+            "j": 0,
+            "k": 0,
+            "r": 1
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -0.0476336069,
+            "Y": 4.440892E-18,
+            "Z": 4.4408921E-16
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": -7.16553113E-05,
+            "j": -2.55871713E-17,
+            "k": -3.46944695E-18,
+            "r": 1
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.0910534337,
+            "Y": -4.440892E-18,
+            "Z": 0
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": -5.73242505E-05,
+            "j": -4.94396191E-17,
+            "k": -3.46944695E-18,
+            "r": 1
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.182106867,
+            "Y": -1.3322676E-17,
+            "Z": 2.84217088E-16
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 0,
+            "j": 4.96906623E-08,
+            "k": -0.330518574,
+            "r": 0.943799496
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.273187608,
+            "Y": 2.22044605E-16,
+            "Z": 2.84217088E-16
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 0,
+            "j": -2.77555756E-17,
+            "k": -3.46944695E-18,
+            "r": 1
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -4.54747341E-15,
+            "Y": 3.33304551E-10,
+            "Z": 3.3330444E-10
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 0,
+            "j": -1.90819582E-17,
+            "k": -1.56125113E-17,
+            "r": 1
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1.42108544E-16,
+            "Y": -7.1054272E-17,
+            "Z": 8.52651264E-16
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": -7.16551804E-05,
+            "j": -6.9388939E-18,
+            "k": -3.46944695E-18,
+            "r": 1
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -0.0910534337,
+            "Y": -8.881784E-18,
+            "Z": -4.26325632E-16
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": -5.7324145E-05,
+            "j": 4.33680869E-18,
+            "k": -3.46944695E-18,
+            "r": 1
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -0.182106867,
+            "Y": -3.5527136E-17,
+            "Z": 0
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 0,
+            "j": 4.96906658E-08,
+            "k": -0.330518574,
+            "r": 0.943799496
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -0.273187608,
+            "Y": 3.5527136E-17,
+            "Z": -4.26325632E-16
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": -1.38777878E-17,
+            "j": 1.38777878E-17,
+            "k": -3.46944695E-18,
+            "r": 1
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -2.84217088E-16,
+            "Y": 3.33302219E-10,
+            "Z": 3.33302164E-10
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": -4.16333634E-17,
+            "j": -4.16333634E-17,
+            "k": -3.46944695E-18,
+            "r": 1
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0,
+            "Y": -7.1054272E-17,
+            "Z": 0
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 2.24950174E-08,
+            "j": 5.27429904E-07,
+            "k": 0.127808601,
+            "r": 0.991798878
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.0594689436,
+            "Y": 7.1054272E-17,
+            "Z": 1.35525263E-21
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 2.64697796E-23,
+            "j": -7.94093388E-23,
+            "k": -6.9388939E-18,
+            "r": 1
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.0606433712,
+            "Y": 0,
+            "Z": -0.0591053553
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 0,
+            "j": -8.60267837E-23,
+            "k": -1.38777878E-17,
+            "r": 1
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.0606433712,
+            "Y": 0,
+            "Z": 0.0591053553
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": -0.321853012,
+            "j": 0.88047713,
+            "k": -0.184373856,
+            "r": 0.29525736
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 5.14654985E-08,
+            "Y": -1.45620671E-09,
+            "Z": -0.424660057
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 0.880477428,
+            "j": 0.321852624,
+            "k": -0.295256883,
+            "r": -0.18437396
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -5.14654985E-08,
+            "Y": 1.4562066E-09,
+            "Z": 0.424660057
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": -0.13918525,
+            "j": 0.00781898294,
+            "k": 0.988691926,
+            "r": -0.0552702621
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 0.99999994
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -0.0384331755,
+            "Y": 0.00613771053,
+            "Z": 0.0151201077
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 4.8904044E-06,
+            "j": 3.96432733E-05,
+            "k": 0.998521566,
+            "r": 0.0543569326
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 0.99999994,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -0.0335354507,
+            "Y": -0.00628402829,
+            "Z": 5.03120464E-06
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 0.75445354,
+            "j": -0.656353593,
+            "k": 1.37368479E-05,
+            "r": 5.19759851E-05
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -0.0303525701,
+            "Y": 0.00847788155,
+            "Z": 4.31876697E-06
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 0.0325984284,
+            "j": 0.706351817,
+            "k": 0.706358016,
+            "r": 0.0326010212
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.00264384691,
+            "Y": 0.00566369062,
+            "Z": -6.27541965E-07
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 0,
+            "j": -2.99630756E-06,
+            "k": 0.0907364786,
+            "r": 0.995874941
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.00165810646,
+            "Y": -0.0164314155,
+            "Z": -5.42599537E-07
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 8.67361738E-18,
+            "j": 1.56125113E-17,
+            "k": -2.77555756E-17,
+            "r": 1
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.0871968046,
+            "Y": 1.42108544E-16,
+            "Z": -2.84217088E-16
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 8.67361738E-18,
+            "j": 1.56125113E-17,
+            "k": -2.77555756E-17,
+            "r": 1
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.174550742,
+            "Y": 7.1054272E-17,
+            "Z": -5.68434176E-16
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 8.67361738E-18,
+            "j": 1.56125113E-17,
+            "k": -2.77555756E-17,
+            "r": 1
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.256615222,
+            "Y": 7.1054272E-17,
+            "Z": -4.26325632E-16
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 0.0253539849,
+            "j": 0.0158039276,
+            "k": 0.0139221512,
+            "r": 0.999456704
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.261852264,
+            "Y": -2.13162816E-16,
+            "Z": -4.26325632E-16
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 3.38880901E-09,
+            "j": -2.2184512E-08,
+            "k": 0.151004001,
+            "r": 0.988533139
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0,
+            "Y": 0,
+            "Z": -1.42108544E-16
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 3.38880901E-09,
+            "j": -2.2184512E-08,
+            "k": 0.151004001,
+            "r": 0.988533139
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0,
+            "Y": 0,
+            "Z": -1.42108544E-16
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": -0.00781885814,
+            "j": -0.139185414,
+            "k": 0.0552702919,
+            "r": 0.988691807
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.0384332016,
+            "Y": -0.00613770401,
+            "Z": -0.0151200788
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 0.0543568544,
+            "j": 0.998521566,
+            "k": -3.96024261E-05,
+            "r": -7.71424857E-06
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.0335354768,
+            "Y": 0.00628403388,
+            "Z": -4.64638379E-06
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": -5.1900759E-05,
+            "j": -1.33793328E-05,
+            "k": -0.656353593,
+            "r": 0.75445354
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.0303526092,
+            "Y": -0.00847787224,
+            "Z": -4.20954848E-06
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": -0.706353605,
+            "j": 0.0325983465,
+            "k": -0.0326011032,
+            "r": 0.706356227
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -0.00264384691,
+            "Y": -0.00566369062,
+            "Z": 6.71219141E-07
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": -2.9037617E-06,
+            "j": -1.01567446E-06,
+            "k": 0.995874941,
+            "r": -0.0907364786
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -0.00165810646,
+            "Y": 0.0164314155,
+            "Z": 5.42598514E-07
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 8.67361738E-18,
+            "j": 3.46944695E-18,
+            "k": -2.77555756E-17,
+            "r": 1
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -0.0871968046,
+            "Y": 0,
+            "Z": -4.26325632E-16
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 8.67361738E-18,
+            "j": 3.46944695E-18,
+            "k": -2.77555756E-17,
+            "r": 1
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -0.174550742,
+            "Y": -7.1054272E-17,
+            "Z": 0
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 8.67361738E-18,
+            "j": 3.46944695E-18,
+            "k": -2.77555756E-17,
+            "r": 1
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -0.256615222,
+            "Y": -1.42108544E-16,
+            "Z": 0
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 0.0253540762,
+            "j": 0.015804451,
+            "k": 0.0139225386,
+            "r": 0.999456644
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 0.99999994,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -0.261852264,
+            "Y": 7.1054272E-17,
+            "Z": 0
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 3.38880901E-09,
+            "j": -2.2184512E-08,
+            "k": 0.151004001,
+            "r": 0.988533139
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -2.13162816E-16,
+            "Y": 7.1054272E-17,
+            "Z": -4.26325632E-16
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 3.38880901E-09,
+            "j": -2.2184512E-08,
+            "k": 0.151004001,
+            "r": 0.988533139
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -2.13162816E-16,
+            "Y": 7.1054272E-17,
+            "Z": -4.26325632E-16
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 0,
+            "j": 3.61445023E-25,
+            "k": -1.64260864E-18,
+            "r": 1
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.166223601,
+            "Y": 1.28785867E-16,
+            "Z": -8.47032897E-23
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": -0.0299604572,
+            "j": 0.168542758,
+            "k": 0.154633418,
+            "r": 0.973028481
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -0.0347714089,
+            "Y": -0.0112942196,
+            "Z": 0.0130974585
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 0.973028302,
+            "j": 0.154634088,
+            "k": 0.168542579,
+            "r": -0.0299605597
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -0.0347713083,
+            "Y": -0.0112942411,
+            "Z": -0.0130974138
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": -3.46944695E-18,
+            "j": 2.08166817E-17,
+            "k": 1.38777878E-17,
+            "r": 1
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0,
+            "Y": 0,
+            "Z": 0
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": -6.9388939E-18,
+            "j": -1.04083409E-17,
+            "k": 0,
+            "r": 1
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1.42108544E-16,
+            "Y": 0,
+            "Z": 1.42108544E-16
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": -1.04083409E-17,
+            "j": 1.21430643E-17,
+            "k": 0,
+            "r": 1
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0,
+            "Y": -1.7763568E-17,
+            "Z": 0
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": -3.46944695E-18,
+            "j": -2.81892565E-18,
+            "k": -3.46944695E-18,
+            "r": 1
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0,
+            "Y": 0,
+            "Z": -1.42108544E-16
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 0.633463562,
+            "j": 0.488880396,
+            "k": 0.489785999,
+            "r": 0.346164048
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.99999994,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.00642353389,
+            "Y": -0.0209713262,
+            "Z": 0.0189419035
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 0.495979041,
+            "j": 0.627921224,
+            "k": 0.391205132,
+            "r": 0.45461905
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.00534242252,
+            "Y": 0.0189617425,
+            "Z": 0.0209866893
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": -1.71728882E-17,
+            "j": 9.81307853E-18,
+            "k": 0.707106829,
+            "r": 0.707106829
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.00459111249,
+            "Y": -1.42108544E-16,
+            "Z": -0.0199642982
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": -3.46944695E-18,
+            "j": 3.46944695E-18,
+            "k": -1.38777878E-17,
+            "r": 1
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.0807834864,
+            "Y": 2.84217088E-16,
+            "Z": 1.42108544E-16
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 0.914845109,
+            "j": -0.309325486,
+            "k": -0.2253526,
+            "r": 0.128811523
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.0172255728,
+            "Y": -0.0212051459,
+            "Z": -0.0151967341
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 0.728111386,
+            "j": -0.0518326387,
+            "k": -0.04981241,
+            "r": 0.681678772
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.0161856711,
+            "Y": -0.0221399926,
+            "Z": -0.000579729967
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 0.707948864,
+            "j": -0.0156164989,
+            "k": -0.00513222348,
+            "r": 0.70607239
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 0.99999994
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.0174624193,
+            "Y": -0.00932631921,
+            "Z": 0.0021564113
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 0.71814847,
+            "j": 0.0300158039,
+            "k": 0.0125229908,
+            "r": 0.695129514
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 0.99999994,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.0170525983,
+            "Y": 0.00341862976,
+            "Z": 0.0033549075
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 0.67264235,
+            "j": 0.0398032553,
+            "k": 0.0285593718,
+            "r": 0.738344312
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.99999994,
+            "Y": 1,
+            "Z": 0.99999994
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.0136840958,
+            "Y": 0.0196283571,
+            "Z": 0.000904457702
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 0.505923033,
+            "j": 0.510854065,
+            "k": -0.509041607,
+            "r": 0.473230094
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.0759243146,
+            "Y": -0.0398466922,
+            "Z": -0.0248098895
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 1.04083409E-17,
+            "j": 0,
+            "k": 1.38777878E-17,
+            "r": 1
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0,
+            "Y": -0.0314222723,
+            "Z": 0.0109977955
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": -3.62638097E-09,
+            "j": -2.13049685E-08,
+            "k": -0.167799473,
+            "r": 0.985821187
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0,
+            "Y": -0.0314222723,
+            "Z": -0.0109977955
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 1.04083409E-17,
+            "j": 0,
+            "k": 1.38777878E-17,
+            "r": 1
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1.42108544E-16,
+            "Y": 0.0314222723,
+            "Z": 0
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 3.46944695E-18,
+            "j": 2.60208521E-18,
+            "k": 0,
+            "r": 1
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1.42108544E-16,
+            "Y": 0,
+            "Z": 0
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 3.46944695E-18,
+            "j": 2.92734587E-17,
+            "k": 0,
+            "r": 1
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0,
+            "Y": 3.5527136E-17,
+            "Z": 1.42108544E-16
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": -0.488880694,
+            "j": 0.633463562,
+            "k": -0.346163779,
+            "r": 0.489785969
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -0.00642355625,
+            "Y": 0.0209713262,
+            "Z": -0.0189418998
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 0.627921462,
+            "j": -0.495979041,
+            "k": 0.454618722,
+            "r": -0.391205132
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -0.00534242671,
+            "Y": -0.0189617407,
+            "Z": -0.020986693
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": -2.45326963E-18,
+            "j": -2.20794275E-17,
+            "k": -0.707106829,
+            "r": 0.707106829
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -0.00459111249,
+            "Y": 7.1054272E-17,
+            "Z": 0.0199642982
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 6.9388939E-18,
+            "j": 4.85722573E-17,
+            "k": 0,
+            "r": 1
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -0.0807834864,
+            "Y": -7.1054272E-17,
+            "Z": 0
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 0.914845288,
+            "j": -0.309324384,
+            "k": -0.225351557,
+            "r": 0.128815457
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -0.0172253083,
+            "Y": 0.0212054383,
+            "Z": 0.015197196
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 0.728111386,
+            "j": -0.0518326387,
+            "k": -0.04981241,
+            "r": 0.681678772
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -0.0161854904,
+            "Y": 0.0221402682,
+            "Z": 0.000580048014
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 0.707948864,
+            "j": -0.0156164672,
+            "k": -0.00513219321,
+            "r": 0.70607239
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 0.99999994
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -0.0174622368,
+            "Y": 0.00932660047,
+            "Z": -0.00215609348
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 0.71814847,
+            "j": 0.0300158095,
+            "k": 0.0125229973,
+            "r": 0.695129514
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 0.99999994,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -0.0170524158,
+            "Y": -0.00341835339,
+            "Z": -0.00335458945
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 0.67264235,
+            "j": 0.0398032479,
+            "k": 0.0285593644,
+            "r": 0.738344312
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 0.99999994
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -0.0136839133,
+            "Y": -0.0196280833,
+            "Z": -0.000904139539
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": -0.473230094,
+            "j": 0.509041607,
+            "k": 0.510854125,
+            "r": 0.505922973
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -0.0759241283,
+            "Y": 0.0398469642,
+            "Z": 0.024810208
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 2.77555756E-17,
+            "j": 2.16112479E-08,
+            "k": -2.77555756E-17,
+            "r": 1
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0,
+            "Y": 0.0314222723,
+            "Z": -0.0109977955
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": -3.62636787E-09,
+            "j": -2.13048938E-08,
+            "k": -0.167799473,
+            "r": 0.985821187
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -1.42108544E-16,
+            "Y": 0.0314222723,
+            "Z": 0.0109977955
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 1.73472348E-17,
+            "j": 2.08166817E-17,
+            "k": -2.77555756E-17,
+            "r": 1
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0,
+            "Y": -0.0314222723,
+            "Z": 4.26325632E-16
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": -0.125626385,
+            "j": 0.0154653145,
+            "k": -0.121200547,
+            "r": 0.984524906
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.99999994,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -7.1054272E-17,
+            "Y": 0,
+            "Z": 7.1054272E-17
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": -0.125626385,
+            "j": -0.0154653145,
+            "k": 0.121200547,
+            "r": 0.984524906
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.99999994,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0,
+            "Y": -1.42108544E-16,
+            "Z": -7.1054272E-17
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 0.663307726,
+            "j": -0.0901054218,
+            "k": 0.701342285,
+            "r": 0.244995624
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 0.99999994,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0,
+            "Y": -7.1054272E-17,
+            "Z": -1.42108544E-16
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 7.12572588E-18,
+            "j": -1.42514518E-17,
+            "k": -0.227488473,
+            "r": 0.97378087
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.0355122089,
+            "Y": 5.68434176E-16,
+            "Z": -1.42108544E-16
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": -0.443400502,
+            "j": -0.0156151606,
+            "k": -0.0624361299,
+            "r": 0.894010127
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.99999994,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.0105094202,
+            "Y": 0.0103849089,
+            "Z": -0.00241326727
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": -1.41008089E-17,
+            "j": 0,
+            "k": -0.177150592,
+            "r": 0.984183788
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.0641187802,
+            "Y": -1.42108544E-16,
+            "Z": 0
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 0.425842494,
+            "j": -0.328397214,
+            "k": -0.179288447,
+            "r": 0.823813736
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.0597254597,
+            "Y": -0.00314817112,
+            "Z": 0.0023689291
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": -2.82208846E-17,
+            "j": 0,
+            "k": -0.180843309,
+            "r": 0.983511925
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.0623572096,
+            "Y": 4.1965504E-11,
+            "Z": -1.58515187E-10
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 0,
+            "j": 2.80748574E-17,
+            "k": -0.150385246,
+            "r": 0.988627493
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.99999994,
+            "Y": 0.99999994,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.0612874217,
+            "Y": 1.42108544E-16,
+            "Z": -3.5527136E-17
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 3.48320048E-18,
+            "j": -1.39328019E-17,
+            "k": -0.0887772292,
+            "r": 0.99605149
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.0642533526,
+            "Y": -2.84217088E-16,
+            "Z": 1.42108544E-16
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 0.381227195,
+            "j": -0.0333530568,
+            "k": -0.0805214047,
+            "r": 0.920363903
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.99999994,
+            "Y": 0.99999994,
+            "Z": 0.99999994
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -2.13162816E-16,
+            "Y": -1.42108544E-16,
+            "Z": -7.1054272E-17
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 0.125626355,
+            "j": -0.0154653117,
+            "k": -0.121200547,
+            "r": 0.984524906
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.99999994,
+            "Y": 1,
+            "Z": 0.99999994
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 7.1054272E-17,
+            "Y": -1.42108544E-16,
+            "Z": -2.13162816E-16
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 0.125626355,
+            "j": 0.0154653117,
+            "k": 0.121200547,
+            "r": 0.984524906
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.99999994,
+            "Y": 1,
+            "Z": 0.99999994
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0,
+            "Y": 0,
+            "Z": 0
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 0.244995698,
+            "j": 0.701342225,
+            "k": -0.0901054963,
+            "r": 0.663307726
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -7.1054272E-17,
+            "Y": 2.03925757E-14,
+            "Z": 1.00897065E-14
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": -1.43096286E-05,
+            "j": -1.32876921E-05,
+            "k": -0.227488473,
+            "r": 0.97378087
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -0.0355122089,
+            "Y": -2.84217088E-16,
+            "Z": -1.42108544E-16
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 0.0624363311,
+            "j": 0.894005775,
+            "k": -0.443408906,
+            "r": 0.0156179601
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.99999994,
+            "Y": 0.99999994,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -0.0105093559,
+            "Y": -0.0103848316,
+            "Z": 0.00241363421
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 1.05756067E-17,
+            "j": -1.41008089E-17,
+            "k": -0.177150592,
+            "r": 0.984183788
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -0.0641187802,
+            "Y": 2.84217088E-16,
+            "Z": -7.1054272E-17
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 0.179288164,
+            "j": 0.823813736,
+            "k": 0.425842822,
+            "r": 0.328397006
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -0.0597254597,
+            "Y": 0.00314817112,
+            "Z": -0.0023689291
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 0,
+            "j": 0,
+            "k": -0.180843309,
+            "r": 0.983511925
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -0.0623572096,
+            "Y": 3.69634254E-11,
+            "Z": 1.45787091E-10
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": -2.80748574E-17,
+            "j": 0,
+            "k": -0.150385246,
+            "r": 0.988627493
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.99999994,
+            "Y": 0.99999994,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -0.0612874217,
+            "Y": 1.42108544E-16,
+            "Z": 3.5527136E-17
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 3.48320048E-18,
+            "j": 0,
+            "k": -0.0887772292,
+            "r": 0.99605149
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -0.0642533526,
+            "Y": 4.26325632E-16,
+            "Z": 0
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 0.381227195,
+            "j": -0.0333530568,
+            "k": -0.0805214047,
+            "r": 0.920363903
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.99999994,
+            "Y": 0.99999994,
+            "Z": 0.99999994
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0,
+            "Y": 1.42108544E-16,
+            "Z": 7.1054272E-17
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 1.40241971E-17,
+            "j": 7.01209856E-18,
+            "k": -0.144120365,
+            "r": 0.989560187
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.032091476,
+            "Y": -2.13162816E-16,
+            "Z": 1.379874E-13
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": -4.27175656E-17,
+            "j": -3.07913417E-17,
+            "k": -2.77555756E-17,
+            "r": 1
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -8.36928374E-11,
+            "Y": -7.10542693E-16,
+            "Z": 6.18805851E-09
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": -1.44421053E-17,
+            "j": -2.16631588E-17,
+            "k": -0.27680698,
+            "r": 0.960925519
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.0377329588,
+            "Y": 0,
+            "Z": -2.65573865E-11
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": -1.39863271E-17,
+            "j": 0,
+            "k": 0.124340698,
+            "r": 0.992239594
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0,
+            "Y": -1.42108544E-16,
+            "Z": 7.1054272E-17
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": -2.08994858E-17,
+            "j": -2.78659811E-17,
+            "k": 0.0889276341,
+            "r": 0.996038198
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.99999994,
+            "Y": 0.99999994,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0,
+            "Y": 0,
+            "Z": 7.1054272E-17
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": -6.9388939E-18,
+            "j": -2.77555756E-17,
+            "k": -4.16333634E-17,
+            "r": 1
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -1.67385675E-10,
+            "Y": -0.00100000005,
+            "Z": -7.1054272E-17
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": -6.9388939E-18,
+            "j": -2.77555756E-17,
+            "k": -4.16333634E-17,
+            "r": 1
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -1.67385675E-10,
+            "Y": 0.00100000005,
+            "Z": -3.5527136E-17
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": -1.47764699E-17,
+            "j": -7.38823496E-18,
+            "k": -0.343420982,
+            "r": 0.939181566
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.99999994,
+            "Y": 0.99999994,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.0429345891,
+            "Y": 4.26325632E-16,
+            "Z": -1.13287012E-10
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": -6.99549208E-18,
+            "j": 1.39909842E-17,
+            "k": 0.126947239,
+            "r": 0.991909564
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.99999994,
+            "Y": 0.99999994,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -7.1054272E-17,
+            "Y": 2.84217088E-16,
+            "Z": -7.1054272E-17
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": -6.967674E-18,
+            "j": 2.7870696E-17,
+            "k": 0.0907966942,
+            "r": 0.995869458
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -7.1054272E-17,
+            "Y": 2.84217088E-16,
+            "Z": -7.1054272E-17
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 1.46168753E-17,
+            "j": -1.46168753E-17,
+            "k": -0.313960671,
+            "r": 0.949436009
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.0398331322,
+            "Y": 1.42108544E-16,
+            "Z": 2.29001523E-11
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 6.97781523E-18,
+            "j": 0,
+            "k": 0.105474003,
+            "r": 0.994422078
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -1.42108544E-16,
+            "Y": -1.42108544E-16,
+            "Z": -1.06581408E-16
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 6.95870653E-18,
+            "j": 0,
+            "k": 0.0754073188,
+            "r": 0.997152805
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -1.42108544E-16,
+            "Y": -1.42108544E-16,
+            "Z": -1.06581408E-16
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 0,
+            "j": 1.47343102E-17,
+            "k": -0.335980743,
+            "r": 0.941868842
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.0318893008,
+            "Y": 0,
+            "Z": 5.0498272E-13
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": -3.47617483E-18,
+            "j": -2.78093986E-17,
+            "k": 0.0621858276,
+            "r": 0.998064578
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 7.1054272E-17,
+            "Y": 1.42108544E-16,
+            "Z": 0
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": -3.4743877E-18,
+            "j": 1.38975508E-17,
+            "k": 0.0533112623,
+            "r": 0.998577952
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.99999994,
+            "Y": 0.99999994,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 7.1054272E-17,
+            "Y": 1.42108544E-16,
+            "Z": 0
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 0,
+            "j": 1.38777878E-17,
+            "k": 0,
+            "r": 1
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1.42108544E-16,
+            "Y": -0.0109999999,
+            "Z": 7.1054272E-17
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 7.45288435E-06,
+            "j": 3.72250906E-05,
+            "k": -0.144120365,
+            "r": 0.989560187
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.99999994,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -0.032091476,
+            "Y": 4.26325632E-16,
+            "Z": 0
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 2.16840434E-17,
+            "j": -8.67361738E-18,
+            "k": 1.38777878E-17,
+            "r": 1
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -1.12871913E-10,
+            "Y": -1.42108544E-16,
+            "Z": 6.26166097E-09
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 2.88842106E-17,
+            "j": 0,
+            "k": -0.27680698,
+            "r": 0.960925519
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -0.0377329588,
+            "Y": 1.42108544E-16,
+            "Z": -5.2849275E-10
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": -2.09794907E-17,
+            "j": 4.19589814E-17,
+            "k": 0.124340698,
+            "r": 0.992239594
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -7.1054272E-17,
+            "Y": -1.42108544E-16,
+            "Z": 0
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": -2.08994858E-17,
+            "j": 4.17989716E-17,
+            "k": 0.0889276341,
+            "r": 0.996038198
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.99999994,
+            "Y": 0.99999994,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -7.1054272E-17,
+            "Y": -1.42108544E-16,
+            "Z": 0
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 2.08166817E-17,
+            "j": -1.38777878E-17,
+            "k": 0,
+            "r": 1
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -2.25743896E-10,
+            "Y": 0.00100000005,
+            "Z": -7.1054272E-17
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 2.08166817E-17,
+            "j": -1.38777878E-17,
+            "k": 0,
+            "r": 1
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -2.25743896E-10,
+            "Y": -0.00100000005,
+            "Z": -7.1054272E-17
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 1.47764699E-17,
+            "j": 0,
+            "k": -0.343420982,
+            "r": 0.939181566
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.99999994,
+            "Y": 0.99999994,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -0.0429345891,
+            "Y": 1.42108544E-16,
+            "Z": 6.73652745E-10
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": -6.99549208E-18,
+            "j": 1.39909842E-17,
+            "k": 0.126947239,
+            "r": 0.991909564
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.99999994,
+            "Y": 0.99999994,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -2.84217088E-16,
+            "Y": 2.84217088E-16,
+            "Z": 2.13162816E-16
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": -1.3935348E-17,
+            "j": 0,
+            "k": 0.0907966942,
+            "r": 0.995869458
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -2.84217088E-16,
+            "Y": 2.84217088E-16,
+            "Z": 2.13162816E-16
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 1.46168753E-17,
+            "j": 0,
+            "k": -0.313960671,
+            "r": 0.949436009
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -0.0398331322,
+            "Y": 1.42108544E-16,
+            "Z": 4.55546628E-10
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": -2.09334465E-17,
+            "j": -2.79112609E-17,
+            "k": 0.105474003,
+            "r": 0.994422078
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -7.1054272E-17,
+            "Y": 0,
+            "Z": -1.06581408E-16
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 0,
+            "j": 0,
+            "k": 0.0754073188,
+            "r": 0.997152805
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -7.1054272E-17,
+            "Y": 0,
+            "Z": -1.06581408E-16
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 4.97912911E-09,
+            "j": 1.39582008E-08,
+            "k": -0.335980743,
+            "r": 0.941868842
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -0.0318893008,
+            "Y": -2.84217088E-16,
+            "Z": -7.1054272E-17
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 1.73808745E-17,
+            "j": -2.78093986E-17,
+            "k": 0.0621858276,
+            "r": 0.998064578
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -1.42108544E-16,
+            "Y": 0,
+            "Z": 7.1054272E-17
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 2.77951016E-17,
+            "j": -2.77951016E-17,
+            "k": 0.0533112623,
+            "r": 0.998577952
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.99999994,
+            "Y": 0.99999994,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -1.42108544E-16,
+            "Y": 0,
+            "Z": 7.1054272E-17
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 2.77555756E-17,
+            "j": 1.38777878E-17,
+            "k": 2.77555756E-17,
+            "r": 1
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 7.1054272E-17,
+            "Y": 0.0109999999,
+            "Z": 0
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 0,
+            "j": 0,
+            "k": 0,
+            "r": 1
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.0269608032,
+            "Y": -1.42108544E-16,
+            "Z": 1.43103303E-13
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": -1.45097852E-17,
+            "j": -1.45097852E-17,
+            "k": -0.291917711,
+            "r": 0.956443548
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.99999994,
+            "Y": 0.99999994,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.0208118521,
+            "Y": -3.55271347E-16,
+            "Z": -3.18655657E-11
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 0,
+            "j": -7.00768638E-18,
+            "k": 0.139775619,
+            "r": 0.990183234
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -1.42108544E-16,
+            "Y": 2.13162816E-16,
+            "Z": 0
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": -0.154855058,
+            "j": 0.987937212,
+            "k": 7.36070316E-09,
+            "r": -1.15375964E-09
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1.06581408E-16,
+            "Y": 0.0136511344,
+            "Z": 0
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": -6.9388939E-18,
+            "j": 2.77555756E-17,
+            "k": -1.38777878E-17,
+            "r": 1
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0,
+            "Y": -0.0136511344,
+            "Z": 7.1054272E-17
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 0,
+            "j": 1.7703475E-17,
+            "k": -0.199600577,
+            "r": 0.979877353
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.0238992404,
+            "Y": 3.5527136E-17,
+            "Z": -1.71196959E-10
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 1.40937316E-17,
+            "j": 1.40937316E-17,
+            "k": 0.174382374,
+            "r": 0.98467803
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0,
+            "Y": -1.06581408E-16,
+            "Z": 1.42108544E-16
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": -0.171407863,
+            "j": 0.985200167,
+            "k": -2.062885E-10,
+            "r": -1.18568355E-09
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -1.42108544E-16,
+            "Y": 0.0154523449,
+            "Z": 7.1054272E-17
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": -6.9388939E-18,
+            "j": 1.38777878E-17,
+            "k": 0,
+            "r": 1
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -7.1054272E-17,
+            "Y": -0.0154523449,
+            "Z": 7.1054272E-17
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 1.43616736E-17,
+            "j": -1.43616736E-17,
+            "k": -0.257391334,
+            "r": 0.966307342
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.0200686697,
+            "Y": 2.13162816E-16,
+            "Z": 3.13215044E-11
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": -1.40566176E-17,
+            "j": -2.81132353E-17,
+            "k": 0.159003183,
+            "r": 0.987278163
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -1.42108544E-16,
+            "Y": 7.1054272E-17,
+            "Z": 7.1054272E-17
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": -0.158146337,
+            "j": 0.987415731,
+            "k": -3.68934696E-17,
+            "r": -3.65421051E-16
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0,
+            "Y": 0.0145225693,
+            "Z": 7.1054272E-17
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 6.9388939E-18,
+            "j": 4.16333634E-17,
+            "k": 6.9388939E-18,
+            "r": 1
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 7.1054272E-17,
+            "Y": -0.0145225693,
+            "Z": 0
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": -2.98564324E-17,
+            "j": 1.11961626E-17,
+            "k": -0.368482381,
+            "r": 0.92963475
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.0175041631,
+            "Y": -1.76289053E-10,
+            "Z": 3.38847089E-10
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 0,
+            "j": 0,
+            "k": 0.170486286,
+            "r": 0.985360146
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.99999994,
+            "Y": 0.99999994,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0,
+            "Y": 0,
+            "Z": 7.1054272E-17
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": -0.111844912,
+            "j": 0.993725777,
+            "k": -1.01249243E-16,
+            "r": -1.0474059E-15
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.99999994,
+            "Y": 0.99999994,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0,
+            "Y": 0.0112028811,
+            "Z": 7.1054272E-17
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": -1.38777878E-17,
+            "j": 0,
+            "k": 0,
+            "r": 1
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -7.1054272E-17,
+            "Y": -0.0112028811,
+            "Z": 0
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 1.29047839E-08,
+            "j": 0,
+            "k": -2.77555756E-17,
+            "r": 1
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -0.0269608032,
+            "Y": -4.97379917E-16,
+            "Z": -1.42108544E-16
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 1.45097852E-17,
+            "j": -7.25489261E-18,
+            "k": -0.291917711,
+            "r": 0.956443548
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.99999994,
+            "Y": 0.99999994,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -0.0208118521,
+            "Y": 2.84217088E-16,
+            "Z": -2.43703724E-10
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": -1.40153728E-17,
+            "j": -7.00768638E-18,
+            "k": 0.139775619,
+            "r": 0.990183234
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -1.42108544E-16,
+            "Y": 1.42108544E-16,
+            "Z": 7.1054272E-17
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 0.987937212,
+            "j": 0.154855058,
+            "k": 5.61889496E-17,
+            "r": 1.00964521E-16
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1.06581408E-16,
+            "Y": -0.0136511344,
+            "Z": 0
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": -1.38777878E-17,
+            "j": 1.38777878E-17,
+            "k": 3.46944695E-17,
+            "r": 1
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 7.1054272E-17,
+            "Y": 0.0136511344,
+            "Z": 1.42108544E-16
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": -2.41284437E-09,
+            "j": -1.18451124E-08,
+            "k": -0.199600577,
+            "r": 0.979877353
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -0.0238992404,
+            "Y": -3.5527136E-17,
+            "Z": 1.16691296E-10
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 1.40937316E-17,
+            "j": 2.11405974E-17,
+            "k": 0.174382374,
+            "r": 0.98467803
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -2.84217088E-16,
+            "Y": -3.5527136E-17,
+            "Z": 0
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 0.985200167,
+            "j": 0.171407863,
+            "k": -3.30087763E-11,
+            "r": -1.89724417E-10
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 7.1054272E-17,
+            "Y": -0.0154523449,
+            "Z": 0
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": -3.46944695E-17,
+            "j": -1.38777878E-17,
+            "k": -1.38777878E-17,
+            "r": 1
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0,
+            "Y": 0.0154523449,
+            "Z": 7.1054272E-17
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 0,
+            "j": -1.43616736E-17,
+            "k": -0.257391334,
+            "r": 0.966307342
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -0.0200686697,
+            "Y": -2.84217088E-16,
+            "Z": 2.67569078E-10
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 0,
+            "j": 7.02830882E-18,
+            "k": 0.159003183,
+            "r": 0.987278163
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -2.84217088E-16,
+            "Y": -1.42108544E-16,
+            "Z": -1.06581408E-16
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 0.987415731,
+            "j": 0.158146337,
+            "k": 4.21639667E-17,
+            "r": 2.60011136E-16
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1.42108544E-16,
+            "Y": -0.0145225693,
+            "Z": 0
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": -1.38777878E-17,
+            "j": 0,
+            "k": 0,
+            "r": 1
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0,
+            "Y": 0.0145225693,
+            "Z": -7.1054272E-17
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": -4.60445371E-09,
+            "j": -1.16164589E-08,
+            "k": -0.368482381,
+            "r": 0.92963475
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -0.0175041631,
+            "Y": -1.77588777E-11,
+            "Z": -3.78404419E-10
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": -2.81679582E-17,
+            "j": 0,
+            "k": 0.170486286,
+            "r": 0.985360146
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.99999994,
+            "Y": 0.99999994,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0,
+            "Y": -7.1054272E-17,
+            "Z": -7.1054272E-17
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 0.993725777,
+            "j": 0.111844912,
+            "k": 0,
+            "r": 4.36419168E-17
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.99999994,
+            "Y": 0.99999994,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -7.1054272E-17,
+            "Y": -0.0112028811,
+            "Z": -7.1054272E-17
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": -6.9388939E-18,
+            "j": 0,
+            "k": 0,
+            "r": 1
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 7.1054272E-17,
+            "Y": 0.0112028811,
+            "Z": -1.42108544E-16
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": -1.38777878E-17,
+            "j": -2.42861287E-17,
+            "k": -1.04083409E-17,
+            "r": 1
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.0270739961,
+            "Y": 0,
+            "Z": 5.80506997E-11
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 2.77555756E-17,
+            "j": 1.38777878E-17,
+            "k": -1.38777878E-17,
+            "r": 1
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -1.42108544E-16,
+            "Y": 0.00575600471,
+            "Z": 0
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": -1.38777878E-17,
+            "j": -1.21430643E-17,
+            "k": -3.46944695E-18,
+            "r": 1
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.0260044429,
+            "Y": -1.77635673E-16,
+            "Z": 2.83493895E-10
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 0,
+            "j": -1.38777878E-17,
+            "k": 6.9388939E-18,
+            "r": 1
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -1.42108544E-16,
+            "Y": 0.00511231646,
+            "Z": 7.1054272E-17
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 2.77555756E-17,
+            "j": -3.46944695E-18,
+            "k": -3.46944695E-18,
+            "r": 1
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.0236994121,
+            "Y": -5.3290704E-17,
+            "Z": -5.478391E-11
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 0,
+            "j": -1.38777878E-17,
+            "k": 6.9388939E-18,
+            "r": 1
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0,
+            "Y": 0.0065630693,
+            "Z": -7.1054272E-17
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 0,
+            "j": -1.38777878E-17,
+            "k": 1.73472348E-18,
+            "r": 1
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0.0193678048,
+            "Y": -7.1054272E-17,
+            "Z": -1.66536999E-12
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 1.38777878E-17,
+            "j": 0,
+            "k": 0,
+            "r": 1
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 2.84217088E-16,
+            "Y": 0.00448000384,
+            "Z": 0
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 1.97123828E-08,
+            "j": 2.08166817E-17,
+            "k": 6.9388939E-18,
+            "r": 1
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -0.0270739961,
+            "Y": 1.7763568E-17,
+            "Z": -1.42108544E-16
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 0.978010118,
+            "j": 0.208557382,
+            "k": 2.9592423E-10,
+            "r": 1.38770884E-09
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0,
+            "Y": -0.00575600471,
+            "Z": -1.42108544E-16
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 0,
+            "j": -3.46944695E-18,
+            "k": 1.73472348E-18,
+            "r": 1
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -0.0260044429,
+            "Y": -1.7763568E-17,
+            "Z": -1.42108544E-16
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 0.973941147,
+            "j": 0.226800948,
+            "k": 1.2940149E-09,
+            "r": 5.55682966E-09
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -1.42108544E-16,
+            "Y": -0.00511231646,
+            "Z": 7.1054272E-17
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": -5.55111512E-17,
+            "j": 3.46944695E-18,
+            "k": 3.46944695E-18,
+            "r": 1
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -0.0236994121,
+            "Y": -1.59872109E-16,
+            "Z": 2.48689959E-16
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 0.972860515,
+            "j": 0.231392771,
+            "k": -2.95972635E-10,
+            "r": -1.24437816E-09
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1.42108544E-16,
+            "Y": -0.0065630693,
+            "Z": 0
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 1.29047839E-08,
+            "j": -2.42861287E-17,
+            "k": -1.04083409E-17,
+            "r": 1
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": -0.0193678048,
+            "Y": 7.1054272E-17,
+            "Z": 1.02755422E-10
+          }
+        },
+        {
+          "$type": "QsTransform",
+          "Rotation": {
+            "$type": "Quaternion",
+            "i": 0.972707808,
+            "j": 0.232033581,
+            "k": 1.11753069E-08,
+            "r": 0
+          },
+          "Scale": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 1,
+            "Y": 1,
+            "Z": 1
+          },
+          "Translation": {
+            "$type": "Vector4",
+            "W": 0,
+            "X": 0,
+            "Y": -0.00448000384,
+            "Z": 7.1054272E-17
+          }
+        }
+      ],
+      "cookingPlatform": "PLATFORM_PC",
+      "distanceCategoryToLodMap": [],
+      "ikSetups": [],
+      "levelOfDetailStartIndices": [],
+      "parts": [],
+      "ragdollDesc": [],
+      "ragdollNames": [],
+      "referencePoseMS": [],
+      "referenceTracks": [],
+      "retargets": [],
+      "rigExtraTracks": [],
+      "skipRigValidation": 0,
+      "tags": {
+        "$type": "redTagList",
+        "tags": []
+      },
+      "trackNames": [],
+      "turningOffUpdateAndSample": 0,
+      "turnOffLOD": -1
+    },
+    "EmbeddedFiles": []
+  }
+}

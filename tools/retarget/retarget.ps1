@@ -94,7 +94,7 @@ New-Item -ItemType Directory -Force (Split-Path $container) | Out-Null
 Step 'prep container' { python (Join-Path $root 'anims_json.py') prep (Join-Path $run "$name.json") $rig $container }
 Step 'deserialize container' { & $WolvenKit convert deserialize $container -o (Split-Path $out) -v Minimal }
 
-$bridge = Join-Path $root 'wk_anims\bin\Release\net8.0\WkAnims.exe'
+$bridge = Join-Path $root 'wk_anims\bin\Release\net10.0\WkAnims.exe'
 if (-not $SkipBuild) { Step 'build wk_anims' { dotnet build (Join-Path $root 'wk_anims\WkAnims.csproj') -c Release -v q --nologo | Out-Null } }
 Step 'cook' { & $bridge $retargeted $out $GamePath $WolvenKitCook }
 

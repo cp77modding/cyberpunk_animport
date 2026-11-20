@@ -26,9 +26,9 @@ sys.path.insert(0, HERE)
 import scene_files  # noqa: E402
 
 ANIMS = scene_files.ANIMS
-OSTIMNG = r"C:\Work\WorkSpace\SKSE\OStimNG"
 sys.path.insert(0, os.path.join(REPO, "tools", "retarget"))
 import build_config  # noqa: E402
+OSTIMNG = build_config.source("ostimng").get("input")
 
 PORTS = {n: s["run"] for n, s in build_config.load()["sources"].items()}   # each source's run folder
 PENIS, VAGINA, BREASTS = "penis", "vagina", "breasts"

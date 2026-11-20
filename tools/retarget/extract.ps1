@@ -13,7 +13,8 @@ Nothing here is committed: it is CDPR's and PinkyDude's data. Re-run to rebuild.
 param(
   [string]$GamePath  = 'D:\SteamLibrary\steamapps\common\Cyberpunk 2077',
   [string]$WolvenKit = 'C:\Modding\wolwenKit_upacker\WolvenKit.CLI.exe',
-  [string]$PoncArchive = 'D:\wabjack\cyberpunk\ultraviolence\mods\Pleasures of Night City - Sex Animations\archive\pc\mod\PinkyDude_PleasuresOfNightCity_AnimsVol1.archive',
+  # optional: only the retarget probes read its sets; a port needs none
+  [string]$PoncArchive = '',
   [switch]$Clean
 )
 
@@ -25,7 +26,7 @@ $json    = Join-Path $work 'json'
 $glb     = Join-Path $work 'glb'
 $content = Join-Path $GamePath 'archive\pc\content'
 
-foreach ($p in @($WolvenKit, $content, $PoncArchive)) {
+foreach ($p in @($WolvenKit, $content) + @($PoncArchive | Where-Object { $_ })) {
   if (-not (Test-Path $p)) { throw "not found: $p" }
 }
 if ($Clean -and (Test-Path $work)) { Remove-Item $work -Recurse -Force }
@@ -62,7 +63,7 @@ Unbundle "$content\basegame_4_animation.archive" `
   'vanilla TPP player locomotion (donor armature = player_*_skeleton)'
 
 # --- the clips to retarget --------------------------------------------------------------------
-Unbundle $PoncArchive "\.anims$" 'PoNC animation sets'
+if ($PoncArchive) { Unbundle $PoncArchive "\.anims$" 'PoNC animation sets' }
 
 # --- serialize everything: the json is the only place the rig reference is readable ------------
 Write-Host '-- serialize to json' -ForegroundColor Cyan

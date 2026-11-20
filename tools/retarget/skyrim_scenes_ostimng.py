@@ -14,6 +14,7 @@ Run: python tools/retarget/skyrim_scenes_ostimng.py <out dir> [--ostimng DIR] [-
 import argparse
 import json
 import os
+import re
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -142,12 +143,129 @@ def build(root, port_list_json, skel_dir):
     return work, kept, source, skipped
 
 
+# The scene list (scene_list.py). The acts the arousal model rates from OStimNG's action types; a penetrative one names
+# its opening (shaft-bones.md).
+NG_SEX = {"male": "m", "female": "f"}
+NG_ACTS = {"vaginalsex": "penetrative", "analsex": "penetrative", "blowjob": "oral_penis", "lickingpenis": "oral_penis",
+           "cunnilingus": "oral_vagina", "lickingvagina": "oral_vagina", "handjob": "manual", "boobjob": "manual",
+           "buttjob": "manual", "footjob": "manual", "vaginalfingering": "manual", "analfingering": "manual",
+           "rubbingclitoris": "manual", "malemasturbation": "manual", "femalemasturbation": "manual"}
+NG_INTO = {"vaginalsex": "vagina", "analsex": "anus"}
+NG_TRANSLATIONS = os.path.join("data", "Interface", "translations")
+# one actor is a bare "lying" in a scene named lying-front
+POSTURE_FIXES = {("ostimng.ostim2p.mm.idle.ostim2pkneelinglyingfrontmm", 1): "lyingfront"}
+
+
+def read_translations(root):
+    out = {}
+    for f in ("OScenes_ENGLISH.txt", "ONav_ENGLISH.txt"):
+        for line in open(os.path.join(root, NG_TRANSLATIONS, f), encoding="utf-16").read().splitlines():
+            if line.startswith("$") and "\t" in line:
+                k, v = line.split("\t", 1)
+                out[k.lower()] = v.strip()
+    return out
+
+
+def nav_label(desc, tr):
+    """'$ostim_nav_kiss_t{1}' -> 'kiss {1}': {N} is the name of actor N, as OStimNG fills it."""
+    if not desc:
+        return None
+    m = re.search(r"\{(\d+)\}", desc)
+    v = tr.get(re.sub(r"\{\d+\}", "{}", desc).lower())
+    if v is None:
+        return None
+    return v.replace("{{}}", "{%s}" % m.group(1)) if m else v
+
+
+def scene_acts(j, n):
+    """OStimNG's actions as acts; a masturbation names no target: the actor works on themself."""
+    out = []
+    for x in j.get("actions", []):
+        self_act = x.get("type", "").endswith("masturbation")
+        target = x.get("actor") if self_act else x.get("target")
+        if x.get("type") not in NG_ACTS or n != 2 or x.get("actor") not in (0, 1) or target not in (0, 1) \
+                or (x["actor"] == target and not self_act):
+            continue
+        act = {"type": NG_ACTS[x["type"]], "actor": "ab"[x["actor"]], "target": "ab"[target]}
+        if x["type"] in NG_INTO:
+            act["into"] = NG_INTO[x["type"]]
+        out.append(act)
+    return out
+
+
+def scene_list(pack_dir, root, list_json=port_list.OUT_JSON):
+    import scene_list as sl
+    pack = os.path.basename(pack_dir)
+    clip_map = json.load(open(list_json, encoding="utf-8"))["clipMap"]
+    own = {}
+    for ref, r in sl.clip_refs(pack, json.load(open(os.path.join(pack_dir, "source-map.json"), encoding="utf-8"))):
+        own.setdefault(r["clip"], []).append((sl.set_body(r["sets"][0])[0], ref))
+    tr = read_translations(root)
+    out = []
+    for d, _, fs in sorted(os.walk(os.path.join(root, SCENE_ROOT))):
+        for f in sorted(fs):
+            if not f.endswith(".json"):
+                continue
+            path = os.path.join(d, f)
+            rel = os.path.relpath(path, root).replace(os.sep, "/")
+            group = "_".join(rel.split("/")[5:8]).lower()
+            j = json.load(open(path, encoding="utf-8-sig"))
+            n = len(j.get("actors", []))
+            sid = pack + "." + ".".join(p.lower() for p in rel[:-len(".json")].split("/")[5:])
+
+            def ref(anim, i):
+                key = "%s_%d" % (anim.lower(), i)
+                if key in own:
+                    return next((r for g, r in own[key] if g == group), own[key][0][1])
+                return "opensex/" + clip_map[key].lstrip("_") if key in clip_map else None
+
+            actors = []
+            for i, a in enumerate(j.get("actors", [])):
+                row = {"sex": NG_SEX.get(a.get("intendedSex"), "any"), "tags": a.get("tags", [])}
+                fix = next((p for (pre, k), p in POSTURE_FIXES.items() if k == i and sid.startswith(pre)), None)
+                if fix:
+                    row["posture"], row["postureFrom"] = fix, "fix"
+                actors.append(row)
+            transition = bool(j.get("destination"))
+            s = {
+                "id": sid,
+                "name": tr.get(j.get("name", "").lower(), j.get("name", "").lstrip("$")),
+                "animator": None,
+                "sources": [{"pack": pack, "id": f[:-5], "file": rel,
+                             "actions": [[x.get("type", ""), x.get("actor"), x.get("target", x.get("actor"))]
+                                         for x in j.get("actions", [])]}],
+                "actors": actors,
+                "speeds": [{"clips": [ref(sp["animation"], i) for i in range(n)],
+                            "playback": float(sp.get("playbackSpeed", 1.0)),
+                            "display": float(sp["displaySpeed"]) if sp.get("displaySpeed") is not None else None}
+                           for sp in j.get("speeds", []) if sp.get("animation")],
+                "transition": transition,
+                "next": j.get("destination") if transition else None,
+                "length": float(j["length"]) if transition and j.get("length") else None,
+                "moves": [dict({"to": nv["destination"], "label": nav_label(nv.get("description"), tr)},
+                               **({"priority": nv["priority"]} if isinstance(nv.get("priority"), int) else {}))
+                          for nv in j.get("navigations", []) if nv.get("destination")],
+                "tags": j.get("tags", []),
+                "furniture": j.get("furniture"),
+                "acts": scene_acts(j, n),
+            }
+            # per actor, the scene its climax plays (autoTransitions.climax)
+            climax = {"ab"[i]: a["autoTransitions"]["climax"] for i, a in enumerate(j.get("actors", [])[:2])
+                      if isinstance(a.get("autoTransitions"), dict) and a["autoTransitions"].get("climax")}
+            if climax:
+                s["climax"] = climax
+            if j.get("noRandomSelection") is True:
+                s["noRandom"] = True   # never a random start; a menu may still offer it
+            out.append(s)
+    return out
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("out")
     ap.add_argument("--ostimng", default=port_list.OSTIMNG)
     ap.add_argument("--list", default=port_list.OUT_JSON)
-    ap.add_argument("--skeletons", default=r"C:\Modding\hkx_backport\Reskeletor\skeletons")
+    ap.add_argument("--skeletons", default=port_list.build_config.load()["tools"]["skeletons"])
     a = ap.parse_args()
     for f in {v for m in SKELETONS.values() for v in m.values()}:
         if not os.path.isfile(os.path.join(a.skeletons, f)):

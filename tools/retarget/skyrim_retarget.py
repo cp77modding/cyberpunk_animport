@@ -194,9 +194,15 @@ def retarget(clip_xml, tg):
     return rot, tra
 
 
+# WolvenKit's settings of an NPC set's clip, as its export writes them; player_extras sets the cook's own over them
+CLIP_EXTRAS = {"schema": {"type": "wkit.cp2077.gltf.anims", "version": 4}, "animationType": "Normal",
+               "rootMotionType": "Unknown", "frameClamping": True, "frameClampingStartFrame": -1,
+               "frameClampingEndFrame": -1, "numExtraJoints": 0, "numExtraTracks": 0}
+
+
 def extras_for(tg, rig_json):
     rig = json.load(open(rig_json, encoding="utf-8"))["Data"]["RootChunk"]
-    return rg.player_extras(tg.doc["animations"][0].get("extras", {}), rig.get("referenceTracks", []))
+    return rg.player_extras(CLIP_EXTRAS, rig.get("referenceTracks", []))
 
 
 def write(tg, extras, clips, out):

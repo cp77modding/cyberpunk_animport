@@ -49,12 +49,21 @@ def run(*args):
         raise RuntimeError("%s failed:\n%s%s" % (" ".join(args), r.stdout, r.stderr))
 
 
+def track_names(hkxc, clip, tmp):
+    """a clip's track names: an OpenSex XML clip read as is, a packfile (SexLab's) through hkxc's XML"""
+    if open(clip, "rb").read(5) == b"<?xml":
+        return [e.text or "" for e in ET.parse(clip).getroot().iter("string") if e.get("name") == "trackName"]
+    xml = os.path.join(tmp, "clip.xml")
+    run(hkxc, "convert", "-i", clip, "-o", xml, "-v", "xml")
+    return re.findall(r'<hkparam name="trackName">([^<]*)</hkparam>', open(xml, encoding="utf-8").read())
+
+
 def main():
     if len(sys.argv) != 5:
         sys.exit(__doc__)
     hkxc, skeleton, clip, out = sys.argv[1:5]
-    names = [e.text or "" for e in ET.parse(clip).getroot().iter("string") if e.get("name") == "trackName"]
     with tempfile.TemporaryDirectory() as tmp:
+        names = track_names(hkxc, clip, tmp)
         xml = os.path.join(tmp, "skeleton.xml")
         run(hkxc, "convert", "-i", skeleton, "-o", xml, "-v", "xml")
         text, n, k = pad(open(xml, encoding="utf-8").read(), names)

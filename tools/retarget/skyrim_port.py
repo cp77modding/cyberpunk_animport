@@ -48,16 +48,24 @@ import skyrim_tagfile  # noqa: E402
 
 WORK = os.path.join(HERE, "work")
 PORT = build_config.load()["sources"]["opensex"]["run"]   # inventory writes OpenSex's manifest here alone
+# Every skeleton a clip is fitted onto ships with the tool: skeletons/cyberpunk/<name>.rig, .rig.json, .glb, and the
+# empty animset.anims.json the cook fills (make_skeletons.py)
+SKEL = os.path.join(build_config.ROOT, "skeletons", "cyberpunk")
+# rig -> (its depot path, its name in SKEL)
 RIGS = {
-    "man_base": (r"base\characters\base_entities\man_base\man_base.rig", "cowgirl_ma.anims.glb",
-                 "man_base.rig.json", "cowgirl_ma.anims.json"),
-    "woman_base": (r"base\characters\base_entities\woman_base\woman_base.rig", "cowgirl_wa.anims.glb",
-                   "woman_base.rig.json", "cowgirl_wa.anims.json"),
-    "player_man": (r"base\characters\entities\player\player_man_skeleton.rig", "tpp_pma_locomotion.anims.glb",
-                   "player_man_skeleton.rig.json", "cowgirl_ma.anims.json"),
-    "player_woman": (r"base\characters\entities\player\player_woman_skeleton.rig", "tpp_pwa_locomotion.anims.glb",
-                     "player_woman_skeleton.rig.json", "cowgirl_wa.anims.json"),
+    "man_base": (r"base\characters\base_entities\man_base\man_base.rig", "man_base"),
+    "woman_base": (r"base\characters\base_entities\woman_base\woman_base.rig", "woman_base"),
+    "player_man": (r"base\characters\entities\player\player_man_skeleton.rig", "player_man_skeleton"),
+    "player_woman": (r"base\characters\entities\player\player_woman_skeleton.rig", "player_woman_skeleton"),
 }
+
+
+def skel_name(rig):
+    return RIGS[rig][1] if rig in RIGS else rig
+
+
+def rig_json(rig):
+    return os.path.join(SKEL, skel_name(rig) + ".rig.json")
 # The big and fat NPC rigs: each npc set's glb retargeted onto them (the bodies stage), as retarget.ps1 -Rig did
 BODIES = {"man_base": ("man_big", "man_fat"), "woman_base": ("woman_big", "woman_fat")}
 SKELETON = {"f": ("femskeleton.hkx", "female242.hkx"), "m": ("skeleton.hkx", "male242.hkx")}
@@ -149,12 +157,9 @@ def npz_path(row):
 
 
 def rig_files(rig):
-    """(the rig's depot path, its cr2w here, the animset json its empty container is made from)"""
-    if rig in RIGS:
-        return RIGS[rig][0], os.path.join(WORK, "cr2w", local(RIGS[rig][0])), os.path.join(WORK, "json", RIGS[rig][3])
-    path = "base\\characters\\base_entities\\%s\\%s.rig" % (rig, rig)
-    return path, os.path.join(WORK, "npcrig", "cr2w", local(path)), \
-        os.path.join(WORK, "json", "cowgirl_%s.anims.json" % ("ma" if rig.startswith("man") else "wa"))
+    """(the rig's depot path, its cr2w, the animset json its empty container is made from)"""
+    path = RIGS[rig][0] if rig in RIGS else "base\\characters\\base_entities\\%s\\%s.rig" % (rig, rig)
+    return path, os.path.join(SKEL, skel_name(rig) + ".rig"), os.path.join(SKEL, "animset.anims.json")
 
 
 def body_sets(npc_sets):
@@ -167,8 +172,8 @@ def body_sets(npc_sets):
 
 
 def donor(rig):
-    # an NPC rig the port does not bake (man_big) is retarget.ps1 -Rig's donor armature
-    return os.path.join(WORK, "glb", RIGS[rig][1]) if rig in RIGS else os.path.join(WORK, "npcrig", "donor", rig + ".glb")
+    """the rig's armature, the glb clips are retargeted onto"""
+    return os.path.join(SKEL, skel_name(rig) + ".glb")
 
 
 def mesh_path(row, port=None):
@@ -219,7 +224,7 @@ def _init(paths):
     _cfg = paths
     PORT = paths["port"]  # a spawned worker re-imports the module, default and all
     for rig in ("man_base", "woman_base"):
-        _targets[rig] = sr.Target(os.path.join(WORK, "glb", RIGS[rig][1]))
+        _targets[rig] = sr.Target(donor(rig))
 
 
 def decode(src, skeleton, tmp, cfg):
@@ -322,9 +327,7 @@ def stage_clips(a):
 
 def _player_glb(job):
     src, out, rig = job
-    _, donor, rig_json, _ = RIGS[rig]
-    run(sys.executable, os.path.join(HERE, "retarget_glb.py"), src, os.path.join(WORK, "glb", donor), out,
-        "--rig=" + os.path.join(WORK, "json", rig_json))
+    run(sys.executable, os.path.join(HERE, "retarget_glb.py"), src, donor(rig), out, "--rig=" + rig_json(rig))
     return out
 
 
@@ -343,8 +346,8 @@ def stage_glbs(a):
             if player in sets and not fresh(glb_path(player), [out], a):
                 jobs.append((out, glb_path(player), rows[0]["playerRig"]))
             continue
-        tg = sr.Target(os.path.join(WORK, "glb", RIGS[rig][1]))
-        extras = sr.extras_for(tg, os.path.join(WORK, "json", RIGS[rig][2]))
+        tg = sr.Target(donor(rig))
+        extras = sr.extras_for(tg, rig_json(rig))
         clips = []
         for r in rows:
             p = npz_path(r)
@@ -410,7 +413,7 @@ def cook_sets(a, sets):
     for glb, anims in pairs:
         if not os.path.isfile(glb):
             sys.exit("missing %s" % glb)
-    bin_dir = os.path.join(HERE, "wk_anims", "bin", "Release", "net8.0")
+    bin_dir = os.path.join(HERE, "wk_anims", "bin", "Release", "net10.0")
     if os.name == "nt":   # elsewhere the build ships prebuilt (pod/bake_bundle.py): a runtime, no SDK
         run("dotnet", "build", os.path.join(HERE, "wk_anims", "WkAnims.csproj"), "-c", "Release", "-v", "q", "--nologo")
     bridge = (os.path.join(bin_dir, "WkAnims.exe"),) if os.name == "nt" else ("dotnet", os.path.join(bin_dir, "WkAnims.dll"))
@@ -544,6 +547,7 @@ def stage_pack(a):
         [os.path.join(d, f) for d, _, fs in os.walk(dst) for f in fs]   # big/fat sets gen_bodies.py put there
     if fresh(os.path.join(arc, name + ".archive"), srcs + ([glb_path(d) for d in sets] if a.ship_glb else []), a):
         print("%s.archive is newer than every set: not repacked" % name)
+        write_scene_list(a, name)
         merge_clips_json(a.pack, name)
         return
     # only the folders our sets live in, and not a generated transition (gen_*, pack_transitions.py's): the big and
@@ -563,6 +567,7 @@ def stage_pack(a):
         shutil.copy2(os.path.join(PORT, "depot", local(depot)), os.path.join(dst, local(depot)))
     for f in ("scenes.json", "source-map.json"):
         shutil.copy2(os.path.join(PORT, f), os.path.join(a.pack, f))
+    write_scene_list(a, name)
     with tempfile.TemporaryDirectory() as tmp:
         stage = os.path.join(tmp, name)
         shutil.copytree(os.path.join(dst, top), os.path.join(stage, top))
@@ -572,6 +577,16 @@ def stage_pack(a):
     print("packed %d sets%s, %d big/fat rebaked -> %s" % (len(sets), " and their glbs" if a.ship_glb else "", len(bodies),
                                       os.path.join(arc, name + ".archive")))
     merge_clips_json(a.pack, name)
+
+
+def write_scene_list(a, name):
+    """the pack's scene-list.json, by the source's own reader: what scene_files.py reads (scene_list.py)"""
+    import scene_list  # noqa: E402
+    inventory = build_config.source(a.source or "opensex").get("inventory")
+    reader = scene_list.readers().get(inventory)
+    if reader is None:
+        sys.exit("%s: no scene list reader for inventory %r" % (a.source or "opensex", inventory))
+    scene_list.write(os.path.join(a.pack, "scene-list.json"), reader(a.pack, a.source_root), name)
 
 
 def merge_clips_json(pack, name):
@@ -635,7 +650,14 @@ def main():
     # verify only on --verify: after a WolvenKit or retarget change, not on a bake (it has never failed a set)
     stages = ((["inventory"] if own else []) + ["clips", "glbs", "cook", "bodies"] + (["verify"] if a.verify else []) + ["pack"]
               if a.stage == "all" else [a.stage])
+    checked = False
     for s in stages:
+        if s != "inventory" and not checked:
+            import scene_list  # noqa: E402
+            bad = scene_list.check_manifest(manifest())
+            if bad:
+                sys.exit("%s/manifest.json: %d problems, first: %s" % (PORT, len(bad), "; ".join(bad[:5])))
+            checked = True
         print("== %s" % s, flush=True)
         if globals()["stage_" + s](a) is False:
             sys.exit("%s failed" % s)

@@ -14,7 +14,11 @@ import numpy as np
 
 NIFLY = os.environ.get("NIFLY_DIR", os.path.expandvars(
     r"%APPDATA%\Blender Foundation\Blender\4.5\scripts\addons\io_scene_nifly"))
-CBBE_MOD = r"D:\mods\ModOrganizer\Portable_Skyrim_Special_Edition\mods\Caliente's Beautiful Bodies Enhancer -CBBE-"
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import build_config  # noqa: E402
+# build.json's skyrim_mods: a mod manager's mods folder holding CBBE, HIMBO and Baka Haeun UNP
+CBBE_MOD = os.path.join(build_config.load()["tools"]["skyrim_mods"] or "",
+                        "Caliente's Beautiful Bodies Enhancer -CBBE-")
 CBBE = os.path.join(CBBE_MOD, r"CalienteTools\BodySlide\ShapeData\CBBE")
 BODY_NIF = os.path.join(CBBE, "CBBE Body Physics.nif")   # the base body plus breast and butt bones
 BODY_OSD = os.path.join(CBBE, "CBBE Body.osd")

@@ -80,7 +80,7 @@ class Poses:
             f = os.path.join(d, "clips", r["npcSet"][:-len(".anims")], clip + ".npz")
             z = np.load(f if os.path.isfile(f) else os.path.join(d, "clips", r["rig"], clip + ".npz"))
             if r["rig"] not in self.targets:
-                self.targets[r["rig"]] = sr.Target(os.path.join(sp.WORK, "glb", sp.RIGS[r["rig"]][1]))
+                self.targets[r["rig"]] = sr.Target(sp.donor(r["rig"]))
             sl = slice(frame, frame + 1) if frame >= 0 else slice(-1, None)
             _, wt = self.targets[r["rig"]].skel.world_pose(z["rot"][:, sl].astype(float), z["tra"][:, sl].astype(float))
             self.cache[k] = (wt[:, 0], r["npcSet"], r["rig"])

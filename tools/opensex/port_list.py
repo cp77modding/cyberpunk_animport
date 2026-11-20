@@ -19,8 +19,11 @@ REPO = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)
 OUT_MD = os.path.join(REPO, "docs", "generated", "anim-port-list.md")
 OUT_JSON = os.path.join(REPO, "docs", "generated", "anim-port-list.json")
 
-OPENSEX = r"C:\Work\WorkSpace\skyrim\OpenSex"
-OSTIMNG = r"C:\Work\WorkSpace\SKSE\OStimNG"
+sys.path.insert(0, os.path.join(REPO, "tools", "retarget"))
+import build_config  # noqa: E402
+_sources = build_config.load()["sources"]
+OPENSEX = (_sources.get("opensex") or {}).get("input")
+OSTIMNG = (_sources.get("ostimng") or {}).get("input")
 
 # 97 = vanilla less two bones; unpack against vanilla skeleton.hkx decodes all 49 such OStimNG clips (2026-10-27).
 SKELETON = {99: "vanilla", 97: "vanilla", 242: "XPMSE"}

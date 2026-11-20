@@ -20,7 +20,7 @@ sys.path.insert(0, os.path.dirname(__file__))
 import port_list  # noqa: E402
 import scene_files  # noqa: E402
 
-HKXC = r"C:\Modding\serde\hkxc.exe"
+HKXC = port_list.build_config.load()["tools"]["hkxc"]
 
 # Skyrim armour slot (bit n = slot 30 + n) -> our clothing slots (body/LookRead ClothingSlots labels).
 SLOT_TO_OURS = {

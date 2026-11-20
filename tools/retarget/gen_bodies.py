@@ -13,7 +13,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 import skyrim_port as sp  # noqa: E402
 
-ANIMS = r"C:\Work\WorkSpace\Cyberpunk\CyberpunkAnimations"
+ANIMS = sp.build_config.load()["packs"]
 
 
 def stale(pack):

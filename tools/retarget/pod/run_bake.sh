@@ -12,8 +12,8 @@ eval "$(tr '\0' '\n' < /proc/1/environ | grep -E '^RUNPOD_(POD_ID|API_KEY)=' | s
     && echo "safety stop armed: ${MAX_HOURS} h" || echo "WARNING: no runpodctl, pod id or key; no safety stop"
 if ! command -v dotnet > /dev/null; then
     curl -sSL https://dot.net/v1/dotnet-install.sh -o /tmp/di.sh
-    bash /tmp/di.sh --channel 8.0 --runtime dotnet --install-dir /opt/dotnet > /dev/null || exit 1
-    bash /tmp/di.sh --channel 8.0 --runtime aspnetcore --install-dir /opt/dotnet > /dev/null || exit 1
+    bash /tmp/di.sh --channel 10.0 --runtime dotnet --install-dir /opt/dotnet > /dev/null || exit 1
+    bash /tmp/di.sh --channel 10.0 --runtime aspnetcore --install-dir /opt/dotnet > /dev/null || exit 1
     export PATH=/opt/dotnet:$PATH DOTNET_ROOT=/opt/dotnet
 fi
 python3 -c "import numpy" 2> /dev/null || python3 -m pip install --quiet numpy || exit 1

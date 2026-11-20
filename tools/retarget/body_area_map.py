@@ -32,8 +32,8 @@ import skyrim_retarget as sr  # noqa: E402
 BODY = os.path.join(HERE, "work", "body", "glb", "t0_000_wa_base__full.glb")
 BODY_TEX = os.path.join(HERE, "work", "body", "depot", "base", "characters", "common", "base_bodies", "woman_average",
                         "textures", "t0_000_wa__c_base_d02_naked.png")   # its skin: the areola marks the nipple
-CFG = {"hkxc": r"C:\Modding\HKX_Edit\tools\hkxc.exe",
-       "blender_hkx": r"C:\Work\WorkSpace\skyrim\blender-hkx\io_hkx_animation\blender-hkx.exe"}
+_tools = sp.build_config.load()["tools"]
+CFG = {"hkxc": _tools["hkxc"], "blender_hkx": _tools["blender_hkx"]}
 # a clip any skeleton reading needs: the rest pose comes with it
 REST_CLIP = r"meshes/0SA/mod/0Sex/anim/OpS/LyBKne/Sx/AceCowgirl/_Sx-AceCowgirl_S2_1.hkx"
 
@@ -194,7 +194,7 @@ class OurBody:
 def skyrim_rest(sex="f"):
     """Skyrim bone rest positions by name, from the skeleton a clip decodes against"""
     with tempfile.TemporaryDirectory() as tmp:
-        xml = sp.decode(os.path.join(r"C:\Work\WorkSpace\skyrim\OpenSex", REST_CLIP),
+        xml = sp.decode(os.path.join(sp.build_config.source("opensex")["input"], REST_CLIP),
                         os.path.join(sp.PORT, "skel", sp.SKELETON[sex][1]), tmp, CFG)
         idx, _, ot, _, _, _, _ = sr.read_clip(xml)
     return {n: ot[i] for n, i in idx.items()}

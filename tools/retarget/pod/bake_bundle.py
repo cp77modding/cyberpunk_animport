@@ -37,16 +37,20 @@ def bundle(dest):
             files[arc(os.path.join(RT, f))] = os.path.join(RT, f)
     for f in ("run_bake.sh",):
         files[arc(os.path.join(HERE, f))] = os.path.join(HERE, f)
-    trees = [os.path.join(sp.WORK, "wk_nightly"), os.path.join(sp.WORK, "glb"),
-             os.path.join(RT, "wk_anims", "bin", "Release", "net8.0")]
+    trees = [os.path.join(sp.WORK, "wk_nightly"), os.path.join(RT, "wk_anims", "bin", "Release", "net10.0")]
     for root in trees:
         for d, _, fs in os.walk(root):
             for f in fs:
                 if f != "appsettings.json" or "wk_nightly" in d:   # WkAnims copies the nightly's beside itself
                     files[arc(os.path.join(d, f))] = os.path.join(d, f)
-    for rig, (_, _, rig_json, src) in sp.RIGS.items():
-        for f in (rig_json, src):
-            files[arc(os.path.join(sp.WORK, "json", f))] = os.path.join(sp.WORK, "json", f)
+    # build.json and this machine's half (its Windows paths map on the pod as pod_run's MAP does), and the skeletons
+    root = sp.build_config.ROOT
+    for f in ("build.json", "build.local.json"):
+        if os.path.isfile(os.path.join(root, f)):
+            files["cyberpunk_animport/" + f] = os.path.join(root, f)
+    for f in os.listdir(sp.SKEL):
+        files["cyberpunk_animport/skeletons/cyberpunk/" + f] = os.path.join(sp.SKEL, f)
+    for rig in sp.RIGS:
         e = os.path.join(sp.WORK, "empty_anims", rig + ".anims")
         if os.path.isfile(e):
             files[arc(e)] = e

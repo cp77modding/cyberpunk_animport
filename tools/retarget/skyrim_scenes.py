@@ -175,6 +175,84 @@ def build(root, restored=None, at=RESTORED_AT):
     return work, scenes, source
 
 
+# The scene list (scene_list.py) from the pack's scenes.json. Furniture by the id's second part; the act from the class
+# code, given by the man (Sx, VJ) or to him (BJ, HJ, BoJ, FJ), None = both ways, a 69.
+FURNITURE = {"Ben": "bench", "Cha": "chair", "Coo": "cookingpot", "Tab": "table", "She": "shelf"}
+ACTS = {"Sx": ("penetrative", True), "BJ": ("oral_penis", False), "VJ": ("oral_vagina", True),
+        "VHJ": ("oral_vagina", None), "HJ": ("manual", False), "BoJ": ("manual", False), "FJ": ("manual", False)}
+# Who gives where the class code's man is not, measured from the clips (the giver's head at the other's hips): in the
+# lesbian kneeling cunnilingus the lying actor 1 licks the kneeling actor 0.
+GIVER_FIXES = {"OpS|Kne!LyB|VJ|LesbianKneLyBCunnilingus": 1}
+# A scene whose class code rates nothing but whose clips do: Cr is caressing, and its grind is hips on hips.
+ACT_FIXES = {"OpS|LyB!Kne|Cr|MountedGrind": [{"type": "grinding", "actor": "a", "target": "b"}]}
+# An actor whose tags name no posture takes the id's code; the princess carry's carried actor is coded standing.
+POSTURE_CODES = {"sta": "standing", "kne": "kneeling", "sit": "sitting", "lyb": "lyingback", "lyf": "lyingfront",
+                 "lys": "lyingside", "afo": "allfours", "squ": "squatting"}
+POSTURE_FIXES = {("opensex.ops.sta-sta.em.princesscarry", 1): "suspended"}
+ACTION_XML = re.compile(r'<action\s+type="([^"]+)"\s+actor="(\d+)"(?:\s+target="(\d+)")?')
+
+
+def scene_acts(s):
+    if s["id"] in ACT_FIXES:
+        return [dict(a) for a in ACT_FIXES[s["id"]]]
+    parts = s["id"].split("|")
+    act = ACTS.get(parts[2]) if len(parts) > 2 and len(s["actors"]) == 2 else None
+    if not act:
+        return []
+    if act[1] is None:
+        return [{"type": act[0], "actor": "ab"[i], "target": "ab"[1 - i]} for i in (0, 1)]
+    sexes = [a.get("sex") for a in s["actors"]]
+    man = sexes.index("m") if sexes.count("m") == 1 else 0
+    giver = GIVER_FIXES.get(s["id"], man if act[1] else 1 - man)
+    return [{"type": act[0], "actor": "ab"[giver], "target": "ab"[1 - giver]}]
+
+
+def file_actions(root, rel):
+    """the scene file's <action>s as [type, actor, target]; a target-less one is the actor's own"""
+    path = os.path.join(root, *rel.split("/"))
+    if not os.path.isfile(path):
+        return []
+    with open(path, encoding="utf-8", errors="replace") as fh:
+        return [[t, int(a), int(g) if g else int(a)] for t, a, g in ACTION_XML.findall(fh.read())]
+
+
+def scene_list(pack_dir, root):
+    pack = os.path.basename(pack_dir)
+    out = []
+    for s in json.load(open(os.path.join(pack_dir, "scenes.json"), encoding="utf-8")):
+        sid = pack + "." + s["id"].lower().replace("|", ".").replace("!", "-")
+        transition = all(a["t"] == "T" for a in s["anims"])
+        furniture = FURNITURE.get(s["id"].split("|")[1][:3]) if s["id"].startswith("OpS_furniture|") else None
+        codes = sid.split(".")[2].split("-") if len(sid.split(".")) > 2 else []
+        actors = []
+        for i, a in enumerate(s["actors"]):
+            row = {"sex": a.get("sex") or "any", "tags": [t for t in (a.get("tags") or "").split(",") if t]}
+            fix = next((p for (pre, n), p in POSTURE_FIXES.items() if n == i and sid.startswith(pre)), None)
+            if fix or (i < len(codes) and codes[i] in POSTURE_CODES):
+                row["posture"], row["postureFrom"] = (fix, "fix") if fix else (POSTURE_CODES[codes[i]], "code")
+            actors.append(row)
+        out.append({
+            "id": sid,
+            "name": s["name"],
+            "animator": s["animator"] or None,
+            "sources": [{"pack": pack, "id": s["id"], "file": s["file"], "actions": file_actions(root, s["file"])}],
+            "actors": actors,
+            "speeds": [{"clips": [(pack + "/" + c) if c else None for c in a["clips"]],
+                        "playback": 1.0, "display": float(a["speed"]) if a.get("speed") else None}
+                       for a in s["anims"]],
+            "transition": transition,
+            "next": s["anims"][0].get("dest") if transition else None,
+            "length": float(s["anims"][0]["l"]) if transition else None,
+            "moves": [{"to": g, "label": None} for g in s["goes"]],
+            "tags": s["tags"],
+            "furniture": furniture,
+            "acts": scene_acts(s),
+            # OpenSex names a climax only in its scene ids (..._MaleClimax, ...ClimaxInternal)
+            "climaxFromMoves": True,
+        })
+    return out
+
+
 def main():
     if len(sys.argv) != 3:
         sys.exit(__doc__)

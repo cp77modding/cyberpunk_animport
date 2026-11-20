@@ -22,12 +22,12 @@ import retarget_glb as rg  # noqa: E402
 import skyrim_port as sp  # noqa: E402
 import skyrim_retarget as sr  # noqa: E402
 
-ANIMS = r"C:\Work\WorkSpace\Cyberpunk\CyberpunkAnimations"
+_cfg = sp.build_config.load()
+ANIMS = _cfg["packs"]
 SCENES_REL = r"bin\x64\plugins\cyber_engine_tweaks\mods\nightcitynet\data\scenes"
-PORTS = {"opensex": (sp.PORT, r"C:\Work\WorkSpace\skyrim\OpenSex"),
-         "ostimng": (os.path.join(sp.WORK, "skyrim", "ostimng"), r"C:\Work\WorkSpace\SKSE\OStimNG")}
-CFG = {"hkxc": r"C:\Modding\HKX_Edit\tools\hkxc.exe",
-       "blender_hkx": r"C:\Work\WorkSpace\skyrim\blender-hkx\io_hkx_animation\blender-hkx.exe"}
+# pack name -> (run folder, source input), every build.json source
+PORTS = {os.path.basename(s["pack"]): (s["run"], s["input"]) for s in _cfg["sources"].values()}
+CFG = {"hkxc": _cfg["tools"]["hkxc"], "blender_hkx": _cfg["tools"]["blender_hkx"]}
 PELV, HEAD = "NPC Pelvis [Pelv]", "NPC Head [Head]"
 MIN_FIX = 0.02    # m: closer than this to the source is left alone
 MAX_FIX = 0.15    # m: a bigger slide is a scene problem (wrong act roles), reported, not applied
@@ -104,7 +104,7 @@ class Decoded:
 
     def target(self, rig):
         if rig not in self.targets:
-            self.targets[rig] = sr.Target(os.path.join(sp.WORK, "glb", sp.RIGS[rig][1]))
+            self.targets[rig] = sr.Target(sp.donor(rig))
         return self.targets[rig]
 
     def get(self, pack, clip, sex):

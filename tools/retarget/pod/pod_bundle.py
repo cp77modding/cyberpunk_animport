@@ -76,9 +76,14 @@ def main():
             files["cyberpunk_animport/tools/retarget/" + f] = os.path.join(RT, f)
     for f in os.listdir(HERE):
         files["cyberpunk_animport/tools/retarget/pod/" + f] = os.path.join(HERE, f)
-    for sub in ("body", "glb"):
-        for p in tree(os.path.join(sp.WORK, sub)):
-            files["cyberpunk_animport/tools/retarget/" + os.path.relpath(p, RT).replace(os.sep, "/")] = p
+    for p in tree(os.path.join(sp.WORK, "body")):
+        files["cyberpunk_animport/tools/retarget/" + os.path.relpath(p, RT).replace(os.sep, "/")] = p
+    # build.json and this machine's half (its Windows paths map as MAP does), and the skeletons clips are fitted onto
+    for f in ("build.json", "build.local.json"):
+        if os.path.isfile(os.path.join(sp.build_config.ROOT, f)):
+            files["cyberpunk_animport/" + f] = os.path.join(sp.build_config.ROOT, f)
+    for p in tree(sp.SKEL):
+        files["cyberpunk_animport/skeletons/cyberpunk/" + os.path.basename(p)] = p
     for name in set(dmap.values()):
         files["cyberpunk_animport/tools/retarget/work/contact/decoded/" + name] = os.path.join(pc.OUT, "decoded", name)
     for pack, (port, _) in pair_reach.PORTS.items():
