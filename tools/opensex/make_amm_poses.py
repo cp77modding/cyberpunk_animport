@@ -1,10 +1,11 @@
-"""A pack's poses in AMM's list, PoNC's three pieces with no PoNC at play: a workspot, its host .ent and AMM's list file.
+"""A pack's poses in AMM's list: a workspot, its host .ent and AMM's list file.
 
   python tools/opensex/make_amm_poses.py [--packs opensex,ostimng] [--anims DIR]
   python tools/opensex/make_amm_poses.py --add-rigs man_big,man_fat,woman_big,woman_fat   names baked rigs in clips.json
 
 Output, inside the pack: archive/pc/mod/<pack>_amm.archive and AMM's Collabs/Custom Poses/nightcitynet/<pack>.lua.
-The .ent is stencilled from PoNC's, so PoNC must be on this machine to build; the output does not need it.
+The workspot and .ent are built from templates/ (an arcade machine with one workspot component), so no other mod is
+needed.
 AMM plays a clip by jumping to its name, so one sequence per pose, transitions left out. docs/design/opensex-port.md §5.
 """
 import argparse
@@ -17,15 +18,10 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(os.path.dirname(HERE), "retarget"))
 import build_config  # noqa: E402
 
-TOOLS = os.path.join(build_config.load()["mod"], "tools")   # the workspot builders stay the mod's
-sys.path.insert(0, TOOLS)
 import make_pose_workspots as mpw  # noqa: E402
 import make_scene_workspots as msw  # noqa: E402
 
-PONC_ARCHIVE = (r"D:\wabjack\cyberpunk\ultraviolence\mods\Pleasures of Night City - Sex Animations"
-                r"\archive\pc\mod\PinkyDude_PleasuresOfNightCity_AnimsVol1.archive")
-PONC_ENT = r"pinkydude\pleasures_of_nightcity\anims_vol1\amm\ponc_anims.ent"
-PONC_WORKSPOT = r"pinkydude\pleasures_of_nightcity\anims_vol1\amm\ponc_anims.workspot"
+TEMPLATES = os.path.join(HERE, "templates")
 BUILD = os.path.join(build_config.ROOT, "build", "amm_poses")
 POSES_REL = os.path.join("bin", "x64", "plugins", "cyber_engine_tweaks", "mods", "AppearanceMenuMod", "Collabs",
                          "Custom Poses", "nightcitynet")
@@ -85,17 +81,6 @@ def add_rigs(anims, pack, rigs):
     print("%s: %d rig entries added to clips.json" % (pack, added))
 
 
-def host_stencil(work):
-    """PoNC's AMM .ent as json text: an arcade machine with one workspot component, amm_workspot_collab."""
-    mpw.run([mpw.CLI, "unbundle", PONC_ARCHIVE, "-o", work, "-w", "*" + os.path.basename(PONC_ENT), "-v", "quiet"])
-    ent = os.path.join(work, PONC_ENT)
-    if not os.path.isfile(ent):
-        sys.exit("PoNC has no " + PONC_ENT)
-    mpw.run([mpw.CLI, "convert", "s", ent, "-v", "quiet"])
-    with open(ent + ".json", encoding="utf-8") as f:
-        return f.read()
-
-
 def deserialize(doc_text, out, what):
     with open(out + ".json", "w", encoding="utf-8") as f:
         f.write(doc_text)
@@ -105,9 +90,8 @@ def deserialize(doc_text, out, what):
     os.remove(out + ".json")
     with open(out, "rb") as f:
         blob = f.read()
-    for leak in (b"gh0st", b"bedroom_ff", b"pinkydude", b"ponc_anims"):
-        if leak in blob:
-            sys.exit("stencil content leaked into %s: %s" % (what, leak.decode()))
+    if b"{WORKSPOT}" in blob:
+        sys.exit("%s still holds the template's {WORKSPOT}" % what)
 
 
 def build(anims, pack, base, ent_text):
@@ -147,13 +131,12 @@ def build(anims, pack, base, ent_text):
     rows = [(rig, sorted(sets)) for rig, sets in sorted(by_rig.items())]
     leaf = "%s_poses" % pack
     workspot = "%s\\%s.workspot" % (rel, leaf)
-    doc = msw.build_tree(base, rows, names, {})
+    doc = msw.build_tree(base, rows, names, {}, set())
     if isinstance(doc.get("Header"), dict):
         doc["Header"]["ArchiveFileName"] = os.path.join(raw, leaf + ".workspot")
     deserialize(json.dumps(doc, indent=1), os.path.join(raw, leaf + ".workspot"), leaf + ".workspot")
     entity = "%s\\%s.ent" % (rel, leaf)
-    text = ent_text.replace(json.dumps(PONC_WORKSPOT)[1:-1], json.dumps(workspot)[1:-1])
-    text = text.replace(json.dumps(PONC_ENT)[1:-1], json.dumps(entity)[1:-1])
+    text = ent_text.replace("{WORKSPOT}", json.dumps(workspot)[1:-1])
     deserialize(text, os.path.join(raw, leaf + ".ent"), leaf + ".ent")
 
     mpw.run([mpw.CLI, "pack", os.path.join(work, "raw"), "-o", packed, "-v", "quiet"])
@@ -167,7 +150,7 @@ def build(anims, pack, base, ent_text):
     lua = os.path.join(anims, pack, POSES_REL, pack + ".lua")
     os.makedirs(os.path.dirname(lua), exist_ok=True)
     with open(lua, "w", encoding="utf-8", newline="\n") as f:
-        f.write(amm_lua(CATEGORY[pack], entity, lists))
+        f.write(amm_lua(CATEGORY.get(pack, pack), entity, lists))
     print("%s: %d poses, %s -> %s" % (pack, len(names), ", ".join(
         "%s %d" % (r, len(n)) for r, n in sorted(lists.items())), arc))
 
@@ -183,21 +166,12 @@ def main():
         for pack in packs:
             add_rigs(a.anims, pack, a.add_rigs.split(","))
         return
-    for need in (mpw.CLI, mpw.STENCIL_ARCHIVE, PONC_ARCHIVE):
-        if not os.path.isfile(need):
-            sys.exit("not found: " + need)
-    src = os.path.join(BUILD, "stencil")
-    shutil.rmtree(src, ignore_errors=True)
-    os.makedirs(src)
-    mpw.run([mpw.CLI, "extract", mpw.STENCIL_ARCHIVE, "-o", src, "-w", "*" + mpw.STENCIL_LEAF, "-v", "quiet"])
-    stencil = next((os.path.join(r, mpw.STENCIL_LEAF) for r, _, fs in os.walk(src) if mpw.STENCIL_LEAF in fs), None)
-    if not stencil:
-        sys.exit("stencil not found in " + mpw.STENCIL_ARCHIVE)
-    mpw.run([mpw.CLI, "convert", "s", stencil, "-o", src, "-v", "quiet"])
-    with open(os.path.join(src, mpw.STENCIL_LEAF + ".json"), encoding="utf-8") as f:
+    if not os.path.isfile(mpw.CLI):
+        sys.exit("not found: " + mpw.CLI)
+    with open(os.path.join(TEMPLATES, "workspot.json"), encoding="utf-8") as f:
         base = json.load(f)
-    mpw.renumber(base)
-    ent_text = host_stencil(src)
+    with open(os.path.join(TEMPLATES, "amm_host.ent.json"), encoding="utf-8") as f:
+        ent_text = f.read()
     for pack in packs:
         build(a.anims, pack, base, ent_text)
 

@@ -24,8 +24,24 @@ import port_list  # noqa: E402
 sys.path.insert(0, HERE)
 from skyrim_scenes import source_sex  # noqa: E402
 
-ANIM_ROOT = os.path.join("data", "meshes", "actors", "character", "animations", "OStim")
-SCENE_ROOT = os.path.join("data", "SKSE", "Plugins", "OStim", "scenes")
+ANIMS = os.path.join("meshes", "actors", "character", "animations")
+SCENES = os.path.join("SKSE", "Plugins", "OStim", "scenes")
+
+
+def data_dir(root):
+    """the mod's Data folder: OStimNG's checkout keeps it under data/, an unpacked mod is it"""
+    sub = os.path.join(root, "data")
+    return sub if os.path.isdir(os.path.join(sub, "SKSE")) else root
+
+
+def anim_root(root, pack):
+    """OStimNG's clips sit under animations/OStim/; another pack's anywhere under animations/"""
+    base = os.path.join(data_dir(root), ANIMS)
+    return os.path.join(base, "OStim") if pack == "ostimng" else base
+
+
+def scene_root(root):
+    return os.path.join(data_dir(root), SCENES)
 RIG = {"m": ("man_base", "ma", "player_man", "pma"), "f": ("woman_base", "wa", "player_woman", "pwa")}
 SEX = {"male": {"m"}, "female": {"f"}, "any": {"m", "f"}}
 # Track count -> skeleton per body. Reskeletor's set: vanilla male / female, and XPMSE+3BA+SMP for both.
@@ -33,10 +49,10 @@ SKELETONS = {97: {"m": "skeleton.hkx", "f": "femskeleton.hkx"}, 99: {"m": "skele
              242: {"m": "skeleton242.hkx", "f": "skeleton242.hkx"}}
 
 
-def clip_files(root):
+def clip_files(root, pack="ostimng"):
     """{(set, key): file info} for every .hkx; a clip is unique within its set, not across OStim/."""
     out = {}
-    base = os.path.join(root, ANIM_ROOT)
+    base = anim_root(root, pack)
     for d, _, fs in os.walk(base):
         for f in fs:
             if f.lower().endswith(".hkx"):
@@ -71,30 +87,53 @@ def read_scene(path, root):
     }
 
 
-def build(root, port_list_json, skel_dir):
-    plist = json.load(open(port_list_json, encoding="utf-8"))
-    extra = set(plist["orphans"]) | {c for s in plist["scenes"] if s["source"] == "OStimNG" for c in s["extra"]}
-    from_opensex = {}
-    for s in plist["scenes"]:
-        from_opensex.update(s.get("fromOpenSex", {}))
-    clips = clip_files(root)
+def scene_folders(path, root):
+    """the folders a scene file sits in under scenes/, lower case"""
+    return [p.lower() for p in os.path.relpath(path, scene_root(root)).split(os.sep)[:-1]]
+
+
+def same_place(set_name, folders, pack):
+    """is a clip set the one beside this scene: OStimNG names both by the same three folders; another pack's
+    clips sit under a folder of its own (animations/MLC/MLCBed for scenes/MLCBed), so each scene folder is in the set"""
+    if pack == "ostimng":
+        return set_name == "_".join(folders[:3])
+    parts = set_name.split("_")
+    return bool(folders) and all(f in parts for f in folders)
+
+
+def build(root, port_list_json, skel_dir, pack="ostimng"):
+    clips = clip_files(root, pack)
     by_key = {}
     for (group, key), c in clips.items():
         by_key.setdefault(key, []).append(c)
 
     scenes = []
-    for d, _, fs in os.walk(os.path.join(root, SCENE_ROOT)):
+    for d, _, fs in os.walk(scene_root(root)):
         for f in sorted(fs):
             if f.endswith(".json"):
                 scenes.append(read_scene(os.path.join(d, f), root))
     scenes.sort(key=lambda s: s["file"])
 
+    from_opensex = {}
+    if pack == "ostimng":   # the port list says which of OStimNG's clips are OpenSex's
+        plist = json.load(open(port_list_json, encoding="utf-8"))
+        extra = set(plist["orphans"]) | {c for s in plist["scenes"] if s["source"] == "OStimNG" for c in s["extra"]}
+        for s in plist["scenes"]:
+            from_opensex.update(s.get("fromOpenSex", {}))
+    else:   # another pack: every clip of its own that its scenes play
+        extra = {"%s_%d" % (a["animation"].lower(), x["position"]) for s in scenes for a in s["anims"]
+                 for x in s["actors"]} & set(by_key)
+
     # A scene's clip is the file in the scene's own folder set when two sets share a name.
     def resolve(key, scene_file):
         cands = by_key.get(key, [])
         if len(cands) > 1:
-            group = "_".join(scene_file.split("/")[5:8]).lower()  # after data/SKSE/Plugins/OStim/scenes/
-            cands = [c for c in cands if c["set"] == group] or cands
+            folders = scene_folders(os.path.join(root, scene_file), root)
+            near = [c for c in cands if same_place(c["set"], folders, pack)]
+            if len(near) != 1:
+                print("%s: clip %s is in %d sets, none beside the scene alone; took %s" % (
+                    scene_file, key, len(cands), (near or cands)[0]["file"]))
+            cands = near or cands
         return cands[0] if cands else None
 
     sex, kept, shared = {}, [], set()
@@ -133,9 +172,9 @@ def build(root, port_list_json, skel_dir):
             npc, tag, player, ptag = RIG[b]
             src = source_sex(b, sx)
             work.append({"key": key, "file": c["file"], "clip": key, "sex": b, "srcSex": src, "known": bool(sx), "rig": npc,
-                         "npcSet": "ostimng\\anims\\npc\\%s_%s.anims" % (group, tag),
+                         "npcSet": "%s\\anims\\npc\\%s_%s.anims" % (pack, group, tag),
                          "playerRig": player,
-                         "playerSet": "ostimng\\anims\\player\\%s_%s.anims" % (group, ptag),
+                         "playerSet": "%s\\anims\\player\\%s_%s.anims" % (pack, group, ptag),
                          "skeleton": os.path.join(skel_dir, SKELETONS[tracks][src])})
         source.append({"clip": key, "source": c["file"], "tracks": tracks, "sex": sorted(sx) or None,
                        "sets": [r[k] for r in work if r["key"] == key and r["file"] == c["file"]
@@ -151,15 +190,18 @@ NG_ACTS = {"vaginalsex": "penetrative", "analsex": "penetrative", "blowjob": "or
            "buttjob": "manual", "footjob": "manual", "vaginalfingering": "manual", "analfingering": "manual",
            "rubbingclitoris": "manual", "malemasturbation": "manual", "femalemasturbation": "manual"}
 NG_INTO = {"vaginalsex": "vagina", "analsex": "anus"}
-NG_TRANSLATIONS = os.path.join("data", "Interface", "translations")
 # one actor is a bare "lying" in a scene named lying-front
 POSTURE_FIXES = {("ostimng.ostim2p.mm.idle.ostim2pkneelinglyingfrontmm", 1): "lyingfront"}
 
 
 def read_translations(root):
+    """OStimNG's English names; another pack ships none (its names are plain) or its own beside them"""
     out = {}
     for f in ("OScenes_ENGLISH.txt", "ONav_ENGLISH.txt"):
-        for line in open(os.path.join(root, NG_TRANSLATIONS, f), encoding="utf-16").read().splitlines():
+        path = os.path.join(data_dir(root), "Interface", "translations", f)
+        if not os.path.isfile(path):
+            continue
+        for line in open(path, encoding="utf-16").read().splitlines():
             if line.startswith("$") and "\t" in line:
                 k, v = line.split("\t", 1)
                 out[k.lower()] = v.strip()
@@ -202,21 +244,22 @@ def scene_list(pack_dir, root, list_json=port_list.OUT_JSON):
         own.setdefault(r["clip"], []).append((sl.set_body(r["sets"][0])[0], ref))
     tr = read_translations(root)
     out = []
-    for d, _, fs in sorted(os.walk(os.path.join(root, SCENE_ROOT))):
+    for d, _, fs in sorted(os.walk(scene_root(root))):
         for f in sorted(fs):
             if not f.endswith(".json"):
                 continue
             path = os.path.join(d, f)
             rel = os.path.relpath(path, root).replace(os.sep, "/")
-            group = "_".join(rel.split("/")[5:8]).lower()
+            folders = scene_folders(path, root)
             j = json.load(open(path, encoding="utf-8-sig"))
             n = len(j.get("actors", []))
-            sid = pack + "." + ".".join(p.lower() for p in rel[:-len(".json")].split("/")[5:])
+            under = os.path.relpath(path, scene_root(root))[:-len(".json")].split(os.sep)
+            sid = pack + "." + ".".join(p.lower() for p in under)
 
             def ref(anim, i):
                 key = "%s_%d" % (anim.lower(), i)
                 if key in own:
-                    return next((r for g, r in own[key] if g == group), own[key][0][1])
+                    return next((r for g, r in own[key] if same_place(g, folders, pack)), own[key][0][1])
                 return "opensex/" + clip_map[key].lstrip("_") if key in clip_map else None
 
             actors = []
@@ -266,11 +309,17 @@ def main():
     ap.add_argument("--ostimng", default=port_list.OSTIMNG)
     ap.add_argument("--list", default=port_list.OUT_JSON)
     ap.add_argument("--skeletons", default=port_list.build_config.load()["tools"]["skeletons"])
+    ap.add_argument("--pack", default="ostimng", help="the pack's folder name; its sets are <pack>\\anims\\...")
     a = ap.parse_args()
     for f in {v for m in SKELETONS.values() for v in m.values()}:
         if not os.path.isfile(os.path.join(a.skeletons, f)):
             sys.exit("missing skeleton %s in %s" % (f, a.skeletons))
-    work, scenes, source, skipped = build(a.ostimng, a.list, a.skeletons)
+    work, scenes, source, skipped = build(a.ostimng, a.list, a.skeletons, a.pack)
+    if not work:
+        counts = sorted({t for _, t in skipped})
+        sys.exit("%s: no clip to port. %d scenes read; %s" % (a.pack, len(scenes), (
+            "every clip's skeleton has %s tracks, and only 97, 99 or 242 can be decoded (skeletons/skyrim/)"
+            % ", ".join(map(str, counts))) if skipped else "none of their clips is in the pack's animations folder"))
     os.makedirs(a.out, exist_ok=True)
     for name, data in (("manifest.json", work), ("scenes.json", scenes), ("source-map.json", source)):
         with open(os.path.join(a.out, name), "w", encoding="utf-8", newline="\n") as fh:

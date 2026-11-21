@@ -1,11 +1,12 @@
 <#
-Builds the retarget workbench under tools/retarget/work/ from the game archives + the PoNC mod.
+The game's rigs and the entities that bind them, under tools/retarget/work/: what make_skeletons.py builds
+skeletons/cyberpunk/ from. A port reads the shipped folder and needs none of this.
 
   work/cr2w/  extracted REDengine files (.rig .ent .anims)
   work/json/  the same, serialized -- this is where you read which rig a thing binds
   work/glb/   Blender-importable, via the WolvenKit Blender IO suite
 
-Nothing here is committed: it is CDPR's and PinkyDude's data. Re-run to rebuild.
+Nothing here is committed: it is CDPR's data. Re-run to rebuild.
 
   powershell -File tools\retarget\extract.ps1
 #>
@@ -13,8 +14,6 @@ Nothing here is committed: it is CDPR's and PinkyDude's data. Re-run to rebuild.
 param(
   [string]$GamePath  = 'D:\SteamLibrary\steamapps\common\Cyberpunk 2077',
   [string]$WolvenKit = 'C:\Modding\wolwenKit_upacker\WolvenKit.CLI.exe',
-  # optional: only the retarget probes read its sets; a port needs none
-  [string]$PoncArchive = '',
   [switch]$Clean
 )
 
@@ -26,7 +25,7 @@ $json    = Join-Path $work 'json'
 $glb     = Join-Path $work 'glb'
 $content = Join-Path $GamePath 'archive\pc\content'
 
-foreach ($p in @($WolvenKit, $content) + @($PoncArchive | Where-Object { $_ })) {
+foreach ($p in @($WolvenKit, $content)) {
   if (-not (Test-Path $p)) { throw "not found: $p" }
 }
 if ($Clean -and (Test-Path $work)) { Remove-Item $work -Recurse -Force }
@@ -41,7 +40,7 @@ function Unbundle($archive, $regex, $what) {
 # --- source skeleton: what every NPC body and BOTH stand-in doubles are built on ---------------
 Unbundle "$content\basegame_1_engine.archive" `
   "characters\\base_entities\\(man_base|woman_base)\\(man_base|woman_base)\.rig$" `
-  'man_base / woman_base rigs (PoNC authors against these)'
+  'man_base / woman_base rigs (every NPC)'
 
 # --- target skeleton: V's own playable body ---------------------------------------------------
 Unbundle "$content\basegame_1_engine.archive" `
@@ -61,9 +60,6 @@ Unbundle "$content\basegame_4_appearance.archive" `
 Unbundle "$content\basegame_4_animation.archive" `
   "animations\\player\\(male\\body\\tpp_pma_locomotion|female\\body\\tpp_pwa_locomotion)\.anims$" `
   'vanilla TPP player locomotion (donor armature = player_*_skeleton)'
-
-# --- the clips to retarget --------------------------------------------------------------------
-if ($PoncArchive) { Unbundle $PoncArchive "\.anims$" 'PoNC animation sets' }
 
 # --- serialize everything: the json is the only place the rig reference is readable ------------
 Write-Host '-- serialize to json' -ForegroundColor Cyan

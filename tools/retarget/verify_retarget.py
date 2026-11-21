@@ -61,7 +61,7 @@ def main():
         if len(t_c) < len(t_s):
             # Exact at its own frames, a coarser grid still cuts fast motion: a foot came out 1.5 deg off.
             bad.append("%s: %d keys cooked to %d frames (END_PAD lost?)" % (name, len(t_s), len(t_c)))
-        # At the cooked frames: PoNC's keys are not evenly spaced and the SIMD grid is, so between frames
+        # At the cooked frames: a source's keys need not be evenly spaced and the SIMD grid is, so between frames
         # a 600 deg/s arm reads 0.13 deg off from interpolation alone. The source is unstretched by END_PAD.
         d_s, _ = model_pose(s_doc, s_buf, src, anim, t_c * (t_s[-1] / t_c[-1]))
         d_c, p_c = model_pose(c_doc, c_buf, out, cooked[name], t_c)

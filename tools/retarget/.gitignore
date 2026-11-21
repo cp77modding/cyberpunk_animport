@@ -1,4 +1,4 @@
-# CDPR's and PinkyDude's data, not ours to ship. Rebuild with extract.ps1.
+# CDPR's data and the stages' scratch, not ours to ship.
 work/
 # the WolvenKit bridge's build output
 wk_anims/bin/

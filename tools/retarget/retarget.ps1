@@ -9,8 +9,8 @@ Retargets NPC-rig animsets onto V's own skeleton, end to end, with no Blender an
     -> wk_anims (ImportAnims)      cooked into the container by the WolvenKit nightly's SIMD encoder
     -> export + verify_retarget.py every clip re-read and compared to its source, per bone
 
-  powershell -File tools\retarget\retarget.ps1 -Anims tools\retarget\work\cr2w\pinkydude\...\cowgirl_wa.anims -Body woman `
-      -DepotPath ncn\anims\player\cowgirl_wa_player.anims
+  powershell -File tools\retarget\retarget.ps1 -Anims <an NPC set, .anims> -Body woman `
+      -DepotPath ncn\anims\player\<name>_player.anims
 
 -Rig man_big (or man_fat, woman_big, woman_fat, any base_entities rig) targets that NPC rig instead of V's; its
 donor is built from the rig alone by rig_glb.py, from the rig json under work\npcrig.

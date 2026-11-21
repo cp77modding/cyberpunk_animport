@@ -1,4 +1,4 @@
-"""Headless: a body on a run's whole.glb, a PNG per frame from two cameras. Binding as in blender_pair.py.
+"""Headless: a body on a run's whole.glb, a PNG per frame from two cameras.
 
 mb_transition.ps1 -Preview runs it. RUN is the run folder, RIG the body; STILL=<frame> renders only that frame.
 """

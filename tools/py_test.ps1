@@ -34,7 +34,10 @@ $tests = @(
   'opensex\test_climax_events',   # where OStimClimax lands in a clip
   'opensex\test_sex_hub',   # every scene a pair can play is two moves at most from sex, through its cast's hub
   'opensex\test_cast_roles',   # who may play a side: the parts its acts use, "any" for none; the other body's port row
-  'opensex\test_scene_files'   # a scene that licks names its giver's mouth; a blowjob keeps the act's
+  'opensex\test_scene_files',   # a scene that licks names its giver's mouth; a blowjob keeps the act's
+  'opensex\test_make_integration',   # a ported pack's ids under integrations.<pack>, another pack's kept
+  'retarget\test_scenes_slal',   # a SexLab stage's tags as postures, acts, furniture; unrated where they cannot say who
+  'retarget\test_scenes_ostim'   # any OStim pack: a scene's clip from the set beside it; SexLab scene tags lower case
 )
 if ($Filter) { $tests = $tests | Where-Object { $_ -match $Filter } }
 if (-not $tests) { Write-Host "no test matches /$Filter/" -ForegroundColor Yellow; exit 1 }

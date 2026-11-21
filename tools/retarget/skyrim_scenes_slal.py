@@ -95,13 +95,14 @@ def slsb_scenes(path, root):
         out.append({
             "id": s["id"], "file": rel(path, root), "name": (s.get("name") or "").strip(), "pack": j.get("pack_name"),
             "author": j.get("pack_author"), "human": races <= HUMAN, "races": sorted(races),
-            "tags": first.get("tags", []), "furniture": s.get("furniture"),
+            "tags": [t.lower() for t in first.get("tags") or []], "furniture": s.get("furniture"),
             "actors": [{"position": i, "sex": sorted(sex_of(p.get("sex", {}))),
                         "submissive": bool((p.get("extra") or {}).get("submissive")),
                         "offset": p.get("offset"), "prop": p.get("anim_obj") or None}
                        for i, p in enumerate(first["positions"])],
             "anims": [{"stage": sid, "events": [(p.get("event") or [None])[0] for p in stages[sid]["positions"]],
-                       "length": (stages[sid].get("extra") or {}).get("fixed_len") or None}
+                       "length": (stages[sid].get("extra") or {}).get("fixed_len") or None,
+                       "tags": [t.lower() for t in stages[sid].get("tags", [])]}
                       for sid in stage_order(s)],
             "goes": [], "actions": [],
         })
@@ -218,9 +219,45 @@ def build(root, pack, skel_dir, make_pad=None):
     return work, kept, source, {"creature": dropped, "no clip": sorted(set(missing)), "no skeleton": skipped}
 
 
+# SexLab's furniture tags, as the scene graph names furniture
+FURNITURE = {"bed": "bed", "chair": "chair", "throne": "chair", "bench": "bench", "couch": "couch", "sofa": "couch"}
+
+
+def rate(tags, sexes):
+    """(postures per actor, acts, furniture) from one stage's tags. SexLab names an act but not who gives it, so acts
+    are rated only for two actors where exactly one has a penis: the giver of anything penetrative. Else none."""
+    t = set(tags)
+    furniture = next((FURNITURE[k] for k in FURNITURE if k in t), None)
+    postures, acts = [None] * len(sexes), []
+    pen = [i for i, s in enumerate(sexes) if s in ("m", "any") and s != "f"]
+    if len(sexes) != 2 or len(pen) != 1 or sexes[1 - pen[0]] != "f":
+        return postures, acts, furniture
+    g, r = pen[0], 1 - pen[0]
+    sit = bool(t & {"chair", "throne", "sitting", "bench", "couch", "sofa"})
+    if t & {"vaginal", "anal"}:
+        acts.append({"type": "penetrative", "actor": "ab"[g], "target": "ab"[r]})
+    if t & {"blowjob", "oral", "deepthroat"} and "cunnilingus" not in t:
+        acts.append({"type": "oral_penis", "actor": "ab"[r], "target": "ab"[g]})
+    if "cunnilingus" in t:
+        acts.append({"type": "oral_vagina", "actor": "ab"[g], "target": "ab"[r]})
+    if t & {"handjob", "boobjob", "titjob", "footjob"}:
+        acts.append({"type": "manual", "actor": "ab"[r], "target": "ab"[g]})
+    if t & {"cowgirl", "reversecowgirl"}:
+        postures[g], postures[r] = ("sitting" if sit else "lyingback"), "kneeling"
+    elif "missionary" in t:
+        postures[r], postures[g] = "lyingback", "kneeling"
+    elif t & {"doggy", "doggystyle"}:
+        postures[r], postures[g] = "allfours", "kneeling"
+    elif "standing" in t:
+        postures = ["standing", "standing"]
+    elif t & {"blowjob", "oral"}:
+        postures[r], postures[g] = "kneeling", ("sitting" if sit else "standing")
+    return postures, acts, furniture
+
+
 def scene_list(pack_dir, root):
-    """The scene list (scene_list.py): a SexLab stage is a scene of its own that moves on to the next stage. Acts are
-    left unrated: SexLab's tags name the act but not who gives it."""
+    """The scene list (scene_list.py): a SexLab stage is a scene of its own that moves on to the next stage. Its
+    postures, acts and furniture come from the stage's tags (rate)."""
     pack = os.path.basename(pack_dir)
     out = []
     for s in json.load(open(os.path.join(pack_dir, "scenes.json"), encoding="utf-8")):
@@ -229,16 +266,17 @@ def scene_list(pack_dir, root):
         stages = [a for a in s["anims"] if any(a["clips"])]
         for k, a in enumerate(stages):
             sid = "%s.s%d" % (base, k + 1)
+            postures, acts, furniture = rate(a.get("tags") or s["tags"], [x["sex"] for x in actors])
             out.append({
                 "id": sid, "name": "%s %d" % (s["name"] or s["id"], k + 1), "animator": s.get("author"),
                 "sources": [{"pack": pack, "id": "%s#%s" % (s["id"], a["stage"]), "file": s["file"], "actions": []}],
-                "actors": [dict(x) for x in actors],
+                "actors": [dict(x, posture=p) if p else dict(x) for x, p in zip(actors, postures)],
                 "speeds": [{"clips": [pack + "/" + c if c else None for c in a["clips"]], "playback": 1.0,
                             "display": None}],
                 "transition": False, "next": None, "length": None,
-                "moves": [{"to": "%s#%s" % (s["id"], stages[k + 1]["stage"]), "label": None}] if k + 1 < len(stages)
-                else [],
-                "tags": s["tags"], "furniture": None, "acts": [],
+                "moves": [{"to": "%s#%s" % (s["id"], stages[k + 1]["stage"]), "label": "next stage"}]
+                if k + 1 < len(stages) else [],
+                "tags": a.get("tags") or s["tags"], "furniture": furniture, "acts": acts,
             })
     return out
 

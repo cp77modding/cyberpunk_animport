@@ -14,8 +14,9 @@ param(
   [string[]]$Packs = @('opensex', 'ostimng'),
   [int]$Workers = 4,
   [switch]$NoBake,   # zip what is built: no big/fat set baked, though -Rigs all still names them in clips.json
-  [string]$Anims = 'C:\Work\WorkSpace\Cyberpunk\CyberpunkAnimations'
+  [string]$Anims = ''   # build.json's packs
 )
+if (-not $Anims) { $Anims = python -c "import sys; sys.path.insert(0, r'$(Join-Path (Split-Path $PSScriptRoot) 'retarget')'); import build_config; print(build_config.load()['packs'])" }
 
 $ErrorActionPreference = 'Stop'
 (Get-Process -Id $PID).PriorityClass = 'BelowNormal'
@@ -87,7 +88,7 @@ if ($failed) { throw "$($failed.Count) sets failed: $($failed -join ', ')" }
 $list = $Packs -join ','
 $amm = Join-Path $PSScriptRoot 'make_amm_poses.py'
 if ($Rigs -eq 'all') { Step 'name the rigs in clips.json' { python $amm --packs $list --add-rigs 'man_big,man_fat,woman_big,woman_fat' } }
-Step 'scene workspots' { python (Join-Path $tools 'make_scene_workspots.py') --anims $Anims }
+Step 'scene workspots' { python (Join-Path $PSScriptRoot 'make_scene_workspots.py') --anims $Anims --packs $list }
 Step 'AMM poses' { python $amm --packs $list --anims $Anims }
 
 $pack_py = "import sys; sys.path.insert(0, r'$retarget'); import pack_transitions as p; [p.pack_archive(x) for x in sys.argv[1:]]"

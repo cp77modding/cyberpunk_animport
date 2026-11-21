@@ -1,7 +1,6 @@
 {
  "_note": "Where the port reads and writes, the same on every machine. Relative paths are from this file's folder. This machine's tool paths, source inputs and added sources are in build.local.json beside it (gitignored; python tools/port.py setup writes it). tools/retarget/build_config.py merges the two and refuses two sources that share a run folder or a pack.",
  "tools": {
-  "wolvenkit_cook": "tools/retarget/work/wk_nightly",
   "skeletons": "skeletons/skyrim"
  },
  "work": "tools/retarget/work",

@@ -7,6 +7,10 @@
   python tools/port.py run --input <folder|.zip|.7z> --pack <name> [--format opensex|ostimng|sexlab]
                                                    a new source in build.local.json, its reader, then every stage
                                                    (tools/retarget/skyrim_port.py all); run again to resume
+      [--version 0.1.0] [--name "Shown name"] [--link URL]
+                                                   then, for a pack that is not the mod's own: its scene files and
+                                                   workspots as a NightCityNet integration, its AMM list and
+                                                   dist/<pack>-<version>.zip, ready to install
 
 Every path a run reads is build.json's, merged with build.local.json (tools/retarget/build_config.py). A source's
 run folder is work/runs/<pack>, its pack <packs>/<pack>.
@@ -48,6 +52,9 @@ SKEL = os.path.join(ROOT, "skeletons", "cyberpunk")
 SKEL_FILES = ["animset.anims.json"] + ["%s%s" % (r, ext) for r in (
     "man_base", "woman_base", "man_big", "man_fat", "woman_big", "woman_fat", "player_man_skeleton",
     "player_woman_skeleton") for ext in (".rig", ".rig.json", ".glb")]
+# the mod's own packs, released by tools/opensex/make_release.ps1; any other pack ships as an integration
+BUILTIN = ("opensex", "ostimng")
+SCENES_REL = os.path.join("bin", "x64", "plugins", "cyber_engine_tweaks", "mods", "nightcitynet", "data", "scenes")
 PACKAGES = {"numpy": None, "scipy": "the contact solve", "cupy": "the contact solve on an NVIDIA card (else slow)"}
 
 
@@ -207,12 +214,37 @@ def run(a):
     py = sys.executable
     if not os.path.isfile(os.path.join(s["run"], "manifest.json")):
         print("== reading %s as %s" % (inp, fmt), flush=True)
-        cmd = {"ostimng": [py, os.path.join(RT, "skyrim_scenes_ostimng.py"), s["run"], "--ostimng", s["input"]],
+        cmd = {"ostimng": [py, os.path.join(RT, "skyrim_scenes_ostimng.py"), s["run"], "--ostimng", s["input"],
+                           "--pack", pack],
                "sexlab": [py, os.path.join(RT, "skyrim_scenes_slal.py"), s["run"], "--input", s["input"],
                           "--pack", pack],
                "opensex": [py, os.path.join(RT, "skyrim_port.py"), "inventory"]}[fmt]
         subprocess.run(cmd, check=True)
     subprocess.run([py, os.path.join(RT, "skyrim_port.py"), "all", "--source", pack], check=True)
+    if pack in BUILTIN:   # the mod's own packs: tools/opensex/make_release.ps1
+        return
+    release(pack, a)
+
+
+def release(pack, a):
+    """the pack as an integration, its AMM list, then its zip"""
+    py, ops = sys.executable, os.path.join(HERE, "opensex")
+    folder = os.path.join(build_config.load()["packs"], pack, SCENES_REL, "integrations", pack)
+    if os.path.isdir(folder) and os.listdir(folder):
+        print("== %s kept: its scene files are hand-edited from here on (make_integration.py --force)" % folder)
+    else:
+        print("== scene files and workspots", flush=True)
+        subprocess.run([py, os.path.join(ops, "make_integration.py"), "--pack", pack, "--name", a.name or pack,
+                        "--link", a.link], check=True)
+    print("== AMM poses", flush=True)
+    subprocess.run([py, os.path.join(ops, "make_amm_poses.py"), "--packs", pack], check=True)
+    zip_ = os.path.join(ROOT, "dist", "%s-%s.zip" % (pack, a.version))
+    if os.path.isfile(zip_):
+        print("== %s exists; --version for a new one" % zip_)
+        return
+    print("== release zip", flush=True)
+    subprocess.run([py, os.path.join(RT, "pack_release.py"), a.version, "--packs", pack], check=True)
+    print("done: %s -- install it like any mod; NightCityNet lists it under integrations" % zip_)
 
 
 def main():
@@ -224,6 +256,9 @@ def main():
     r.add_argument("--input", required=True)
     r.add_argument("--pack", required=True)
     r.add_argument("--format", choices=("opensex", "ostimng", "sexlab"))
+    r.add_argument("--version", default="0.1.0", help="the release zip's version")
+    r.add_argument("--name", default="", help="the pack's name in NightCityNet's panel")
+    r.add_argument("--link", default="", help="where players get the source pack")
     a = ap.parse_args()
     if a.cmd == "check":
         sys.exit(0 if check() else 1)

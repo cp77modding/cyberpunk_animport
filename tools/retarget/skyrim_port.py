@@ -593,9 +593,11 @@ def merge_clips_json(pack, name):
     """Each body the pack now carries a clip on, into the pack's clips.json: the graph plays only the bodies it names."""
     sys.path.insert(0, os.path.join(os.path.dirname(HERE), "opensex"))
     import scene_files  # noqa: E402
-    path = os.path.join(pack, scene_files.SCENES_REL, name, "clips.json")
-    if not os.path.isfile(path):
-        print("no %s: the pack's scene files are not written yet (scene_files.py)" % path)
+    # the mod's own pack keeps it at scenes/<pack>/, a ported one at scenes/integrations/<pack>/ (make_integration.py)
+    tries = [os.path.join(pack, scene_files.SCENES_REL, *p, "clips.json") for p in ((name,), ("integrations", name))]
+    path = next((p for p in tries if os.path.isfile(p)), None)
+    if path is None:
+        print("no clips.json yet: the pack's scene files come next (scene_files.py / make_integration.py)")
         return
     full, _ = scene_files.read_clips(os.path.dirname(os.path.normpath(pack)))
     for r in manifest():   # a clip the source map does not name (a "-fix" one) is read off the manifest

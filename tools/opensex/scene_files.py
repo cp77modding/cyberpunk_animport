@@ -191,6 +191,12 @@ def build(anims, names=None):
     # source id -> our id, case-blind (OpenSex links OStimNG scenes as "OStim2PMIssionaryIdleMF"); an alias points
     # at another scene's source id until resolved
     to_ours = {s["sources"][0]["id"].lower(): s["id"] for s in every}
+    # a ported pack's link goes to its own scene first: its file may share a name with the mod's packs'
+    own_ids = {(s["id"].split(".")[0], s["sources"][0]["id"].lower()): s["id"] for s in every
+               if s["id"].split(".")[0] not in ("opensex", "ostimng")}
+
+    def ours(source, pack):
+        return own_ids.get((pack, source.lower())) or to_ours.get(source.lower(), source)
     alias, by_clips, scenes = {}, {}, {}
     for k, (pack, rows) in enumerate(lists):
         earlier = {p for p, _ in lists[:k]}
@@ -226,15 +232,15 @@ def build(anims, names=None):
             continue
         out = [s["next"]] if s["transition"] and s["next"] else [m["to"] for m in s["moves"]]
         if len(set(out)) == 1:
-            alias[sid] = to_ours.get(out[0].lower(), out[0])
+            alias[sid] = ours(out[0], sid.split(".")[0])
             report["scenes with no playable speed, an alias for their one way out"] += 1
         else:
             notes.append("dropped, no playable speed and %d ways out: %s" % (len(set(out)), sid))
             report["scenes dropped, no playable speed"] += 1
         del scenes[sid]
 
-    def resolve(source):
-        sid = to_ours.get(source.lower(), source)
+    def resolve(source, pack=None):
+        sid = ours(source, pack)
         seen = set()
         while sid in alias and sid not in seen:
             seen.add(sid)
@@ -243,11 +249,12 @@ def build(anims, names=None):
 
     for s in scenes.values():
         moves, seen = [], {}
+        here = s["id"].split(".")[0]
         for m in s["moves"]:
             if m["to"].startswith("$"):   # a menu command ($InviteScan, $RemoveActor): a cast change
                 report["moves dropped, a menu command"] += 1
                 continue
-            to = resolve(m["to"])
+            to = resolve(m["to"], here)
             if to is None:
                 notes.append("move to a missing scene: %s -> %s" % (s["id"], m["to"]))
                 report["moves dropped, missing scene"] += 1
@@ -261,7 +268,7 @@ def build(anims, names=None):
                     seen[to]["priority"] = m["priority"]
                 moves.append(seen[to])
         s["moves"] = moves
-        climax = {side: resolve(to) for side, to in (s.get("climax") or {}).items()}
+        climax = {side: resolve(to, here) for side, to in (s.get("climax") or {}).items()}
         # a move into a scene whose source id says climax is the man's climax from here
         if s.pop("climaxFromMoves", False):
             for m in moves:
@@ -283,7 +290,7 @@ def build(anims, names=None):
             s["climax"] = climax
             report["scenes with a climax"] += 1
         if s["transition"]:
-            s["next"] = resolve(s["next"]) if s["next"] else None
+            s["next"] = resolve(s["next"], here) if s["next"] else None
             if s["next"] is None:
                 notes.append("transition with no next: %s" % s["id"])
                 report["transitions with no next, played as a loop"] += 1
