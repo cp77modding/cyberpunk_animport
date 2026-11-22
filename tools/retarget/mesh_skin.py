@@ -28,6 +28,9 @@ NG_INTO = {"vaginalsex": "vulva", "analsex": "anus"}   # as tools/opensex/scene_
 def entry_of(base, pack):
     """her opening a clip's sex goes into: 'vulva', 'anus', or None (no penetrative act). OpenSex's Sx is vaginal"""
     import json, os
+    import pair_cast
+    if base in pair_cast.scene_casts(pack):
+        return pair_cast.entry(pack, base)
     port, _ = pair_reach.PORTS[pack]
     for s in json.load(open(os.path.join(port, "scenes.json"), encoding="utf-8")):
         clips = {c for a in s.get("anims", []) for c in (a.get("clips") or []) if c}

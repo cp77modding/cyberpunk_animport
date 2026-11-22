@@ -220,10 +220,28 @@ def run(a):
                           "--pack", pack],
                "opensex": [py, os.path.join(RT, "skyrim_port.py"), "inventory"]}[fmt]
         subprocess.run(cmd, check=True)
-    subprocess.run([py, os.path.join(RT, "skyrim_port.py"), "all", "--source", pack], check=True)
     if pack in BUILTIN:
+        subprocess.run([py, os.path.join(RT, "skyrim_port.py"), "all", "--source", pack], check=True)
         return
+    subprocess.run([py, os.path.join(RT, "skyrim_port.py"), "clips", "--source", pack], check=True)
+    pair_fit(pack, cfg)
+    subprocess.run([py, os.path.join(RT, "skyrim_port.py"), "all", "--source", pack], check=True)
     release(pack, a)
+
+
+def pair_fit(pack, cfg):
+    """pairs kept touching as Skyrim has them (README step 3); skipped, and said, without Skyrim's bodies"""
+    if not tool_ok("skyrim_mods", cfg["tools"].get("skyrim_mods")) or importlib.util.find_spec("scipy") is None:
+        print("== pair fit skipped: needs scipy and skyrim_mods (CBBE, HIMBO) in build.local.json; "
+              "pairs keep the plain fit", flush=True)
+        return
+    py = sys.executable
+    print("== pair fit: oral reach", flush=True)
+    subprocess.run([py, os.path.join(RT, "pair_reach.py"), "--pack", pack], check=True, cwd=RT)
+    print("== pair fit: 2-5 actors, hands, lips and groin (a clip that fails keeps the plain fit)", flush=True)
+    env = dict(os.environ, MESH="1", SAVE="1", HANDFIT="1", MESH_SKIN="1", ACTORS="2,3,4,5")
+    if subprocess.run([py, os.path.join(RT, "pair_batch.py"), pack, "4"], env=env, cwd=RT).returncode:
+        print("== pair fit: some clips failed, their logs are under work/contact/batch/%s" % pack, flush=True)
 
 
 def release(pack, a):

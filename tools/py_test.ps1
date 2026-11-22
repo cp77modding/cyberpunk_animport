@@ -26,6 +26,7 @@ $tests = @(
   'retarget\test_interaction_mesh',   # a hand kept on a head through a 40% shorter arm; feet held; capsules pushed, exempt ones not
   'retarget\test_hand_fit',   # a reach that straightens the arm, then a lift: the elbow bends back to its own side
   'retarget\test_pair_batch',   # the batch's clips: the cast sizes asked for, counted to the first gap, each once
+  'retarget\test_pair_cast',   # a SexLab pack's pairs from its scene list, man first; the mod's own still by clip name
   'retarget\test_pack_transitions',   # a generated transition as a scene: the test pack's copy of A, or A's move rewired
   'retarget\test_mb_moves',   # every two-actor move, same posture included; a rewired move read through its transition
   'retarget\test_mb_gif',   # a move's verdict in the GIF index; the gap between two bodies per frame

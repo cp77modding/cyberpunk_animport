@@ -16,9 +16,8 @@ flowchart TD
     MAN --> CLIPS
     subgraph bake ["2-5. Bake (skyrim_port.py all)"]
         CLIPS["2. clips<br/>.hkx decoded (hkxc, blender-hkx),<br/>fitted onto Cyberpunk's NPC skeleton"]
-        CLIPS -.-> PAIR["2b. Pair fit, run by hand<br/>pair_reach.py, pair_batch.py MESH=1 SAVE=1:<br/>hands, lips and groin kept touching"]
-        PAIR -.-> GLBS
-        CLIPS --> GLBS["3. glbs<br/>one glb per set, on the NPC rig and on V's skeleton"]
+        CLIPS --> PAIR["2b. Pair fit<br/>pair_reach.py, pair_batch.py MESH=1 SAVE=1:<br/>hands, lips and groin kept touching"]
+        PAIR --> GLBS["3. glbs<br/>one glb per set, on the NPC rig and on V's skeleton"]
         GLBS --> COOK["4. cook<br/>glb into a game .anims set (WolvenKit)"]
         COOK --> BODIES["5. bodies<br/>the same sets on the big and fat bodies"]
         BODIES --> PACK["pack<br/>&lt;pack&gt;.archive and clips.json"]
@@ -68,12 +67,13 @@ Skyrim bone and follows the direction that bone points in. The neck and collarbo
 their direction, or every clip stood the neck upright and dropped the shoulders. The result is
 `clips/<set>/<clip>.npz`.
 
-## 2b. Pair fit: keep the bodies touching (run by hand)
+## 2b. Pair fit: keep the bodies touching
 
 Step 2 fits each actor alone. In a pair that is not enough: Cyberpunk's bodies have other proportions than
 Skyrim's (her head to pelvis is 0.62 m against Skyrim's 0.73), so hands that held a hip float off it, lips miss, and
-the groin contact drifts. These tools fix that. `port.py run` does not run them; run them from `tools\retarget`
-after the clips step, then run the port again, and the glbs step uses what they wrote:
+the groin contact drifts. These tools fix that. `port.py run` runs them after the clips step for any pack but the
+mod's own two, when `skyrim_mods` holds CBBE and HIMBO; a rerun skips a pair already fitted (`REDO=1` redoes it).
+By hand, from `tools\retarget`:
 
 ```
 python pair_reach.py --pack <pack>                         oral acts: the giver slid to the reach Skyrim had
@@ -83,7 +83,9 @@ $env:MESH='1'; $env:SAVE='1'; $env:HANDFIT='1'; $env:MESH_SKIN='1'; python pair_
 - `pair_reach.py`: for every oral act it measures the giver's head to the partner's pelvis in Skyrim and in ours,
   and writes the flat slide that makes them match to `pair_shift.json`. A slide over 15 cm is reported as a scene
   problem, not applied.
-- `pair_batch.py` runs `pair_contact.py` over every two-actor clip. `MESH=1` runs the interaction mesh
+- `pair_batch.py` runs `pair_contact.py` over every two-actor clip. Which clip each actor plays comes from
+  `pair_cast.py`: OpenSex and OStim name a pair's clips `<base>_0`, `<base>_1`; any other pack's pairs come from its
+  `scene-list.json`, the man first. `MESH=1` runs the interaction mesh
   (`interaction_mesh.py`, after Ho, Komura and Tai 2010): each frame, a mesh over both skeletons' joints keeps every
   point at the same place relative to the other body while the bone lengths change from Skyrim's to ours. On top of
   the paper it holds her entry at Skyrim's offset from his penis root (without it the mesh left it 5 cm up his

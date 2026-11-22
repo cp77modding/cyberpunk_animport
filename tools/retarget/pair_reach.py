@@ -18,6 +18,7 @@ import numpy as np
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
+import pair_cast  # noqa: E402
 import retarget_glb as rg  # noqa: E402
 import skyrim_port as sp  # noqa: E402
 import skyrim_retarget as sr  # noqa: E402
@@ -69,10 +70,12 @@ def oral_pairs(pack):
     The sex picks the set: one clip name is in both the man's and the woman's set.
     A scene whose two actors both give (a 69) is left out: sliding one giver moves the other's reach."""
     out = []
-    for f in sorted(glob.glob(os.path.join(ANIMS, pack, SCENES_REL, "**", "*.json"), recursive=True)):
-        if os.path.basename(f) == "clips.json":
-            continue
-        s = json.load(open(f, encoding="utf-8"))
+    if pack in pair_cast.NAMED:
+        files = sorted(glob.glob(os.path.join(ANIMS, pack, SCENES_REL, "**", "*.json"), recursive=True))
+        scenes = [json.load(open(f, encoding="utf-8")) for f in files if os.path.basename(f) != "clips.json"]
+    else:   # its scene files are written after the bake: the scene list they are made from
+        scenes = json.load(open(os.path.join(ANIMS, pack, "scene-list.json"), encoding="utf-8"))
+    for s in scenes:
         oral = [act for act in s.get("acts") or [] if act["type"].startswith("oral")]
         if len({act["actor"] for act in oral}) > 1:
             print("  %s: both actors give, left as ported" % s["id"])
@@ -82,6 +85,8 @@ def oral_pairs(pack):
         for act in oral:
             a, t = "abcdefgh".index(act["actor"]), "abcdefgh".index(act["target"])
             for speed in s["speeds"]:
+                if not (speed["clips"][a] and speed["clips"][t]):
+                    continue
                 for ga in bodies[a]:
                     for tb in bodies[t]:
                         g = tuple(speed["clips"][a].split("/", 1)) + (ga,)
@@ -220,7 +225,7 @@ def main():
     a = ap.parse_args()
     sp.low_priority()
     dec = Decoded()
-    prefetch(dec, sorted(PORTS), a.workers)
+    prefetch(dec, a.pack or sorted(PORTS), a.workers)
     for pack in a.pack or sorted(PORTS):
         shifts, lines = plan(pack, dec)
         print("== %s: %d giver clips slid" % (pack, len(shifts)))

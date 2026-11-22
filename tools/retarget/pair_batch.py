@@ -10,6 +10,7 @@ from concurrent.futures import ProcessPoolExecutor, as_completed
 from concurrent.futures.process import BrokenProcessPool
 import skyrim_port as sp
 import pair_reach
+import pair_cast
 
 
 def cast_size(clips, known, base):
@@ -21,8 +22,12 @@ def cast_size(clips, known, base):
     return n
 
 
-def clip_bases(rows, sizes=(2,)):
-    """the bases whose cast has one of these sizes"""
+def clip_bases(rows, sizes=(2,), pack=None):
+    """the bases whose cast has one of these sizes; a pack not cast by clip name, its scene list's casts"""
+    casts = pair_cast.scene_casts(pack) if pack else {}
+    if casts:
+        have = {r["clip"] for r in rows}
+        return sorted(b for b, (cl, _, _) in casts.items() if len(cl) in sizes and all(c in have for c in cl))
     clips = {r["clip"] for r in rows}
     known = {}
     for r in rows:
@@ -30,9 +35,17 @@ def clip_bases(rows, sizes=(2,)):
     return sorted(c[:-2] for c in clips if c.endswith("_0") and cast_size(clips, known, c[:-2]) in sizes)
 
 
-def cast_rows(every, base):
+def cast_rows(every, base, pack=None):
     """the manifest row each actor of base is solved on, from {clip: [rows]}. OStim names its cast (..._mmmf_s1), and
     its scenes replay one clip cast other ways; otherwise the pack's own body, and one no scene casts m on _0, f after"""
+    cast = pair_cast.scene_casts(pack).get(base) if pack else None
+    if cast:
+        out = []
+        for clip, sex in zip(cast[0], cast[1]):
+            rows = every[clip]
+            want = rows[0].get("srcSex") if sex == "any" else sex
+            out.append(next((r for r in rows if r["sex"] == want), rows[0]))
+        return out
     known = {c: any(r.get("known") for r in rows) for c, rows in every.items()}
     size = cast_size(every, known, base)
     named = re.search(r"([mf]{%d})$" % size, re.sub(r"_s\d+$", "", base))
@@ -44,6 +57,16 @@ def cast_rows(every, base):
         want = named.group(1)[n] if named else own if known["%s_%d" % (base, n)] else "m" if not n else "f"
         cast.append(next((r for r in rows if r["sex"] == want), rows[0]))
     return cast
+
+
+def saved(every, base, port, pack):
+    """every actor's interaction-mesh pose saved, and newer than the clip it was solved from"""
+    for r in cast_rows(every, base, pack):
+        m = sp.mesh_path(r, port)
+        c = os.path.join(port, "clips", sp.local(r["npcSet"][:-len(".anims")]), r["clip"] + ".npz")
+        if not os.path.isfile(m) or not os.path.isfile(c) or os.path.getmtime(m) < os.path.getmtime(c):
+            return False
+    return True
 
 
 def pick_gpu(seq):
@@ -104,8 +127,15 @@ def main():
     port, _ = pair_reach.PORTS[pack]
     want = [w for w in os.environ.get("MATCH", "").split(",") if w] or [""]     # a stray comma is not "every clip"
     sizes = tuple(int(s) for s in os.environ.get("ACTORS", "2").split(",") if s)
-    bases = [b for b in clip_bases(json.load(open(os.path.join(port, "manifest.json"))), sizes)
-             if any(w in b for w in want)]
+    rows = json.load(open(os.path.join(port, "manifest.json")))
+    bases = [b for b in clip_bases(rows, sizes, pack) if any(w in b for w in want)]
+    if os.environ.get("SAVE") == "1" and os.environ.get("REDO") != "1":
+        every = {}
+        for r in rows:
+            every.setdefault(r["clip"], []).append(r)
+        left = [b for b in bases if not saved(every, b, port, pack)]
+        print("%d clips already fitted and newer than their clips (REDO=1 runs them)" % (len(bases) - len(left)))
+        bases = left
     out = os.path.join(sp.WORK, "contact", "batch", pack)
     os.makedirs(out, exist_ok=True)
     print("%d clips of %s, casts of %s, %d at once, logs in %s" % (

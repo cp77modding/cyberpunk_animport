@@ -56,22 +56,17 @@ command again: it carries on where it stopped. It ends with:
 done: dist\<pack>-<version>.zip
 ```
 
-## 3. Make the touches right (pairs)
+## 3. Pairs keep touching
 
-The run in step 2 fits each actor on their own. Cyberpunk's bodies are shaped differently from Skyrim's, so in a
-pair, hands can float off the partner, lips can miss and the groin contact can drift. This step fixes that, and it
-is the second GIF above. It needs Skyrim's CBBE and HIMBO bodies installed (set `skyrim_mods` in
-`build.local.json` to your Skyrim mods folder), and is much faster with CuPy.
+Cyberpunk's bodies are shaped differently from Skyrim's, so a plain port of a pair has hands floating off the
+partner, lips missing and the groin contact drifting. The run fixes that for every scene of two to five actors: the
+cast is fitted so it touches where Skyrim's does (the second GIF above). A man and a woman also get their hands and
+lips put on the skin; other casts get the body fit only. A three-actor clip takes about four minutes.
 
-From `tools\retarget`, after step 2:
-
-```
-python pair_reach.py --pack <shortname>
-$env:MESH='1'; $env:SAVE='1'; $env:HANDFIT='1'; $env:MESH_SKIN='1'; python pair_batch.py <shortname> 4
-```
-
-Then run step 2's command again: it rebuilds only the clips this step changed, and makes a new zip (give it a new
-`--version`).
+It needs Skyrim's CBBE and HIMBO bodies installed: set `skyrim_mods` in `build.local.json` to your Skyrim mod
+manager's mods folder. Without them the run says `pair fit skipped` and the pairs keep the plain fit. With CuPy it
+is much faster. A pair that cannot be fitted keeps the plain fit, and its log is under
+`tools\retarget\work\contact\batch\<pack>\`.
 
 ## 4. Install and check
 

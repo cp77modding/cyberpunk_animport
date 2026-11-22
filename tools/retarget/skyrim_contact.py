@@ -10,6 +10,7 @@ import numpy as np
 from scipy.spatial import cKDTree
 import skyrim_port as sp, skyrim_retarget as sr, skyrim_body as sb
 import pair_reach
+import pair_cast
 logging.disable(logging.CRITICAL)
 
 OUT = os.path.join(sp.WORK, "contact")
@@ -119,8 +120,9 @@ def main():
         mb.verts = mb.verts + w * ((mb.verts - pivot) @ rx.T + pivot - mb.verts)
     hb = sb.Body(sb.FEMALE_HEAD)
     print(base)
-    him = Actor(rows[base + "_0"], [(mb, ma)], src)
-    her = Actor(rows[base + "_1"], [(fb, fa), (hb, sb.head_areas(hb.verts))], src)
+    c0, c1 = pair_cast.clips(sys.argv[2] if len(sys.argv) > 2 else "ostimng", base)[:2]
+    him = Actor(rows[c0], [(mb, ma)], src)
+    her = Actor(rows[c1], [(fb, fa), (hb, sb.head_areas(hb.verts))], src)
     F = min(him.frames, her.frames)
     eff = {(him, "his L hand"): patch(him, ["hand_l"]), (him, "his R hand"): patch(him, ["hand_r"]),
            (him, "his glans"): patch(him, ["glans"]), (him, "his penis"): patch(him, ["penis"]),

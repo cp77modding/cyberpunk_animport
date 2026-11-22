@@ -19,6 +19,7 @@ from frame_near import FramePoints, FrameTree, blend, release
 import interaction_mesh as im
 import mesh_skin as ms
 import pair_contact as pc
+import pair_cast
 import pair_reach
 import retarget_glb as rg
 import skyrim_body as sb
@@ -100,7 +101,8 @@ def skyrim_palm_on(base, pack, F):
     for r in json.load(open(os.path.join(port, "manifest.json"))):
         rows.setdefault(r["clip"], r)
     (mb, ma), (fb, fa) = ms.sky_bodies()
-    him, her = sc.Actor(rows[base + "_0"], [(mb, ma)], src), sc.Actor(rows[base + "_1"], [(fb, fa)], src)
+    c0, c1 = pair_cast.clips(pack, base)[:2]
+    him, her = sc.Actor(rows[c0], [(mb, ma)], src), sc.Actor(rows[c1], [(fb, fa)], src)
     dom = np.array(mb.bones)[np.argmax(mb.weights, 1)]
     palm = {S: np.where(dom == "NPC %s Hand [%sHnd]" % (S[0], S[0]))[0] for S in ("Left", "Right")}
     on = {S: np.full(F, np.inf) for S in palm}

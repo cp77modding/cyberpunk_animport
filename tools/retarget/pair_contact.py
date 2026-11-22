@@ -417,7 +417,7 @@ def run(base, pack):
     for r in json.load(open(os.path.join(port, "manifest.json"))):
         every.setdefault(r["clip"], []).append(r)
     print(base)
-    cast = pair_batch.cast_rows(every, base)
+    cast = pair_batch.cast_rows(every, base, pack)
     if len(cast) < 2:
         raise ValueError("%s: %d actors, want two or more" % (base, len(cast)))
     acts = [Actor(r, parts(r["sex"] == "m"), port, src) for r in cast]
