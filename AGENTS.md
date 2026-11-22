@@ -55,6 +55,8 @@ Ports Skyrim animation packs (OStim, SexLab) to NightCityNet packs for Cyberpunk
 | `tools/opensex/make_integration.py` | A ported pack as an integration: scene files, `integration.json`, workspots |
 | `tools/opensex/make_amm_poses.py` | The AMM pose list and host |
 | `tools/retarget/pack_release.py` | The release zip |
-| `tools/retarget/compare_gif.py` | A scene's Skyrim clips beside the port, as a GIF (README's `docs/kiss.gif`) |
+| `tools/retarget/compare_gif.py` | A scene's Skyrim clips beside the port, stick figures, as a GIF (`docs/kiss.gif`) |
+| `tools/retarget/skyrim_contact.py`, `pair_contact.py` | The same on the bodies, with where each touches (`GIF=1`; `docs/kiss_bodies.gif`) |
+| `tools/retarget/stick_preview.py` | A few frames of any glb as a still |
 | `tools/opensex/templates/` | Workspot and AMM host templates |
 | `skeletons/` | Cyberpunk and Skyrim skeletons, shipped |

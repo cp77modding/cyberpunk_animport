@@ -3,7 +3,14 @@
 Turns a Skyrim animation pack (OStim or SexLab) into a NightCityNet animation pack for Cyberpunk 2077: the clips
 fitted onto Cyberpunk's bodies and V, the scenes the mod plays, and a zip you install like any mod.
 
-![OpenSex's standing kiss: Skyrim on the left, the Cyberpunk port on the right](docs/kiss.gif)
+OpenSex's standing kiss, Skyrim on the left, the Cyberpunk port on the right:
+
+![The standing kiss as stick figures](docs/kiss.gif)
+
+The same kiss on the bodies: Skyrim's (CBBE + HIMBO), ours as retargeted, and ours after the interaction mesh holds
+the touches (grey hands, red lips):
+
+![The standing kiss on the bodies](docs/kiss_bodies.gif)
 
 ## What you need
 
@@ -99,6 +106,17 @@ python tools\retarget\compare_gif.py docs\kiss.gif ap-actionfemalekiss [--source
 
 A GIF of a scene's clips, every actor a stick figure: the Skyrim source on the left, the port on the right, each from
 the side and the front. It reads what a port run already wrote, so run the port on the source first.
+
+On the bodies, for a pair (a man and a woman), from `tools\retarget`:
+
+```
+$env:GIF = '1'; python skyrim_contact.py ap-actionfemalekiss opensex      Skyrim's bodies posed on the clip
+$env:MESH = '1'; python pair_contact.py ap-actionfemalekiss opensex       ours, then the GIF
+```
+
+It writes `work\contact\contact_<clip>.gif`: Skyrim's bodies, ours as retargeted, ours after the interaction mesh,
+and prints where each hand, the lips and the penis touch the partner in each. It needs the Skyrim body mods in
+`skyrim_mods` (CBBE, HIMBO). `stick_preview.py <out.png> <set.glb>:<clip>` draws a few frames of any glb as a still.
 
 ### Skeletons
 
