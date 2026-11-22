@@ -70,6 +70,50 @@ What the port reads from each format:
 
 Check the result in game before you publish it.
 
+## How it works
+
+`port.py run` is one pipeline. Each step writes files the next one reads, so a stopped run picks up where it left
+off, and a step whose inputs did not change is skipped.
+
+```mermaid
+flowchart TD
+    IN["Skyrim pack<br/>folder, .zip or .7z"] --> READ
+    subgraph read ["1. Read"]
+        READ["Reader for the format<br/>skyrim_scenes_ostimng.py / skyrim_scenes_slal.py"]
+    end
+    READ --> MAN["manifest.json: every clip, its actor's sex, its set<br/>scenes.json: the scenes, who plays which side, the moves"]
+    MAN --> CLIPS
+    subgraph bake ["2-5. Bake (skyrim_port.py all)"]
+        CLIPS["2. clips<br/>.hkx decoded (hkxc, blender-hkx),<br/>fitted onto Cyberpunk's NPC skeleton"]
+        CLIPS --> GLBS["3. glbs<br/>one glb per set, on the NPC rig and on V's skeleton"]
+        GLBS --> COOK["4. cook<br/>glb into a game .anims set (WolvenKit)"]
+        COOK --> BODIES["5. bodies<br/>the same sets on the big and fat bodies"]
+        BODIES --> PACK["pack<br/>&lt;pack&gt;.archive and clips.json"]
+    end
+    MAN --> SCENES
+    PACK --> SCENES
+    subgraph ship ["6-8. Package"]
+        SCENES["6. make_integration.py<br/>NightCityNet scene files, integration.json,<br/>&lt;pack&gt;_ncn.archive (workspots)"]
+        SCENES --> AMM["7. make_amm_poses.py<br/>&lt;pack&gt;_amm.archive: every pose in AMM's list"]
+        AMM --> ZIP["8. pack_release.py<br/>dist/&lt;pack&gt;-&lt;version&gt;.zip"]
+    end
+    ZIP --> GAME["Installed as its own mod:<br/>NightCityNet lists it under integrations"]
+```
+
+| Step | Tool | What it does | Writes |
+|---|---|---|---|
+| 1. Read | `skyrim_scenes_ostimng.py`, `skyrim_scenes_slal.py` | Reads the pack's own scene files: which clip each actor plays, their sex, the stages and the moves between them. SexLab tags become postures, acts and furniture, and the man is put first, as the game casts a pair | `manifest.json`, `scenes.json`, `source-map.json` in the run folder |
+| 2. clips | `skyrim_tagfile.py`, `skyrim_skeleton.py`, hkxc, blender-hkx, `skyrim_retarget.py` | Decodes each Skyrim `.hkx` against the skeleton of the sex it was made for, once, then copies every bone's movement onto Cyberpunk's NPC skeleton (`man_base`, `woman_base`) by matching bone directions | `decoded/*.npz`, `clips/<set>/<clip>.npz` |
+| 3. glbs | `skyrim_port.py`, `retarget_glb.py`, `pair_reach.py` | Puts each set's clips into one glb on the NPC rig, and a second on V's own skeleton (`player_*_skeleton`), so V can play it too. In a pair, an oral giver is slid to the reach the source had | `glb/.../*.anims.glb` |
+| 4. cook | `wk_anims` (WolvenKit) | Turns each glb into the game's `.anims` format | `depot/.../*.anims` |
+| 5. bodies | `retarget_glb.py`, `wk_anims` | The NPC sets again on the big and fat bodies (`man_big`, `man_fat`, `woman_big`, `woman_fat`) | `depot/.../man_big/...` |
+| pack | `skyrim_port.py pack` | Packs every set into one archive and lists which bodies have each clip | `<pack>.archive`, `clips.json` |
+| 6. Scenes | `make_integration.py` | Writes one NightCityNet scene file per scene, the pack's `integration.json`, and one workspot per head count that holds all its clips | `scenes/integrations/<pack>/`, `<pack>_ncn.archive` |
+| 7. AMM | `make_amm_poses.py` | Every clip as a pose in Appearance Menu Mod's list, with its own workspot and host | `<pack>_amm.archive`, AMM's `.lua` |
+| 8. Zip | `pack_release.py` | Zips the pack as built, with the source pack's own licence and credits | `dist/<pack>-<version>.zip` |
+
+The mod's own packs (opensex, ostimng) stop after the pack step: the mod's release builds them.
+
 ## Developers
 
 ### build.json
@@ -135,3 +179,8 @@ stage reads (`tools/retarget/scene_list.py`'s docstring is the format). Register
 
 The output layout is NightCityNet's scene graph (`nightcitynet/docs/design/scene-graph.md` §2.1, integrations
 §2.1b). The stages: `tools/retarget/README.md`.
+
+## Licence
+
+The code is GPL-3.0 (`LICENSE`). The game skeletons and templates, the Skyrim skeletons and the GIFs are other
+people's work under their own terms: `NOTICE.md` lists each. A pack this tool makes is under its source pack's terms.
