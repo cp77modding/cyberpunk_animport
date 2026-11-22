@@ -22,10 +22,13 @@ import subprocess
 import sys
 import tempfile
 
-ANIMS = r"C:\Work\WorkSpace\Cyberpunk\CyberpunkAnimations"
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import build_config  # noqa: E402
+
+ANIMS = build_config.load()["packs"]
 SCENES_REL = os.path.join("bin", "x64", "plugins", "cyber_engine_tweaks", "mods", "nightcitynet", "data", "scenes")
 RESULTS = os.path.join(os.path.dirname(os.path.abspath(__file__)), "work", "run", "gen_results.jsonl")
-WOLVENKIT = r"C:\Modding\wolwenKit_upacker\WolvenKit.CLI.exe"
+WOLVENKIT = build_config.load()["tools"]["wolvenkit"] or "WolvenKit.CLI.exe"
 TEST = "ncngen"
 
 

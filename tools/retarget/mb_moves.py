@@ -18,7 +18,7 @@ sys.path.insert(0, HERE)
 import skyrim_port as sp  # noqa: E402
 import skyrim_retarget as sr  # noqa: E402
 
-ANIMS = r"C:\Work\WorkSpace\Cyberpunk\CyberpunkAnimations"
+ANIMS = sp.build_config.load()["packs"]
 PORTS = {"opensex": sp.PORT, "ostimng": os.path.join(sp.WORK, "skyrim", "ostimng")}
 COLUMNS = ["from", "to", "actor", "sex", "from_set", "from_clip_s1", "to_set", "to_clip_first", "rig", "stages",
            "stage_end_spread_m", "to_actor"]

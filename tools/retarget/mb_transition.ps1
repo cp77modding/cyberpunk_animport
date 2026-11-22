@@ -27,13 +27,17 @@ param(
   [string]$Tokens = '8,9,10,11,12,13,14',
   [switch]$Preview,
   [string]$MotionBricks = $env:NCN_MOTIONBRICKS,
-  [string]$GamePath  = 'D:\SteamLibrary\steamapps\common\Cyberpunk 2077',
-  [string]$WolvenKit = 'C:\Modding\wolwenKit_upacker\WolvenKit.CLI.exe',
+  [string]$GamePath  = '',   # build.local.json's tools.game
+  [string]$WolvenKit = '',   # build.local.json's tools.wolvenkit
   [string]$WolvenKitCook = '',
-  [string]$Blender = 'C:\Program Files\Blender Foundation\Blender 5.1\blender.exe',
+  [string]$Blender = '',     # build.local.json's tools.blender
   [double]$MaxDeg = 0.1,
   [double]$MaxCm = 0.1
 )
+$cfg = Join-Path $PSScriptRoot 'build_config.py'
+if (-not $GamePath)  { $GamePath  = & python $cfg --get tools.game }
+if (-not $WolvenKit) { $WolvenKit = & python $cfg --get tools.wolvenkit }
+if (-not $Blender)   { $Blender   = & python $cfg --get tools.blender }
 
 $ErrorActionPreference = 'Stop'
 & python (Join-Path $PSScriptRoot 'build_config.py') --motionbricks; if ($LASTEXITCODE -ne 0) { exit 1 }   # off in build.json

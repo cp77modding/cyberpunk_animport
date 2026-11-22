@@ -30,8 +30,12 @@ static class Program
             Console.Error.WriteLine("usage: WkAnims <in.anims.glb> <container.anims> <game dir> [<WolvenKit CLI dir>]");
             return 2;
         }
-        var wk = args.Length > 3 ? args[3]
-            : Environment.GetEnvironmentVariable("NCN_WOLVENKIT_DIR") ?? @"C:\Modding\wolwenKit_upacker";
+        var wk = args.Length > 3 ? args[3] : Environment.GetEnvironmentVariable("NCN_WOLVENKIT_DIR");
+        if (string.IsNullOrEmpty(wk))
+        {
+            Console.Error.WriteLine("no WolvenKit CLI dir: pass it as the 4th argument or set NCN_WOLVENKIT_DIR");
+            return 2;
+        }
         var rigs = args[2].EndsWith(".archive", StringComparison.OrdinalIgnoreCase) ? args[2] : null;
         var exe = rigs == null ? Path.Combine(args[2], "bin", "x64", "Cyberpunk2077.exe") : null;
         var pairs = args[0] == "--list"

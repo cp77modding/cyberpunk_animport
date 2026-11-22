@@ -12,11 +12,8 @@ for _v in ("OMP_NUM_THREADS", "OPENBLAS_NUM_THREADS", "MKL_NUM_THREADS"):
 HERE = os.path.dirname(os.path.abspath(__file__))
 RT = os.path.dirname(HERE)
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(RT)))
-MAP = [("d:/mods/modorganizer/portable_skyrim_special_edition/mods", os.path.join(ROOT, "ext", "mods")),
-       ("c:/work/workspace/skyrim/opensex", os.path.join(ROOT, "ext", "OpenSex")),
-       ("c:/work/workspace/skse/ostimng", os.path.join(ROOT, "ext", "OStimNG")),
-       ("c:/modding", os.path.join(ROOT, "ext", "Modding")),
-       ("c:/work/workspace/cyberpunk/cyberpunk_animport", os.path.join(ROOT, "cyberpunk_animport"))]
+# the Windows machine's paths, written by the bundler from its build.local.json (build_config.pod_map)
+MAP = [(a, os.path.join(ROOT, *b.split("/"))) for a, b in json.load(open(os.path.join(ROOT, "pod_map.json")))]
 
 
 def remap(p):

@@ -12,10 +12,13 @@ Nothing here is committed: it is CDPR's data. Re-run to rebuild.
 #>
 [CmdletBinding()]
 param(
-  [string]$GamePath  = 'D:\SteamLibrary\steamapps\common\Cyberpunk 2077',
-  [string]$WolvenKit = 'C:\Modding\wolwenKit_upacker\WolvenKit.CLI.exe',
+  [string]$GamePath  = '',   # build.local.json's tools.game
+  [string]$WolvenKit = '',   # build.local.json's tools.wolvenkit
   [switch]$Clean
 )
+$cfg = Join-Path $PSScriptRoot 'build_config.py'
+if (-not $GamePath)  { $GamePath  = & python $cfg --get tools.game }
+if (-not $WolvenKit) { $WolvenKit = & python $cfg --get tools.wolvenkit }
 
 $ErrorActionPreference = 'Stop'
 $root    = $PSScriptRoot

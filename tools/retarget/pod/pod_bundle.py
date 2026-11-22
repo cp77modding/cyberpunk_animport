@@ -98,6 +98,7 @@ def main():
     with zipfile.ZipFile(dest, "w", zipfile.ZIP_DEFLATED, compresslevel=6) as z:
         z.writestr("native_cache.pkl", pickle.dumps(native_cache()))
         z.writestr("decode_map.json", json.dumps({"%s|%s" % k: v for k, v in dmap.items()}))
+        z.writestr("pod_map.json", json.dumps(sp.build_config.pod_map()))
         for n, (arc, p) in enumerate(sorted(files.items()), 1):
             z.write(p, arc)
             if n % 500 == 0:

@@ -14,13 +14,17 @@ param(
   [string]$Only = '-',
   [string]$Tokens = '14,16,10',
   [string]$MotionBricks = $env:NCN_MOTIONBRICKS,
-  [string]$Packs = 'C:\Work\WorkSpace\Cyberpunk\CyberpunkAnimations',
-  [string]$GamePath  = 'D:\SteamLibrary\steamapps\common\Cyberpunk 2077',
-  [string]$WolvenKit = 'C:\Modding\wolwenKit_upacker\WolvenKit.CLI.exe',
+  [string]$Packs = '',       # build.json's packs
+  [string]$GamePath  = '',   # build.local.json's tools.game
+  [string]$WolvenKit = '',   # build.local.json's tools.wolvenkit
   [string]$WolvenKitCook = '',
   [double]$MaxDeg = 0.1,
   [double]$MaxCm = 0.1
 )
+$cfg = Join-Path $PSScriptRoot 'build_config.py'
+if (-not $Packs)     { $Packs     = & python $cfg --get packs }
+if (-not $GamePath)  { $GamePath  = & python $cfg --get tools.game }
+if (-not $WolvenKit) { $WolvenKit = & python $cfg --get tools.wolvenkit }
 
 $ErrorActionPreference = 'Stop'
 & python (Join-Path $PSScriptRoot 'build_config.py') --motionbricks; if ($LASTEXITCODE -ne 0) { exit 1 }   # off in build.json

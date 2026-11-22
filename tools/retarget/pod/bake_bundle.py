@@ -5,7 +5,7 @@ WkAnims prebuilt. The decode stays here (hkxc, blender-hkx); the pack stays here
   bash cyberpunk_animport/tools/retarget/pod/run_bake.sh             on the pod, from the unzipped bundle's root
   python tools/retarget/pod/bake_bundle.py --unpack <results.zip>   here: the pod's glbs and cooked sets into the ports
 then skyrim_port.py pack for each pack."""
-import os, sys, types, zipfile
+import json, os, sys, types, zipfile
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 RT = os.path.dirname(HERE)
@@ -13,7 +13,7 @@ sys.path.insert(0, RT)
 import skyrim_port as sp  # noqa: E402
 
 PACKS = {"opensex": os.path.join(sp.WORK, "skyrim", "port"), "ostimng": os.path.join(sp.WORK, "skyrim", "ostimng")}
-KRAKEN = r"C:\Work\WorkSpace\Cyberpunk\WolvenKit\WolvenKit.Core\lib\libkraken.so"
+KRAKEN = sp.build_config.load()["tools"]["kraken"]   # WolvenKit.Core\lib\libkraken.so of a WolvenKit checkout
 
 
 def changed_sets(port):
@@ -56,7 +56,10 @@ def bundle(dest):
             files[arc(e)] = e
     for f in ("rigs.archive", "rigs.txt"):   # without its list the pod rebuilds it from cr2w files it does not have
         files[arc(os.path.join(sp.WORK, "rigs", f))] = os.path.join(sp.WORK, "rigs", f)
+    if not KRAKEN:
+        sys.exit("build.local.json has no tools.kraken (WolvenKit.Core\\lib\\libkraken.so)")
     files[arc(os.path.join(sp.WORK, "wk_nightly", "libkraken.so"))] = KRAKEN
+    extra["pod_map.json"] = json.dumps(sp.build_config.pod_map())
     total = 0
     for pack, port in PACKS.items():
         sets = changed_sets(port)

@@ -40,7 +40,8 @@ import build_config  # noqa: E402
 
 REPO = build_config.load()["mod"]   # its pose archive is the mod's
 CLI = build_config.load()["tools"]["wolvenkit"] or "WolvenKit.CLI.exe"
-MODS = r"D:\wabjack\cyberpunk\ultraviolence\mods"
+MODS = build_config.load()["tools"]["cyberpunk_mods"] or ""   # the stencil's pose pack is installed there
+GAME = build_config.load()["tools"]["game"] or ""
 
 BUILD = os.path.join(REPO, "build", "pose_workspots")
 SRC = os.path.join(BUILD, "src")
@@ -82,8 +83,7 @@ PACKS = [
         "clips": ["q001_01_wakeup__lie_bed__turn90__01"],
     },
 ]
-GAME_ARCHIVES = [r"D:\SteamLibrary\steamapps\common\Cyberpunk 2077\archive\pc\content",
-                 r"D:\SteamLibrary\steamapps\common\Cyberpunk 2077\archive\pc\ep1"]
+GAME_ARCHIVES = [os.path.join(GAME, "archive", "pc", "content"), os.path.join(GAME, "archive", "pc", "ep1")]
 
 # the fade a pose switch costs: two static poses faded over the stencil's 0.5 s morph; 0.1 is joytoysex's
 CLIP_BLEND_OUT = 0.1

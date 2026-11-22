@@ -25,14 +25,17 @@ param(
   [ValidateSet('man', 'woman')][string]$Body,
   [string]$Rig = '',
   [Parameter(Mandatory)][string]$DepotPath,
-  [string]$GamePath  = 'D:\SteamLibrary\steamapps\common\Cyberpunk 2077',
-  [string]$WolvenKit = 'C:\Modding\wolwenKit_upacker\WolvenKit.CLI.exe',
+  [string]$GamePath  = '',   # build.local.json's tools.game
+  [string]$WolvenKit = '',   # build.local.json's tools.wolvenkit
   [string]$WolvenKitCook = '',
   [double]$MaxDeg = 0.1,
   [double]$MaxCm = 0.1,
   [switch]$SkipBuild,   # mb_player.ps1 builds wk_anims once for all its workers
   [string]$RunName = ''   # two packs hold sets of one name; a worker on each needs its own run folder
 )
+$cfg = Join-Path $PSScriptRoot 'build_config.py'
+if (-not $GamePath)  { $GamePath  = & python $cfg --get tools.game }
+if (-not $WolvenKit) { $WolvenKit = & python $cfg --get tools.wolvenkit }
 
 $ErrorActionPreference = 'Stop'
 $root  = $PSScriptRoot

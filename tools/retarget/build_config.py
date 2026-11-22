@@ -6,6 +6,7 @@ tools/port.py setup and run) holds this machine's tool paths, source inputs and 
   load()            the file, every path absolute; refuses two sources sharing a run folder or a pack, or one inside another
   source(name)      one source's row, with "pack" as the pack's folder
   python build_config.py           prints each source's paths: what a run reads and writes
+  python build_config.py --get tools.game   one value, "" when unset
 """
 import json
 import os
@@ -13,7 +14,8 @@ import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 FILE = os.environ.get("ANIMPORT_BUILD", os.path.join(ROOT, "build.json"))
-TOOLS = ("hkxc", "blender_hkx", "skeletons", "wolvenkit", "wolvenkit_cook", "game", "skyrim_mods")
+TOOLS = ("hkxc", "blender_hkx", "skeletons", "wolvenkit", "wolvenkit_cook", "game", "skyrim_mods", "cyberpunk_mods",
+         "blender", "kraken")
 
 
 def _abs(p, base):
@@ -70,6 +72,17 @@ def source(name, cfg=None):
     return cfg["sources"][name]
 
 
+def pod_map(cfg=None):
+    """[(this machine's path, lower case and forward slashes, where a pod bundle keeps it)]: pod_run.py remaps by it"""
+    cfg = cfg or load()
+    t, s = cfg["tools"], cfg["sources"]
+    wk = os.path.dirname(t["wolvenkit"]) if t["wolvenkit"] else None
+    rows = [(t["skyrim_mods"], "ext/mods"), (s.get("opensex", {}).get("input"), "ext/OpenSex"),
+            (s.get("ostimng", {}).get("input"), "ext/OStimNG"),
+            (wk, "ext/Modding/" + os.path.basename(wk or "")), (ROOT, "cyberpunk_animport")]
+    return [(p.replace("\\", "/").lower(), b) for p, b in rows if p]
+
+
 def motionbricks_or_exit(cfg=None):
     """A MotionBricks entry point stops here while build.json has it off."""
     cfg = cfg or load()
@@ -82,6 +95,12 @@ if __name__ == "__main__":
         motionbricks_or_exit()
         sys.exit(0)
     c = load()
+    if sys.argv[1:2] == ["--get"]:   # a .ps1's default: python build_config.py --get tools.game
+        v = c
+        for k in sys.argv[2].split("."):
+            v = v.get(k) if isinstance(v, dict) else None
+        print(v or "")
+        sys.exit(0)
     print("build: %s  motionbricks: %s" % (FILE, c["motionbricks"]))
     for n, s in c["sources"].items():
         print("%-8s input %s\n         run   %s\n         pack  %s" % (n, s["input"], s["run"], s["pack"]))
