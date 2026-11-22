@@ -134,6 +134,10 @@ def main():
         for r in rows:
             every.setdefault(r["clip"], []).append(r)
         left = [b for b in bases if not saved(every, b, port, pack)]
+        for b in left:      # an old fit of a re-decoded clip: gone, so a refit that fails leaves the plain fit
+            for r in cast_rows(every, b, pack):
+                if os.path.isfile(sp.mesh_path(r, port)):
+                    os.remove(sp.mesh_path(r, port))
         print("%d clips already fitted and newer than their clips (REDO=1 runs them)" % (len(bases) - len(left)))
         bases = left
     out = os.path.join(sp.WORK, "contact", "batch", pack)

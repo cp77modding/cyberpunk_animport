@@ -14,9 +14,9 @@ flowchart TD
     end
     READ --> MAN["manifest.json: every clip, its actor's sex, its set<br/>scenes.json: the scenes, who plays which side, the moves"]
     MAN --> CLIPS
-    subgraph bake ["2-5. Bake (skyrim_port.py all)"]
+    subgraph bake ["2-5. Bake"]
         CLIPS["2. clips<br/>.hkx decoded (hkxc, blender-hkx),<br/>fitted onto Cyberpunk's NPC skeleton"]
-        CLIPS --> PAIR["2b. Pair fit<br/>pair_reach.py, pair_batch.py MESH=1 SAVE=1:<br/>hands, lips and groin kept touching"]
+        CLIPS --> PAIR["2b. Pair fit, 2-5 actors<br/>pair_reach.py, pair_batch.py:<br/>hands, lips and groin kept touching<br/>(skipped without CBBE and HIMBO)"]
         PAIR --> GLBS["3. glbs<br/>one glb per set, on the NPC rig and on V's skeleton"]
         GLBS --> COOK["4. cook<br/>glb into a game .anims set (WolvenKit)"]
         COOK --> BODIES["5. bodies<br/>the same sets on the big and fat bodies"]

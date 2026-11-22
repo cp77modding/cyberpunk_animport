@@ -107,8 +107,7 @@ How to check a change, cheapest first:
 | `tools/retarget/pair_batch.py`, `pair_contact.py` | The pair fit over a pack, and one clip: report, GIF, `SAVE=1` |
 | `tools/retarget/pair_cast.py` | Which clip each actor plays, for any pack |
 | `tools/retarget/interaction_mesh.py`, `mesh_skin.py`, `hand_fit.py` | The fit: bodies kept touching; skin points; palms on skin |
-| `tools/retarget/skyrim_contact.py`, `skyrim_body.py`, `body_area_map.py` | Skyrim's bodies on a clip, and body areas on both |
-| `tools/retarget/skyrim_contact.py`, `pair_contact.py` | The same on the bodies, with where each touches (`GIF=1`; `docs/kiss_bodies.gif`) |
+| `tools/retarget/skyrim_contact.py`, `skyrim_body.py`, `body_area_map.py` | Skyrim's bodies on a clip, where each touches, and body areas on both; with `pair_contact.py`, `GIF=1` draws `docs/kiss_bodies.gif` |
 | `tools/retarget/stick_preview.py` | A few frames of any glb as a still |
 | `tools/opensex/templates/` | Workspot and AMM host templates |
 | `skeletons/` | Cyberpunk and Skyrim skeletons, shipped |

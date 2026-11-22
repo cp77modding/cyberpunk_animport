@@ -73,8 +73,9 @@ def oral_pairs(pack):
     if pack in pair_cast.NAMED:
         files = sorted(glob.glob(os.path.join(ANIMS, pack, SCENES_REL, "**", "*.json"), recursive=True))
         scenes = [json.load(open(f, encoding="utf-8")) for f in files if os.path.basename(f) != "clips.json"]
-    else:   # its scene files are written after the bake: the scene list they are made from
-        scenes = json.load(open(os.path.join(ANIMS, pack, "scene-list.json"), encoding="utf-8"))
+    else:   # its scene files are written after the bake: the scene list they are made from; none before its reader ran
+        path = os.path.join(ANIMS, pack, "scene-list.json")
+        scenes = json.load(open(path, encoding="utf-8")) if os.path.isfile(path) else []
     for s in scenes:
         oral = [act for act in s.get("acts") or [] if act["type"].startswith("oral")]
         if len({act["actor"] for act in oral}) > 1:

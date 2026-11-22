@@ -1,8 +1,10 @@
 # retarget: Skyrim clips onto Cyberpunk's bodies and V's
 
 The tools behind `tools/port.py`: decode a Skyrim clip, fit it onto the Cyberpunk skeletons in
-`skeletons/cyberpunk/`, cook it into an `.anims` set and check the cook. The research that found how a clip
-plays on V's own skeleton is in the nightcitynet repo, `docs/research/player-rig-retarget.md`.
+`skeletons/cyberpunk/`, cook it into an `.anims` set and check the cook. Porting a pack: the root `README.md`; the
+steps in order: `docs/pipeline.md`. This file is the detail below them: the skeletons, what V needs, the toolchain,
+the Linux bake and every file here. Links to `docs/design/`, `docs/research/` and `docs/guides/` are in the
+nightcitynet repo, not this one.
 
 `work/` is scratch: gitignored, rebuilt by the stages, never committed.
 
@@ -119,14 +121,15 @@ played in game on 2026-10-27, bar OpenSex's two foot events, and its glb is byte
 | `skyrim_scenes.py`, `skyrim_tagfile.py`, `skyrim_skeleton.py`, `skyrim_retarget.py` | its inventory, tagfile reader, skeleton padding and retarget |
 | `test_skyrim_port.py` | those four on synthetic input, in `tools/py_test.ps1` |
 | `pair_reach.py`, `test_pair_reach.py` | an oral giver slid to the source's reach ("oral reach" above); the test is in `tools/py_test.ps1` |
-| `skyrim_contact.py`, `pair_contact.py` | which partner area each hand, mouth and genital touches: on Skyrim's bodies, then on ours on the retarget; `MESH=1` runs the clip through the interaction mesh, `GIF=1` draws Skyrim / retarget / after. Output in `work/contact/` ([opensex-port §9.6](../../docs/design/opensex-port.md)) |
+| `skyrim_contact.py`, `pair_contact.py` | which partner area each hand, mouth and genital touches: on Skyrim's bodies, then on ours on the retarget; `MESH=1` runs the clip through the interaction mesh, `GIF=1` draws Skyrim / retarget / after. Output in `work/contact/` (nightcitynet `docs/design/opensex-port.md` §9.6) |
+| `pair_cast.py`, `test_pair_cast.py` | which clip each actor of a cast plays: OpenSex and OStim by clip name (`<base>_0`, `<base>_1`), any other pack from its `scene-list.json` |
 | `interaction_mesh.py`, `test_interaction_mesh.py` | contacts kept through other proportions: Ho, Komura, Tai 2010 as written, then back to our rotations; the test is in `tools/py_test.ps1`. Solves on the GPU with `pip install nvmath-python[cu12]` (cuDSS), else SuperLU on one core |
-| `mesh_skin.py` | `MESH_SKIN=1`: his palm and her buttocks in the mesh sourced from Skyrim's own skin ([opensex-port §9.6](../../docs/design/opensex-port.md)) |
+| `mesh_skin.py` | `MESH_SKIN=1`: his palm and her buttocks in the mesh sourced from Skyrim's own skin (nightcitynet `docs/design/opensex-port.md` §9.6) |
 | `hand_fit.py`, `test_hand_fit.py` | `HANDFIT=1`: after the mesh, his palm turned and reached onto her skin where Skyrim's is, the elbow kept on its own side; a clip whose elbow snaps fails. The test is in `tools/py_test.ps1` |
 | `pack_release.py` | a release zip as built, `dist/<name>-<version>.zip` (`--packs`; opensex and ostimng by default): archive/ and bin/ at the game root, licences under `licenses/<pack>/`; refuses a version already built |
 | `pod/` | the sweep on a RunPod GPU: `pod_bundle.py` (the bundle, run here), `setup.sh`, `pod_run.py` (any script from the bundle), `run_sweep.sh` (both packs, a self-stop timer); the port's glbs and cook: `bake_bundle.py` (bundle, and `--unpack` the results), `run_bake.sh` |
 | `pair_batch.py`, `test_pair_batch.py` | `pair_contact.py` over every clip of a pack with the cast sizes in `ACTORS` (2 by default; `ACTORS=2,3`), N clips at once (`MESH=1 python pair_batch.py ostimng 4`); a log per clip in `work/contact/batch/<pack>/` |
-| `mb_transition.ps1` | a generated transition between two clips, export to cooked `.anims` and checked; `-Preview` renders the body ([guide §5](../../docs/guides/retarget-an-animation.md)) |
+| `mb_transition.ps1` | a generated transition between two clips, export to cooked `.anims` and checked; `-Preview` renders the body (nightcitynet `docs/guides/retarget-an-animation.md` §5) |
 | `mb_transition.py` | the model call, run by that script from the MotionBricks clone's venv |
 | `mb_batch.ps1`, `mb_batch.py`, `mb_gap.py`, `test_mb_batch.py` | a list of moves, both actors at one length, cooked in one launch, with the capsule gap between the bodies; the test is in `tools/py_test.ps1` |
 | `mb_foot.py` | planted feet and floor lift on every generated clip, from the model's foot contacts; tested in `test_mb_batch.py` |

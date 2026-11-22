@@ -87,13 +87,34 @@ a rerun keeps them. Delete that folder to rebuild them from the pack.
   the tags, for two actors where exactly one has a penis; other scenes play as idles. Furniture props are not
   carried over.
 
-## What is in the zip
+## Publish it
 
-- `archive\pc\mod\<pack>.archive`: the animations, for every body and V.
-- `archive\pc\mod\<pack>_ncn.archive`: the workspots that play them.
-- `archive\pc\mod\<pack>_amm.archive` and an AMM list: every clip as a pose.
-- `...\nightcitynet\data\scenes\integrations\<pack>\`: the scene files.
-- `licenses\<pack>\`: the source pack's own licence and credits.
+**Upload `dist\<pack>-<version>.zip` as it is.** It is the whole mod: players install it with Vortex or MO2, or
+unpack it into the game folder, and need nothing else from this tool. Do not upload anything from `work\`, the run
+folder, or the pack folder on its own. NightCityNet must be installed: list it as a requirement on your mod page.
+
+The zip is laid out from the game's root folder:
+
+```
+archive\pc\mod\<pack>.archive          the animations, on every body and V
+archive\pc\mod\<pack>_ncn.archive      the workspots NightCityNet plays them on
+archive\pc\mod\<pack>_amm.archive      the same clips as AMM poses
+bin\x64\plugins\cyber_engine_tweaks\mods\nightcitynet\data\scenes\integrations\<pack>\
+                                       integration.json, clips.json, one .json per scene
+bin\x64\plugins\cyber_engine_tweaks\mods\AppearanceMenuMod\Collabs\Custom Poses\nightcitynet\<pack>.lua
+licenses\<pack>\                       the source pack's own licence and credits
+```
+
+It only adds files: it never replaces a NightCityNet file or another pack's, so it installs beside them.
+
+Before you publish:
+
+- **Permission.** The animations are the source pack's author's work. Publish a port only if their permissions
+  allow conversions, and credit them on the mod page; the zip carries their licence and credits when the pack has
+  them.
+- **Your edits.** If you edited the scene files, rebuild the zip with a new `--version` so they are in it.
+- **Test** the installed zip in game: its scenes appear on NightCityNet's panel under integrations, and a few
+  play.
 
 ## More
 
