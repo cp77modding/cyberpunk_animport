@@ -3,6 +3,8 @@
 Turns a Skyrim animation pack (OStim or SexLab) into a NightCityNet animation pack for Cyberpunk 2077: the clips
 fitted onto Cyberpunk's bodies and V, the scenes the mod plays, and a zip you install like any mod.
 
+![OpenSex's standing kiss: Skyrim on the left, the Cyberpunk port on the right](docs/kiss.gif)
+
 ## What you need
 
 | | Where to get it |
@@ -88,6 +90,15 @@ python tools\retarget\skyrim_port.py <stage> --source <pack>
 ```
 
 The mod's own packs (opensex, ostimng) are released by `tools/opensex/make_release.ps1`, not as integrations.
+
+### Compare a port with its source
+
+```
+python tools\retarget\compare_gif.py docs\kiss.gif ap-actionfemalekiss [--source opensex]
+```
+
+A GIF of a scene's clips, every actor a stick figure: the Skyrim source on the left, the port on the right, each from
+the side and the front. It reads what a port run already wrote, so run the port on the source first.
 
 ### Skeletons
 
