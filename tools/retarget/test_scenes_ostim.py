@@ -34,6 +34,9 @@ with tempfile.TemporaryDirectory() as d:
                                                {"id": "b", "tags": [], "positions": pos}]}}}, f)
     s = sl.slsb_scenes(path, d)[0]
     want("scene tags lower case", s["tags"], ["vaginal", "cowgirl"])
+    m = sl.man_first(s)
+    want("man first", [a["sex"] for a in m["actors"]], [["m"], ["f"]])
+    want("his clip moves with him", m["anims"][0]["events"], ["B", "A"])
     want("a stage with no tags rates from them", [x["type"] for x in sl.rate(s["anims"][1]["tags"] or s["tags"],
                                                                             ["f", "m"])[1]], ["penetrative"])
 

@@ -129,6 +129,16 @@ def slal_scenes(path, root):
     return out
 
 
+def man_first(scene):
+    """SexLab lists the woman first; the game casts a pair man first (OpenSex's order), so a male side leads"""
+    rank = [0 if a["sex"] == ["m"] else 2 if a["sex"] == ["f"] else 1 for a in scene["actors"]]
+    order = sorted(range(len(rank)), key=lambda i: rank[i])
+    scene["actors"] = [scene["actors"][i] for i in order]
+    for a in scene["anims"]:
+        a["events"] = [a["events"][i] if i < len(a["events"]) else None for i in order]
+    return scene
+
+
 def read_scenes(root):
     slsb = glob.glob(os.path.join(root, "**", "*.slsb.json"), recursive=True)
     covered = {os.path.basename(p)[:-len(".slsb.json")].lower() for p in slsb}
@@ -136,7 +146,7 @@ def read_scenes(root):
     for p in sorted(glob.glob(os.path.join(root, "**", "SLAnims", "json", "*.json"), recursive=True)):
         if os.path.basename(p)[:-5].lower() not in covered:
             scenes += slal_scenes(p, root)
-    return scenes
+    return [man_first(s) for s in scenes]
 
 
 def set_name(scene_id):
@@ -219,7 +229,6 @@ def build(root, pack, skel_dir, make_pad=None):
     return work, kept, source, {"creature": dropped, "no clip": sorted(set(missing)), "no skeleton": skipped}
 
 
-# SexLab's furniture tags, as the scene graph names furniture
 FURNITURE = {"bed": "bed", "chair": "chair", "throne": "chair", "bench": "bench", "couch": "couch", "sofa": "couch"}
 
 
