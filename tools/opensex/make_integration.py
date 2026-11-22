@@ -170,7 +170,7 @@ def main():
     if not scenes:
         sys.exit("%s has no scene of its own (each is an earlier pack's)" % a.pack)
     for s in scenes.values():
-        s["strip"] = undress_events.strip_of(s)   # what comes off before it mounts, as our packs decide it
+        s["strip"] = undress_events.strip_of(s)
     used = {c for s in scenes.values() for sp in s["speeds"] for c in sp["clips"]}
     clips = json.loads(json.dumps({r: clips[r] for r in sorted(used)}))
     local = depot_index(a.anims, names)

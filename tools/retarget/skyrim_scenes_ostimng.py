@@ -35,7 +35,6 @@ def data_dir(root):
 
 
 def anim_root(root, pack):
-    """OStimNG's clips sit under animations/OStim/; another pack's anywhere under animations/"""
     base = os.path.join(data_dir(root), ANIMS)
     return os.path.join(base, "OStim") if pack == "ostimng" else base
 
@@ -88,7 +87,6 @@ def read_scene(path, root):
 
 
 def scene_folders(path, root):
-    """the folders a scene file sits in under scenes/, lower case"""
     return [p.lower() for p in os.path.relpath(path, scene_root(root)).split(os.sep)[:-1]]
 
 
@@ -120,7 +118,7 @@ def build(root, port_list_json, skel_dir, pack="ostimng"):
         extra = set(plist["orphans"]) | {c for s in plist["scenes"] if s["source"] == "OStimNG" for c in s["extra"]}
         for s in plist["scenes"]:
             from_opensex.update(s.get("fromOpenSex", {}))
-    else:   # another pack: every clip of its own that its scenes play
+    else:
         extra = {"%s_%d" % (a["animation"].lower(), x["position"]) for s in scenes for a in s["anims"]
                  for x in s["actors"]} & set(by_key)
 

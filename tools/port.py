@@ -221,13 +221,12 @@ def run(a):
                "opensex": [py, os.path.join(RT, "skyrim_port.py"), "inventory"]}[fmt]
         subprocess.run(cmd, check=True)
     subprocess.run([py, os.path.join(RT, "skyrim_port.py"), "all", "--source", pack], check=True)
-    if pack in BUILTIN:   # the mod's own packs: tools/opensex/make_release.ps1
+    if pack in BUILTIN:
         return
     release(pack, a)
 
 
 def release(pack, a):
-    """the pack as an integration, its AMM list, then its zip"""
     py, ops = sys.executable, os.path.join(HERE, "opensex")
     folder = os.path.join(build_config.load()["packs"], pack, SCENES_REL, "integrations", pack)
     if os.path.isdir(folder) and os.listdir(folder):

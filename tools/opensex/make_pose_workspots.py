@@ -55,25 +55,14 @@ STENCIL_ARCHIVE = os.path.join(
     "archive", "pc", "mod", "gh0st_Poses_Bedroom_Pack01_FF.archive")
 STENCIL_LEAF = "bedroom_ff.workspot"
 
-# A PM pack we generate a workspot for. `anims` are depot paths out of the pack's .xl. The rigs the
-# anims are authored against are READ OUT OF THE .anims (rigs_of below), never declared -- an earlier
-# version hardcoded them and claimed in this comment to have read them, which was true for a
-# female-only pack and would silently be wrong for the next one.
-#
-# `extra_rigs` are additional entries to emit that the animsets do NOT name. The player skeleton is
-# the one case: every AMM pose pack pairs its body rig with the matching player one, so a pose plays
-# on V as well. Declared rather than detected, because it is a convention and not a fact about the
-# resource.
+# `anims`: depot paths from the pack's .xl; its rigs are read off the .anims (rigs_of), never declared.
+# `extra_rigs`: rigs the animsets do not name -- the player's, so a pose plays on V too.
 PACKS = [
     {
         "name": "ncn_triple_play_vol2",
         "mod": "Busy - Triple Play VOL 2 - Threesome Pose Pack",
         "archive": "BV - Triple Play Pose Pack Vol. 2.archive",
-        # ONE animset. Every shipped pose pack puts exactly one animAnimSetupEntry in a rig row;
-        # two at the same priority is a shape the community never produces, and if the engine
-        # resolves one and discards the other it swallows the clips behind the loser. The bonus
-        # animset only carries BONUS_* clips, none of which belong to an all-female tableau, so
-        # dropping it costs nothing we use. A pack that needs two wants two rig rows, not two here.
+        # one animset per rig row, as every shipped pack has; the bonus one holds only BONUS_* clips
         "anims": [
             r"base\busyvampire\bv_ncs_commission\bv_ncs_commission_female_vol2.anims",
         ],
@@ -96,17 +85,12 @@ PACKS = [
 GAME_ARCHIVES = [r"D:\SteamLibrary\steamapps\common\Cyberpunk 2077\archive\pc\content",
                  r"D:\SteamLibrary\steamapps\common\Cyberpunk 2077\archive\pc\ep1"]
 
-# The cross-fade when LEAVING a clip, i.e. what a pose switch costs. Two static poses half a second
-# apart interpolate through nonsense -- limbs and roots morphing -- which is what a jitter is. 0.1 is
-# joytoysex_anims', the one clip-jumped pack we run. The stencil's 0.5 is safe only because AMM
-# remounts instead of jumping, so it never exercises this.
+# the fade a pose switch costs: two static poses faded over the stencil's 0.5 s morph; 0.1 is joytoysex's
 CLIP_BLEND_OUT = 0.1
 # Both inherited from the stencil rather than chosen; these are the clip-jumped pack's values.
 EXIT_FORCED = 0.2
 BLACKLIST_TAGS = []
-# The graph's facial idles, which arrive with the stencil and drive the face of every mounted actor.
-# gh0st picked idle__interested__*__confident; joytoysex leaves the key pair None and idles neutral.
-# Ours run their own facial solve, so the workspot should impose as little as possible.
+# the stencil's facial idles drive every mounted face; ours run their own solve, so these stay neutral
 FACIAL_IDLE = {
     "facialIdleFemaleAnimation": "idle__neutral__female",
     "facialIdleMaleAnimation": "idle__neutral__male",
@@ -242,13 +226,8 @@ def main():
             sys.exit("expected one workWorkspotTree in the stencil, found %d" % len(tree))
         tree = tree[0]
 
-        # One entry per rig, each listing its animsets. `hash` keys on the ANIMSET LIST ONLY -- the
-        # rig is not an input. Measured across 99 cooked entries: q114__male__sit_wall_lean_back_
-        # tablet__read__01 carries two entries over one animset, rig null and rig man_base, with the
-        # same hash; 9 shared animset lists, zero conflicts. The algorithm is not recovered (it keys
-        # on animset CONTENTS, not paths), so this is our own value -- but it is at least CONSTANT
-        # per animset list, as the cooker's is. Nothing in the file resolves through it: two shipped
-        # pose packs disagree with themselves here and both work.
+        # `hash` is ours, constant per animset list as the cooker's is (its algorithm is not recovered);
+        # nothing resolves through it
         tree["finalAnimsets"] = [{
             "$type": "workWorkspotAnimsetEntry",
             "animations": {
@@ -316,10 +295,8 @@ def mod_pack(pack):
     if not found_rigs:
         sys.exit("no .rig named in the animsets -- cannot tell which bodies can play " +
                  pack["name"])
-    # ONE ANIMSET PER RIG ROW, which is what every shipped pack does -- gh0st pairs man_base with
-    # pma.anims and woman_base with pwa.anims, joytoysex the same. This builds every row from the
-    # whole `anims` list, so a second entry would list the female clips under man_base. A pack with an
-    # animset per rig says so with `rig_anims` (game_pack).
+    # every rig row is built from the whole `anims` list, so a second entry would put female clips under
+    # man_base; a pack with an animset per rig uses `rig_anims` (game_pack)
     if len(pack["anims"]) != 1:
         sys.exit("%s: %d animsets. A rig row must name exactly one, or the build silently gives "
                  "every rig every animset." % (pack["name"], len(pack["anims"])))
