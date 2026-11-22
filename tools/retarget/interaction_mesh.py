@@ -381,8 +381,10 @@ def solve(src, bones, l_src, l_our, feet, capsules, exempt, after_step=None, ste
     exempt, capsule index pairs never pushed apart (a pair sharing a point never is); after_step(V) puts the virtual
     vertices back, in place; names label the log; loose, point pairs the mesh does not tie; ties, joint pairs whose
     difference tie_offset(V) -> (ties, F, 3) wants, re-read each step from the current turn, weighted by tie_weight
-    (ties, F). Returns V (F, m, 3)"""
+    (ties, F), W_TIE when None. Returns V (F, m, 3)"""
     F, m, _ = src.shape
+    if ties and tie_weight is None:
+        tie_weight = np.full((len(ties), F), W_TIE)
     base, base_b = mesh_rows(src, bones, loose)
     T = tie_rows(F, m, ties, tie_weight) if ties and tie_weight.max() > 0 else None
     pairs = [(u, v) for u in range(len(capsules)) for v in range(u + 1, len(capsules))
@@ -657,10 +659,8 @@ def to_rotations(side, P, log=print):
     h, root = act.idx["Hips"], sk.parent[act.idx["Hips"]]
     w_r, w_t = sk.world_pose(act.rot, act.tra)
     act.tra[h, :F] = rg.qrot(rg.qinv(w_r[root, :F]), P[:, side.names.index("Hips")] - w_t[root, :F])
-    # a pelvis carrying a penis takes the solve's turn from the source: fitted to the solved points instead, our
-    # hips-to-spine rest (34-55 deg off Skyrim's) tilts it and swung the penis 10 cm off her mouth. Every other segment,
-    # her pelvis too, aims OUR joints at the solved points: by the turn alone her head sat 10 cm off the solve in a
-    # cowgirl, and his hands slid off her buttocks onto her inner thighs
+    # a pelvis with a penis keeps the source's turn: our hips-to-spine rest is 34-55 deg off Skyrim's and swung it
+    # 10 cm off the mouth. Every other segment aims our joints at the solved points, or heads and hands slid off
     turned = PENIS[0] in side.virtual
     if turned:
         w_r, _ = sk.world_pose(act.rot, act.tra)
