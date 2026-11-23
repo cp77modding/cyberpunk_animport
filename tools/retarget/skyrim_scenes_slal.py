@@ -229,16 +229,53 @@ def build(root, pack, skel_dir, make_pad=None):
     return work, kept, source, {"creature": dropped, "no clip": sorted(set(missing)), "no skeleton": skipped}
 
 
-FURNITURE = {"bed": "bed", "chair": "chair", "throne": "chair", "bench": "bench", "couch": "couch", "sofa": "couch"}
+# a word in a stage's tags or the scene's id or name -> NightCityNet's furniture; a sofa is its couch place's bench
+FURNITURE = {"bed": "bed", "chair": "chair", "throne": "chair", "stool": "chair", "bench": "bench", "couch": "bench",
+             "sofa": "bench", "table": "table", "wall": "wall"}
+# a piece NightCityNet has no place for: the scene keeps it, and is never a random start on open ground
+NO_PLACE = ("pillory", "cage", "caged", "chest", "bath", "barrel", "stocks", "xcross", "wheel", "horse", "furniture")
 
 
-def rate(tags, sexes):
-    """(postures per actor, acts, furniture) from one stage's tags. SexLab names an act but not who gives it, so acts
-    are rated only for two actors where exactly one has a penis: the giver of anything penetrative. Else none."""
+def furniture_of(tags, id_name=""):
+    """(furniture or None, no place): Anubs and others name the piece in the scene's name, not its tags"""
+    split = re.sub(r"([a-z])([A-Z])|([A-Z])([A-Z][a-z])", r"\1\3 \2\4", id_name).lower()
+    # a royal bed's id is rbed2: one letter before a piece is still the piece (embed is no bed)
+    words = {t.lower() for t in tags} | set(re.findall(r"[a-z]+", split))
+    has = lambda k: k in words or any(w.endswith(k) and len(w) == len(k) + 1 for w in words)   # noqa: E731
+    piece = next((FURNITURE[k] for k in FURNITURE if has(k)), None)
+    odd = next((k for k in NO_PLACE if k in words), None)    # a cage beside a bed is still no random start
+    return piece or (None if odd == "furniture" else odd), bool(odd) and not (piece and odd == "furniture")
+
+
+def group_acts(t, sexes):
+    """a cast of 3+: SexLab never says who does what to whom, so each woman takes the men in turn -- enough for
+    NightCityNet to count the scene as sex and the arousal model to have a pair to rate"""
+    men = [i for i, s in enumerate(sexes) if s == "m"]
+    women = [i for i, s in enumerate(sexes) if s == "f"]
+    if not men or not women:
+        return []
+    acts = []
+    for k, w in enumerate(women):
+        m = men[k % len(men)]
+        if t & {"vaginal", "anal"}:
+            acts.append({"type": "penetrative", "actor": "abcdefgh"[m], "target": "abcdefgh"[w]})
+        elif t & {"blowjob", "oral", "deepthroat"}:
+            acts.append({"type": "oral_penis", "actor": "abcdefgh"[w], "target": "abcdefgh"[m]})
+        elif t & {"handjob", "boobjob", "titjob", "footjob"}:
+            acts.append({"type": "manual", "actor": "abcdefgh"[w], "target": "abcdefgh"[m]})
+    return acts
+
+
+def rate(tags, sexes, id_name=""):
+    """(postures per actor, acts, furniture) from one stage's tags and the scene's id and name. SexLab names an act
+    but not who gives it, so acts are rated only for two actors where exactly one has a penis: the giver of anything
+    penetrative."""
     t = set(tags)
-    furniture = next((FURNITURE[k] for k in FURNITURE if k in t), None)
+    furniture = furniture_of(tags, id_name)[0]
     postures, acts = [None] * len(sexes), []
     pen = [i for i, s in enumerate(sexes) if s in ("m", "any") and s != "f"]
+    if len(sexes) > 2:
+        return postures, group_acts(t, sexes), furniture
     if len(sexes) != 2 or len(pen) != 1 or sexes[1 - pen[0]] != "f":
         return postures, acts, furniture
     g, r = pen[0], 1 - pen[0]
@@ -275,7 +312,9 @@ def scene_list(pack_dir, root):
         stages = [a for a in s["anims"] if any(a["clips"])]
         for k, a in enumerate(stages):
             sid = "%s.s%d" % (base, k + 1)
-            postures, acts, furniture = rate(a.get("tags") or s["tags"], [x["sex"] for x in actors])
+            tags, id_name = a.get("tags") or s["tags"], "%s %s" % (s["id"], s["name"] or "")
+            postures, acts, furniture = rate(tags, [x["sex"] for x in actors], id_name)
+            no_place = furniture_of(tags, id_name)[1]
             out.append({
                 "id": sid, "name": "%s %d" % (s["name"] or s["id"], k + 1), "animator": s.get("author"),
                 "sources": [{"pack": pack, "id": "%s#%s" % (s["id"], a["stage"]), "file": s["file"], "actions": []}],
@@ -285,7 +324,8 @@ def scene_list(pack_dir, root):
                 "transition": False, "next": None, "length": None,
                 "moves": [{"to": "%s#%s" % (s["id"], stages[k + 1]["stage"]), "label": "next stage"}]
                 if k + 1 < len(stages) else [],
-                "tags": a.get("tags") or s["tags"], "furniture": furniture, "acts": acts,
+                "tags": tags, "furniture": furniture, "acts": acts,
+                **({"noRandom": True} if no_place else {}),
             })
     return out
 

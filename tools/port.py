@@ -210,6 +210,8 @@ def run(a):
         write_local({"sources": {pack: {"input": inp, "run": run_dir, "pack": pack, "inventory": fmt,
                                         "ship_glb": False}}})
         print("source %s added to %s" % (pack, build_config.local_file()))
+    if build_config.source(pack).get("base_bodies", False) != a.base_bodies:
+        write_local({"sources": {pack: {"base_bodies": a.base_bodies}}})
     s = build_config.source(pack)
     py = sys.executable
     if not os.path.isfile(os.path.join(s["run"], "manifest.json")):
@@ -276,6 +278,8 @@ def main():
     r.add_argument("--version", default="0.1.0", help="the release zip's version")
     r.add_argument("--name", default="", help="the pack's name in NightCityNet's panel")
     r.add_argument("--link", default="", help="where players get the source pack")
+    r.add_argument("--base-bodies", action="store_true",
+                   help="bake only the normal bodies and V; big and fat NPCs get no clip from this pack")
     a = ap.parse_args()
     if a.cmd == "check":
         sys.exit(0 if check() else 1)

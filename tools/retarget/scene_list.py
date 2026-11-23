@@ -11,7 +11,7 @@ A pack folder holds, beside its own scenes.json (the source's record, as read):
     speeds     [{clips: [clip ref or None per actor], playback: float, display: float or None}]
     transition bool; next: the source id it plays into, length: seconds (or None)
     moves      [{to: a source id, label (or None), priority (optional)}]
-    acts       [{type, actor: a|b, target: a|b, into (optional)}]: what the arousal model rates, [] = nothing
+    acts       [{type, actor, target: a, b, c... by position, into (optional)}]: what the arousal model rates, [] = nothing
     climax     optional {side: source id}; climaxFromMoves: optional, a move into a scene whose source id says
                climax is the man's climax; noRandom: optional
 A clip ref is "<pack>/<clip>", "#<set>" appended when two of the pack's sets hold one clip name (clip_refs). A ref
@@ -71,8 +71,9 @@ def check(scenes, pack):
                 bad.append("%s: a clip ref is not <pack>/<clip>" % where)
         if not s.get("sources") or any(not {"pack", "id", "file", "actions"} <= set(x) for x in s["sources"]):
             bad.append("%s: sources need pack, id, file, actions" % where)
-        if any(a.get("actor") not in SIDES or a.get("target") not in SIDES for a in s.get("acts", [])):
-            bad.append("%s: an act's actor/target is not a/b" % where)
+        sides = set("abcdefgh"[:len(s.get("actors") or [])]) or SIDES
+        if any(a.get("actor") not in sides or a.get("target") not in sides for a in s.get("acts", [])):
+            bad.append("%s: an act's actor/target is not one of the cast's letters (a, b, ...)" % where)
         if any(not isinstance(m.get("to"), str) for m in s.get("moves", [])):
             bad.append("%s: a move has no target" % where)
         for k in ("transition", "tags"):

@@ -48,6 +48,8 @@ python tools\port.py run --input "D:\downloads\Anubs Animation Pack.7z" --pack a
   own; `--format ostimng|sexlab` if it is not.
 - `--pack`: a short name, letters, digits and `_`.
 - `--name`, `--link`, `--version`: what NightCityNet's panel shows for the pack.
+- `--base-bodies`: bake only the normal bodies and V. About half the size and time; big and fat NPCs get no
+  animations from this pack.
 
 A few scenes take minutes, a big pack hours (Anub's 1546 clips: about 25 minutes). If it stops, run the same
 command again: it carries on where it stopped. It ends with:

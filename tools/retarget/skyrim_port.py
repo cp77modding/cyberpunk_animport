@@ -540,8 +540,14 @@ def stage_pack(a):
     dst, glbs = os.path.join(a.pack, "depot"), os.path.join(a.pack, "glb")
     arc = os.path.join(a.pack, "archive", "pc", "mod")
     # the big and fat sets the bodies stage made; one it did not keeps the pack's own (retarget.ps1 -Rig's)
-    bodies = sorted(d for d in body_sets({k: v for k, v in sets.items() if v[0] in BODIES})
-                    if os.path.isfile(os.path.join(PORT, "depot", local(d))))
+    every_body = body_sets({k: v for k, v in sets.items() if v[0] in BODIES})
+    bodies = sorted(d for d in every_body if os.path.isfile(os.path.join(PORT, "depot", local(d))))
+    if getattr(a, "base_bodies", False):     # an earlier bake's big and fat sets leave the pack too
+        big_fat = {b for bs in BODIES.values() for b in bs}
+        for d in {os.path.dirname(os.path.join(dst, local(d))) for d in every_body}:
+            if os.path.basename(d) in big_fat:      # never an npc set's own folder
+                shutil.rmtree(d, ignore_errors=True)
+        bodies = []
     srcs = [os.path.join(PORT, "depot", local(d)) for d in list(sets) + bodies] + \
         [os.path.join(PORT, f) for f in ("scenes.json", "source-map.json")] + \
         [os.path.join(d, f) for d, _, fs in os.walk(dst) for f in fs]   # big/fat sets gen_bodies.py put there
@@ -637,6 +643,7 @@ def main():
     if a.source:
         s = build_config.source(a.source)
         a.port_dir, a.pack, a.ship_glb = s["run"], s["pack"], a.ship_glb or s.get("ship_glb", False)
+        a.base_bodies = s.get("base_bodies", False)
         if a.source != "opensex":
             a.source_root = a.source_root or s["input"]
     if a.sets:
@@ -650,7 +657,9 @@ def main():
     if a.stage == "inventory" and not own:
         sys.exit("inventory writes OpenSex's manifest; %s has its own (skyrim_scenes_*.py)" % PORT)
     # verify only on --verify: after a WolvenKit or retarget change, not on a bake (it has never failed a set)
-    stages = ((["inventory"] if own else []) + ["clips", "glbs", "cook", "bodies"] + (["verify"] if a.verify else []) + ["pack"]
+    # a source's base_bodies: no big or fat bake, those NPCs get no clip from this pack
+    bake = ["clips", "glbs", "cook"] + ([] if getattr(a, "base_bodies", False) else ["bodies"])
+    stages = ((["inventory"] if own else []) + bake + (["verify"] if a.verify else []) + ["pack"]
               if a.stage == "all" else [a.stage])
     checked = False
     for s in stages:
