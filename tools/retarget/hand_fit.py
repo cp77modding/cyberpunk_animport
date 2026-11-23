@@ -228,6 +228,32 @@ def spot_map(sky_verts, sky_area, verts, area, tris, pts, pts_area):
     return out_t, out_b
 
 
+def hold_runs(on, pts, area, dirs, reach):
+    """a hold is one place: a run on one area within reach (the palm's width) of its middle spot, its turns within
+    90 deg of their mean (where a mean turn is defined), gets that spot and that turn. (pts, dirs, run id or -1, held)"""
+    pts, dirs, held = pts.copy(), dirs.copy(), 0
+    run = np.full(len(on), -1)
+    f, F = 0, len(on)
+    while f < F:
+        if not on[f]:
+            f += 1
+            continue
+        g = f
+        while g < F and on[g] and area[g] == area[f]:
+            g += 1
+        mid = np.median(pts[f:g], 0)
+        u, _, vt = np.linalg.svd(dirs[f:g].mean(0))
+        mean = u @ np.diag([1, 1, np.linalg.det(u @ vt)]) @ vt
+        # trace(A^T B) > 1 is a turn under 90 deg between them
+        near = np.einsum("fij,ij->f", dirs[f:g], mean) > 1
+        if np.linalg.norm(pts[f:g] - mid, axis=1).max() <= reach and near.all():
+            pts[f:g], dirs[f:g] = mid, mean
+            run[f:g] = held
+            held += 1
+        f = g
+    return pts, dirs, run, held
+
+
 def held_on(d):
     """on from the palm's distance per frame: on within ON, and staying on until past OFF"""
     on = np.zeros(len(d), bool)
@@ -454,8 +480,10 @@ def fit(acts, base, pack, F, log=print):
             continue
         palm_ix = np.where(np.isin(dom, [S + "InHand" + n for n in PALM]))[0]
         turns, moves = [np.array([0.0, 0, 0, 1])] * F, [np.zeros(3)] * F
-        st, sbc = spot_map(sky_verts, sky_area, her_body.verts, her.area[:nb], tris, sky_spot[0][S][:F],
-                           sky_spot[1][S][:F])
+        reach = np.linalg.norm(body.verts[palm_ix] - body.verts[palm_ix].mean(0), axis=1).max()
+        pts, dirs, run, held = hold_runs(on[S][:F], sky_spot[0][S][:F], sky_spot[1][S][:F], sky_dirs[S][:F], reach)
+        log("handfit: %s %s %d holds, each on one spot (palm %.1f cm)" % (base, S, held, 100 * reach))
+        st, sbc = spot_map(sky_verts, sky_area, her_body.verts, her.area[:nb], tris, pts, sky_spot[1][S][:F])
         spots = [(tris[st[f]], sbc[f]) for f in range(F)]
         frames = [int(f) for f in np.nonzero(w)[0]]
         fr = np.array(frames)
@@ -471,14 +499,16 @@ def fit(acts, base, pack, F, log=print):
             _, wts = him.tg.skel.world_pose(him.rot[:, fr], him.tra[:, fr])
             cs = palm_centres(him, fr, palm_ix)
             for i, f in enumerate(frames):
-                turns[f], moves[f], fr_far = target_frame(him, her, S, f, wts[:, i], hts[:, i], cs[i], sky_dirs[S][f],
+                turns[f], moves[f], fr_far = target_frame(him, her, S, f, wts[:, i], hts[:, i], cs[i],
+                                                          (dirs if by_spot else sky_dirs[S])[f],
                                                           spots[f] if by_spot else None, her_skin)
                 far |= fr_far and bool(on[S][f])    # a ramp frame is off her: its full move is never applied
             if by_spot and far:
                 log("handfit: %s %s Skyrim's spot past %.0f cm or a straight arm, her nearest skin instead" % (
                     base, S, 100 * MAX_REACH))
                 continue
-            if fit_side(him, her_skin, S, F, w, fr, turns, moves, side, dom, palm_ix, base, log) <= snap0 + SNAP \
+            if fit_side(him, her_skin, S, F, w, fr, turns, moves, side, dom, palm_ix, base, log,
+                        spots if by_spot else None, run) <= snap0 + SNAP \
                     or not by_spot:
                 break
             him.rot[:] = rot0
@@ -493,9 +523,10 @@ def fit(acts, base, pack, F, log=print):
     release()
 
 
-def fit_side(him, skin, S, F, w, fr, turns, moves, side, dom, palm_ix, base, log):
+def fit_side(him, skin, S, F, w, fr, turns, moves, side, dom, palm_ix, base, log, spots=None, run=None):
     """one hand laid on her (skin, her HerSkin) by its targets: the reach, the heel lifted out of her skin, the
-    fingers curled; the elbow's largest one-frame move after"""
+    fingers curled; the elbow's largest one-frame move after. In a held run (run >= 0, spots per frame) the lift is
+    one: its deepest over the run, along her skin's normal at the held spot"""
     frames = [int(f) for f in fr]
     turns, moves = smooth(turns, moves, w)
     apply_frames(him, S, fr, w[fr], np.array(turns)[fr], np.array(moves)[fr], side)
@@ -506,7 +537,14 @@ def fit_side(him, skin, S, F, w, fr, turns, moves, side, dom, palm_ix, base, log
     outs = unit(palm_c - skin.nearest(frames, palm_c[:, None])[1][:, 0])
     # what of the heel and the thumb went under her skin, the hand lifted back out by it
     lift = [np.zeros(3)] * F
+    held = run[fr] if run is not None and spots is not None else np.full(len(fr), -1)
+    for i, f in enumerate(frames):      # her nearest skin per frame hopped, and the hand with it (0.08 against 0.02)
+        if held[i] >= 0:
+            a, b, c = skin.at(f)[spots[f][0]]     # her skin's outside, as target_frame reaches to it
+            outs[i] = unit(np.cross(b - a, c - a))
     under = np.maximum(0.0, -signed(skin, frames, sk.pose_many(fr, hand_ix), outs).min(1))
+    for r in set(held[held >= 0]):
+        under[held == r] = under[held == r].max()
     for i, f in enumerate(frames):
         lift[f] = outs[i] * under[i]
     _, lift = smooth([np.array([0.0, 0, 0, 1])] * F, lift, w)
