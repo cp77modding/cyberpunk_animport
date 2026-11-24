@@ -8,6 +8,9 @@ Skyrim's bodies.
   MESH_SKIN=1 with MESH=1, his palm and her buttocks sourced from Skyrim's skin (mesh_skin.py)
   HANDFIT=1   with MESH=1, a man and a woman: his hands turned and reached to her skin as Skyrim's (hand_fit.py)
   GIF=1       a man and a woman: Skyrim | our retarget | after, side by side (run skyrim_contact.py with GIF=1 first)
+  POSE=1      with MESH=1, solved in our rig's own joint turns instead of free points (pose_solve.py)
+  TOUCH_TIES=1 with MESH=1, every touch Skyrim's skin has held by a tie (touch_ties.py)
+  TOUCHES=1   every area Skyrim's skin touches, kept or lost on ours, and touches ours invents (touches.py)
   HEADDIST=1  a man and a woman: his hands to her head frame by frame, beside what Skyrim touches there
   BODY_F=big  every woman on the big woman's body and head, on man_big as the game plays her (no SAVE: no set has it)
   FRAMES=n    the first n frames only; STEP=n frames between contact samples
@@ -432,13 +435,29 @@ def run(base, pack):
     if mesh:
         print("interaction mesh over %d frames, %d actors" % (F, len(acts)))
         skin = mesh_skin.points(acts, base, pack, F) if os.environ.get("MESH_SKIN") == "1" else None
-        solved, sides, worst = im.adapt(acts, F, mesh_points(acts), int(os.environ.get("STEPS", im.N_STEPS)), skin=skin)
-        for side, P in zip(sides, solved):
-            im.to_rotations(side, P)
+        touch = ()
+        if os.environ.get("TOUCH_TIES") == "1":     # every touch Skyrim's skin has, tied (opensex-port.md 9.8)
+            import touch_ties
+            more, touch = touch_ties.find(acts, base, pack, F)
+            skin = skin or {}
+            for a, pts in more.items():
+                skin.setdefault(a, {}).update(pts)
+        if os.environ.get("POSE") == "1":      # solved in our rig's own pose (pose_solve.py, opensex-port.md 9.9)
+            import pose_solve
+            pose_solve.solve(acts, F, mesh_points(acts), skin=skin, touch=touch)
+            worst = (0.0, 0, "none: our rig's own lengths")
+        else:
+            solved, sides, worst = im.adapt(acts, F, mesh_points(acts), int(os.environ.get("STEPS", im.N_STEPS)),
+                                            skin=skin, touch=touch)
+            for side, P in zip(sides, solved):
+                im.to_rotations(side, P)
         if os.environ.get("HANDFIT") == "1":    # his palm onto her skin where Skyrim's is, turned as Skyrim's
             import hand_fit                     # here: hand_fit imports this module
             hand_fit.fit(acts, base, pack, F)
     eff = contacts(acts, F, step)
+    if os.environ.get("TOUCHES") == "1":       # Skyrim's touches, area to area, kept or lost on ours
+        import touches
+        touches.report(acts, base, pack, F, step, OUT)
     if head:
         head_distance(*acts, F, step, eff, json.load(open(os.path.join(OUT, "sky_%s.json" % base))))
     if want_gif:

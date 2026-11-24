@@ -9,6 +9,8 @@ The paper ends at joint positions. Our rig's rest shape is not Skyrim's (the pel
 to rotations is ours: his pelvis takes only the turn the solve gave it, on top of the retarget's; every other segment
 aims from our real joints at the solved points."""
 import logging
+import os
+from types import SimpleNamespace
 import numpy as np
 import scipy.sparse as spm
 from scipy.sparse.linalg import spsolve
@@ -25,6 +27,7 @@ N_STEPS = 5               # the paper's 10 pulled her hips apart on 7 clips pres
 W_ACC = 1.0               # w_delta, Eq. 10; the paper's 0.2 shook his pelvis 3 deg a frame under a cowgirl. More
                           # fights his hips held on Skyrim's thrust: standing bend-over, his hips-to-spine 0.7 cm off at 2, 2.3 at 5
 W_COL = 4.0               # soft collision weight, section 5.1
+W_TOUCH = float(os.environ.get("W_TOUCH", 25.0))   # a touch pulled back to Skyrim's gap (touch_rows)
 W_TIE = 25.0              # her entry held at Skyrim's offset from his penis root: the Laplacian alone left it 5 cm up his body
 MOUTHS = ("s_lips", "s_mouth")  # mesh_skin's mouth points: they ride the head, never aim it
 KISS = (0.05, 0.08)      # m: Skyrim's lips this near his mouth tie the heads fully, past the second not at all
@@ -54,7 +57,7 @@ LENGTH_TOL = 0.01         # m: a solved bone further than this off its length is
 PENIS = ("shaft", "tip")
 HAND_TURN = np.radians(15)  # a hand's local turn off the retarget's: her fists by her own shoulders folded her wrists 70 deg
 NECK_LEAN = np.radians(5)   # the neck off the chest past Skyrim's: reaching her head on to him leaned it 26 deg to Skyrim's 9
-NECK_SMOOTH = 15            # frames the neck's turn back is averaged over (odd)
+NECK_SMOOTH = 15           # frames the neck's turn back is averaged over (odd)
 
 
 def unit(v):
@@ -244,13 +247,15 @@ class KKT:
             self.s.free()
 
 
-def kkt_pattern(base, H, pairs, capsules, F, m):
+def kkt_pattern(base, H, pairs, capsules, F, m, couple=()):
     """every entry a step's KKT matrix can hold: the Laplacian and acceleration, every collision pair's four points
-    coupled within a frame, and the hard rows, whose pattern never changes"""
+    and each couple (a touch's two joints) coupled within a frame, and the hard rows, whose pattern never changes"""
     vp = set()
     for u, v in pairs:
         pts = {capsules[u][0], capsules[u][1], capsules[v][0], capsules[v][1]}
         vp |= {(i, j) for i in pts for j in pts}
+    for c in couple:
+        vp |= {(i, j) for i in c for j in c}
     vp = np.array(sorted(vp), dtype=np.int64).reshape(-1, 2)
     f = np.arange(F)[:, None, None, None]
     c, d = np.meshgrid(np.arange(3), np.arange(3), indexing="ij")
@@ -271,11 +276,15 @@ def tet_edges(t):
     return np.stack([t[:, TET_EDGES[:, 0]].ravel(), t[:, TET_EDGES[:, 1]].ravel()], 1)
 
 
-def mesh_rows(src, bones, loose=()):
+def mesh_rows(src, bones, loose=(), fixed=(), shape=None, body=None):
     """(rows, b): the Laplacian of the source's Delaunay mesh, Eq. 3, bone neighbours and loose (i, j) pairs left out
     (section 5.1), j's gap filled from the mesh without the i's; then acceleration, Eq. 4, not on the end frames.
+    fixed points (pinned furniture) are others' neighbours but own no row; shape (F, m, 3) with body (m,), the offsets
+    between one body's points taken from shape (our rig on the retarget), only those between bodies from the source.
     A row's entries go in the order the solver sums them"""
     F, m, _ = src.shape
+    owns = np.ones(m, bool)
+    owns[list(fixed)] = False
     skip = np.zeros((m, m), bool)
     for i, j in list(bones) + list(loose):
         skip[i, j] = skip[j, i] = True
@@ -293,7 +302,7 @@ def mesh_rows(src, bones, loose=()):
         # unique (i, j) in (i, j) order, as np.unique(axis=0) gave them: a mark per pair, m is a few hundred points
         mark = np.zeros((m, m), bool)
         mark[e[:, 0], e[:, 1]] = True
-        e = np.argwhere(mark & ~skip)
+        e = np.argwhere(mark & ~skip & owns[:, None])
         if not len(e):
             continue
         i, j = e[:, 0], e[:, 1]
@@ -301,7 +310,11 @@ def mesh_rows(src, bones, loose=()):
         q = np.searchsorted(own, i)
         w = 1 / np.maximum(np.linalg.norm(P[j] - P[i], axis=1), 1e-6)
         w /= np.add.reduceat(w, start)[q]
-        delta = P[own] - np.add.reduceat(w[:, None] * P[j], start)
+        d = P[i] - P[j]
+        if shape is not None:   # one body's own neighbours at our shape: Skyrim's chest bent his upper back 20 deg
+            same = body[i] == body[j]
+            d[same] = shape[f, i[same]] - shape[f, j[same]]
+        delta = np.add.reduceat(w[:, None] * d, start)
         for c in range(3):
             R += [r + 3 * np.arange(len(own)) + c, r + 3 * q + c]
             C += [(f * m + own) * 3 + c, (f * m + j) * 3 + c]
@@ -319,12 +332,13 @@ def mesh_rows(src, bones, loose=()):
         np.concatenate(B)
 
 
-def hard_rows(V, bones, feet, l, src, held=None):
+def hard_rows(V, bones, feet, l, src, held=None, pins=(), pin_at=None):
     """(H, b): bone lengths linearised at the current V (Eq. 5); the feet's source heights (section 6) in the frames
-    held (F, len(feet)) marks, every frame when None; point 0's x and z in every frame"""
+    held (F, len(feet)) marks, every frame when None; point 0's x and z in every frame; each pin point at pin_at
+    (F, len(pins), 3) in every frame (furniture, opensex-port.md 9.8)"""
     F, m, _ = V.shape
     nb = len(bones)
-    p, c = np.array([b[0] for b in bones]), np.array([b[1] for b in bones])
+    p, c = (np.array([b[k] for b in bones], dtype=np.int64) for k in (0, 1))   # none: pose_solve's lengths are exact
     d = unit(V[:, c] - V[:, p])                                              # (F, nb, 3)
     f = np.arange(F)[:, None, None]
     k = np.arange(3)[None, None, :]
@@ -343,10 +357,15 @@ def hard_rows(V, bones, feet, l, src, held=None):
     arow = F * nb + len(hf) + np.arange(2 * len(ends))
     acol = np.array([f * m * 3 + ax for f in ends for ax in (0, 2)])
     ab = [src[f, 0, ax] for f in ends for ax in (0, 2)]
-    H = spm.csr_matrix((np.r_[vals.ravel(), np.ones(len(frow) + len(acol))],
-                        (np.r_[rows.ravel(), frow, arow], np.r_[cols.ravel(), fcol, acol])),
-                       shape=(F * nb + len(hf) + len(ab), F * m * 3))
-    hb = np.r_[np.broadcast_to(l, (F, nb)).ravel(), src[hf, ft[hk], 1], ab]
+    pt = np.array(pins, dtype=np.int64)
+    pf, pk, pc = (g.ravel() for g in np.meshgrid(np.arange(F), np.arange(len(pt)), np.arange(3), indexing="ij"))
+    prow = F * nb + len(hf) + len(ab) + np.arange(len(pf))
+    pcol = (pf * m + pt[pk]) * 3 + pc
+    pb = pin_at[pf, pk, pc] if len(pt) else np.zeros(0)
+    H = spm.csr_matrix((np.r_[vals.ravel(), np.ones(len(frow) + len(acol) + len(prow))],
+                        (np.r_[rows.ravel(), frow, arow, prow], np.r_[cols.ravel(), fcol, acol, pcol])),
+                       shape=(F * nb + len(hf) + len(ab) + len(prow), F * m * 3))
+    hb = np.r_[np.broadcast_to(l, (F, nb)).ravel(), src[hf, ft[hk], 1], ab, pb]
     return H, hb
 
 
@@ -375,17 +394,22 @@ def length_error(V, bones, l):
 
 
 def solve(src, bones, l_src, l_our, feet, capsules, exempt, after_step=None, steps=N_STEPS, log=print, held=None,
-          names=None, loose=(), ties=(), tie_offset=None, tie_weight=None):
+          names=None, loose=(), ties=(), tie_offset=None, tie_weight=None, pins=(), pin_to=None, touch=()):
     """the paper's morph: src (F, m, 3) source points; bones [(i, j)] with lengths l_src -> l_our; feet, the points
     whose height stays the source's in the frames held (F, len(feet)) marks, all when None; capsules [(i, j, r)];
     exempt, capsule index pairs never pushed apart (a pair sharing a point never is); after_step(V) puts the virtual
     vertices back, in place; names label the log; loose, point pairs the mesh does not tie; ties, joint pairs whose
     difference tie_offset(V) -> (ties, F, 3) wants, re-read each step from the current turn, weighted by tie_weight
-    (ties, F), W_TIE when None. Returns V (F, m, 3)"""
+    (ties, F), W_TIE when None; pins, points held exactly, moved over the steps from the source to pin_to
+    (F, len(pins), 3), others' neighbours in the mesh with no row of their own; touch, [(point, point, its joint, its
+    joint, (F,) gap, (F,) weight)]: two skin points pulled back to the gap along the line between them, never pushed
+    (touch_rows). Returns V (F, m, 3)"""
     F, m, _ = src.shape
     if ties and tie_weight is None:
         tie_weight = np.full((len(ties), F), W_TIE)
-    base, base_b = mesh_rows(src, bones, loose)
+    pins = list(pins)
+    pin_at = lambda a: (1 - a) * src[:, pins] + a * pin_to if pins else None
+    base, base_b = mesh_rows(src, bones, loose, pins)
     T = tie_rows(F, m, ties, tie_weight) if ties and tie_weight.max() > 0 else None
     pairs = [(u, v) for u in range(len(capsules)) for v in range(u + 1, len(capsules))
              if not set(capsules[u][:2]) & set(capsules[v][:2]) and frozenset((u, v)) not in exempt]
@@ -396,14 +420,16 @@ def solve(src, bones, l_src, l_our, feet, capsules, exempt, after_step=None, ste
     # A pair is pushed only past the source's own overlap in that frame
     allow = np.minimum(pair_gaps(src, *caps)[0], 0)
     pattern = base if T is None else spm.vstack([base, T]).tocsr()
-    kkt = KKT(kkt_pattern(pattern, hard_rows(V, bones, feet, l_src, src, held)[0], pairs, capsules, F, m))
+    kkt = KKT(kkt_pattern(pattern, hard_rows(V, bones, feet, l_src, src, held, pins, pin_at(0))[0], pairs, capsules,
+                          F, m, [p for t in touch for p in ((t[0], t[1]), (t[2], t[3]))]))
     mesh = (base.T @ base, base.T @ base_b)     # the Laplacian and acceleration rows never change across steps
     if T is not None:
         mesh = (mesh[0] + T.T @ T, mesh[1])
     try:                        # nvmath's solver frees its GPU memory only on close: a batch worker runs many clips
         for step in range(1, steps + 1):
             now = mesh if T is None else (mesh[0], mesh[1] + T.T @ tie_b(tie_offset(V), tie_weight))
-            V, hits = morph_step(V, step / steps, kkt, now, caps, src, bones, l_src, l_our, feet, held, allow)
+            V, hits = morph_step(V, step / steps, kkt, now, caps, src, bones, l_src, l_our, feet, held, allow,
+                                 pins, pin_at(step / steps), touch)
             if after_step:
                 after_step(V)
             err = length_error(V, bones, (1 - step / steps) * l_src + step / steps * l_our)
@@ -419,30 +445,89 @@ def bone_label(bone, names):
     return "%s->%s" % (names[bone[0]], names[bone[1]]) if names else "%d->%d" % bone
 
 
-def morph_step(V, a, kkt, mesh, caps, src, bones, l_src, l_our, feet, held=None, allow=None):
-    """one step of Algorithm 1: soft collisions from the current V (Eq. 7, all frames and pairs at once), lengths a of
-    the way; mesh is (base.T base, base.T base_b), caps pair_caps' arrays; allow (F, pairs) is how far each pair may
-    overlap in each frame (<= 0), none when None. Returns (V, collision rows)"""
+def touch_rows(V, touch, n):
+    """(rows, b) pulling each touch's skin points back to their gap along the line between them, through their
+    joints: n . (joint_a - joint_b) = gap - n . (skin offsets), the offsets as the current turn has them. Only where
+    the points are further apart than the gap; along the touch alone, so the bodies slide on each other freely (a
+    whole-offset tie dragged her thigh onto his chest, opensex-port.md 9.8)"""
     F, m, _ = V.shape
-    n = F * m * 3
+    sw = W_TOUCH ** 0.5
+    R, C, W, B = [], [], [], []
+    r = 0
+    for ia, ib, ja, jb, gap, w in touch:
+        d = V[:, ia] - V[:, ib]
+        dist = np.linalg.norm(d, axis=1)
+        fr = np.where((w > 0) & (dist > gap))[0]
+        if not len(fr):
+            continue
+        nrm = d[fr] / dist[fr, None]
+        s = sw * np.sqrt(w[fr])
+        off = (V[fr, ia] - V[fr, ja]) - (V[fr, ib] - V[fr, jb])
+        # the joints and the skin points alike, so the segment moves whole: on the joints alone the skin point stayed
+        # where the mesh held it and the bone between them stretched 8.6 cm on two sticks
+        for (pa, pb), want in (((ja, jb), gap[fr] - np.einsum("fc,fc->f", nrm, off)), ((ia, ib), gap[fr])):
+            rows = r + np.arange(len(fr))
+            for j, sign in ((pa, 1.0), (pb, -1.0)):
+                for c in range(3):
+                    R.append(rows); C.append((fr * m + j) * 3 + c); W.append(sign * s * nrm[:, c])
+            B.append(s * want)
+            r += len(fr)
+    if not r:
+        return None, None
+    return spm.csr_matrix((np.concatenate(W), (np.concatenate(R), np.concatenate(C))), shape=(r, n)), np.concatenate(B)
+
+
+def pair_sides(P, caps):
+    """(F, pairs, 3): each capsule pair's direction from the second's nearest point to the first's, in P"""
+    _, s, t = pair_gaps(P, *caps)
+    (a0, a1, _), (b0, b1, _) = caps
+    return unit(P[:, a0] + s[..., None] * (P[:, a1] - P[:, a0]) - P[:, b0] - t[..., None] * (P[:, b1] - P[:, b0]))
+
+
+def collision_rows(V, caps, allow=None, side=None):
+    """(rows, b, hits): Eq. 7's soft collisions from the current V, every frame and pair at once; caps pair_caps'
+    arrays, allow (F, pairs) how far each pair may overlap in each frame (<= 0), none when None; side (F, pairs, 3)
+    the side each pair keeps (pair_sides of the source): a push from the other side is turned to it"""
+    F, m, _ = V.shape
     sc = W_COL ** 0.5
     gap, s, t = pair_gaps(V, *caps)
     room = np.zeros_like(gap) if allow is None else allow
     k, fr = np.nonzero((gap < room).T)          # pair by pair, as the rows always went
     hits = len(k)
+    if not hits:
+        return None, None, 0
+    (a0, a1, ra), (b0, b1, rb) = ((x[k] for x in c) for c in caps)
+    s, t = s[fr, k][:, None], t[fr, k][:, None]
+    nrm = unit(V[fr, a0] + s * (V[fr, a1] - V[fr, a0]) - V[fr, b0] - t * (V[fr, b1] - V[fr, b0]))
+    if side is not None:
+        # her hand through his head flipped its push a frame later and jumped 6.4 cm: pushed out where Skyrim has it
+        want = side[fr, k]
+        crossed = (nrm * want).sum(1) < 0
+        nrm[crossed] = want[crossed]
+    crow, ccol, cval = [], [], []
+    for idx, wgt in ((a0, 1 - s), (a1, s), (b0, -(1 - t)), (b1, -t)):
+        for c in range(3):
+            crow.append(np.arange(hits)); ccol.append((fr * m + idx) * 3 + c); cval.append(sc * wgt[:, 0] * nrm[:, c])
+    C = spm.csr_matrix((np.concatenate(cval), (np.concatenate(crow), np.concatenate(ccol))), shape=(hits, F * m * 3))
+    return C, sc * (ra + rb + room[fr, k]), hits
+
+
+def morph_step(V, a, kkt, mesh, caps, src, bones, l_src, l_our, feet, held=None, allow=None, pins=(), pin_at=None,
+               touch=()):
+    """one step of Algorithm 1: soft collisions from the current V (Eq. 7, all frames and pairs at once), lengths a of
+    the way; mesh is (base.T base, base.T base_b), caps pair_caps' arrays; allow (F, pairs) is how far each pair may
+    overlap in each frame (<= 0), none when None. Returns (V, collision rows)"""
+    F, m, _ = V.shape
+    n = F * m * 3
     AtA, Atb = mesh
     CtC = None
+    C, cb, hits = collision_rows(V, caps, allow)
     if hits:
-        (a0, a1, ra), (b0, b1, rb) = ((x[k] for x in c) for c in caps)
-        s, t = s[fr, k][:, None], t[fr, k][:, None]
-        nrm = unit(V[fr, a0] + s * (V[fr, a1] - V[fr, a0]) - V[fr, b0] - t * (V[fr, b1] - V[fr, b0]))
-        crow, ccol, cval = [], [], []
-        for idx, wgt in ((a0, 1 - s), (a1, s), (b0, -(1 - t)), (b1, -t)):
-            for c in range(3):
-                crow.append(np.arange(hits)); ccol.append((fr * m + idx) * 3 + c); cval.append(sc * wgt[:, 0] * nrm[:, c])
-        C = spm.csr_matrix((np.concatenate(cval), (np.concatenate(crow), np.concatenate(ccol))), shape=(hits, n))
-        CtC, Atb = C.T @ C, Atb + C.T @ (sc * (ra + rb + room[fr, k]))
-    H, hb = hard_rows(V, bones, feet, (1 - a) * l_src + a * l_our, src, held)
+        CtC, Atb = C.T @ C, Atb + C.T @ cb
+    U, ub = touch_rows(V, touch, n) if touch else (None, None)
+    if U is not None:
+        CtC, Atb = (U.T @ U if CtC is None else CtC + U.T @ U), Atb + U.T @ ub
+    H, hb = hard_rows(V, bones, feet, (1 - a) * l_src + a * l_our, src, held, pins, pin_at)
     return kkt.blocks(AtA, CtC, H, np.r_[Atb, hb])[:n].reshape(F, m, 3), hits
 
 
@@ -520,10 +605,10 @@ def labels(males):
     return [w + ("%d" % i if who.count(w) > 1 else "") for i, w in enumerate(who)]
 
 
-def adapt(acts, F, virt, steps=N_STEPS, log=print, skin=None):
-    """a clip's actors' points solved together onto our bodies, a man's with his penis (act.male): ([(F, m, 3) per
-    actor], sides, (worst length error m, its frame, its bone)). skin: {act: {name: (segment, our bind point, Skyrim's
-    (F, 3))}}, extra points from mesh_skin.py"""
+def scene(acts, F, virt, log=print, skin=None, touch=()):
+    """what a clip's solve holds, shared by adapt and pose_solve: the actors' points, bones, capsules, feet, ties.
+    skin: {act: {name: (segment, our bind point, Skyrim's (F, 3))}}, extra points from mesh_skin.py and touch_ties.py;
+    touch: touch_ties' [(actor, point, actor, point, (F,) weight)], each pulled back to Skyrim's gap, never pushed"""
     sides = [Side(a, F, virt[a], a.male, (skin or {}).get(a)) for a in acts]
     n = len(sides)
     offs = list(np.cumsum([0] + [len(s.names) for s in sides]))
@@ -544,13 +629,6 @@ def adapt(acts, F, virt, steps=N_STEPS, log=print, skin=None):
         for v, (sv, cv) in enumerate(owner):
             if su != sv and cu in TORSO + THIGHS + HEAD and cv in THIGHS:
                 exempt.add(frozenset((u, v)))
-
-    def put_back(V):
-        for s, side in enumerate(sides):
-            P = V[:, offs[s]:offs[s] + len(side.names)]
-            side.put_back(P)
-            V[:, offs[s]:offs[s] + len(side.names)] = P
-
     src = np.concatenate([s.src for s in sides], 1)
     feet = [g(s, ft) for s in range(n) for ft in FEET]
     held = np.ones((F, len(feet)), bool)
@@ -575,8 +653,8 @@ def adapt(acts, F, virt, steps=N_STEPS, log=print, skin=None):
     l_src, l_our = np.concatenate([s.l_src for s in sides]), np.concatenate([s.l_our for s in sides])
     # her entry on his penis root as Skyrim has it (mesh_skin.py's points for a penetrative clip), held through the
     # pelvis joints: a tie on the skin points alone was undone by put_back, which carries them on the joints' turn
-    # (actor, its point, actor, its point, the joint both ride, (F,) share of the weight)
-    pair = [(t, "s_entry", s, "s_root", "Hips", np.ones(F)) for s in range(n) if "s_root" in sides[s].names
+    # (actor, its point, actor, its point, the joint each rides, (F,) share of the weight)
+    pair = [(t, "s_entry", s, "s_root", ("Hips", "Hips"), np.ones(F)) for s in range(n) if "s_root" in sides[s].names
             for t in range(n) if t != s and "s_entry" in sides[t].names]
     # her lips on his mouth, the same way through the head joints, only while Skyrim's are near (a kiss)
     for t in range(n):
@@ -586,17 +664,41 @@ def adapt(acts, F, virt, steps=N_STEPS, log=print, skin=None):
                                    - sides[s].src[:, sides[s].names.index("s_mouth")], axis=1)
                 share = np.clip((KISS[1] - d) / (KISS[1] - KISS[0]), 0, 1)
                 if share.any():
-                    pair.append((t, "s_lips", s, "s_mouth", "Head", share))
+                    pair.append((t, "s_lips", s, "s_mouth", ("Head", "Head"), share))
                     log("  kiss: Skyrim's lips within %.0f cm of his mouth in %d of %d frames"
                         % (100 * KISS[0], (share == 1).sum(), F))
-    ties = [(g(t, j), g(s, j)) for t, _, s, _, j, _ in pair]
+    # every other touch Skyrim's skin has (touch_ties.py): pulled back to Skyrim's gap, through each point's segment
+    pulls = [(g(t, a), g(s, b), g(t, sides[t].virtual[a][0]), g(s, sides[s].virtual[b][0]),
+              np.linalg.norm(src[:, g(t, a)] - src[:, g(s, b)], axis=1), w) for t, a, s, b, w in touch]
+    ties = [(g(t, j[0]), g(s, j[1])) for t, _, s, _, j, _ in pair]
+    return SimpleNamespace(sides=sides, n=n, offs=offs, g=g, bones=bones, caps=caps, exempt=exempt, src=src, feet=feet,
+                           held=held, names=names, loose=loose, l_src=l_src, l_our=l_our, pair=pair, pulls=pulls,
+                           ties=ties)
+
+
+def adapt(acts, F, virt, steps=N_STEPS, log=print, skin=None, touch=()):
+    """a clip's actors' points solved together onto our bodies, a man's with his penis (act.male): ([(F, m, 3) per
+    actor], sides, (worst length error m, its frame, its bone)); skin and touch as scene's"""
+    s_ = scene(acts, F, virt, log, skin, touch)
+    sides, n, offs, bones, caps, exempt, src, feet, held, names, loose, l_src, l_our, pair, pulls, ties = (
+        s_.sides, s_.n, s_.offs, s_.bones, s_.caps, s_.exempt, s_.src, s_.feet, s_.held, s_.names, s_.loose, s_.l_src,
+        s_.l_our, s_.pair, s_.pulls, s_.ties)
+
+    def put_back(V):
+        for s, side in enumerate(sides):
+            P = V[:, offs[s]:offs[s] + len(side.names)]
+            side.put_back(P)
+            V[:, offs[s]:offs[s] + len(side.names)] = P
 
     def tie_offset(V):
-        out = []
+        out, rot = [], {}
         for t, a, s, b, j, _ in pair:
+            for x in (t, s):
+                if x not in rot:
+                    rot[x] = sides[x].orient(V[:, offs[x]:offs[x] + len(sides[x].names)])
             # a head's turn read off the solve swung it 180 deg (its only points are the tied ones): the retarget's
-            turn = [sides[x].orient(V[:, offs[x]:offs[x] + len(sides[x].names)])[j] if j == "Hips" else
-                    sides[x].act.w_r[sides[x].act.idx[j], :F] for x in (t, s)]
+            turn = [rot[x][jx] if jx != "Head" else sides[x].act.w_r[sides[x].act.idx[jx], :F]
+                    for x, jx in ((t, j[0]), (s, j[1]))]
             want = sides[t].src[:, sides[t].names.index(a)] - sides[s].src[:, sides[s].names.index(b)]
             out.append(want - rg.qrot(turn[0], np.broadcast_to(sides[t].local[a], (F, 3)))
                        + rg.qrot(turn[1], np.broadcast_to(sides[s].local[b], (F, 3))))
@@ -608,7 +710,7 @@ def adapt(acts, F, virt, steps=N_STEPS, log=print, skin=None):
                 "  untied: every tie weight broke a bone")
         V = solve(src, bones, l_src, l_our, feet, caps, exempt, put_back, steps=steps, log=log, held=held,
                   names=names, loose=loose, ties=ties, tie_offset=tie_offset,
-                  tie_weight=w * np.array([p[5] for p in pair]) if ties else None)
+                  tie_weight=w * np.array([p[5] for p in pair]) if ties else None, touch=pulls)
         err = length_error(V, bones, l_our)
         if err.max() <= LENGTH_TOL:
             break

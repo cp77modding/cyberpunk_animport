@@ -13,6 +13,7 @@ import xml.etree.ElementTree as ET
 
 import numpy as np
 
+import even_keys
 import retarget_glb as rg
 
 # target bone: (source bone, target aim child, source aim child); aim None = no swing (rest-relative).
@@ -60,7 +61,8 @@ def qs(text):
     return np.array(v[:3]), rg.qnorm(np.array([v[4], v[5], v[6], v[3]]))  # file is w x y z
 
 
-def read_clip(path):
+def read_clip(path, raw=False):
+    """the decode as (idx, parent, obj_t, obj_r, rot, tra, frames); raw=True skips evening a stutter (even_keys)"""
     root = ET.parse(path).getroot()
     frames = int(root.find("int[@name='frames']").text)
     if frames < 1:
@@ -97,7 +99,15 @@ def read_clip(path):
         # a key is relative to the bone's local rest
         rot[i] = rg.qnorm(rg.qmul(loc_r[i], kr))
         tra[i] = loc_t[i] + rg.qrot(loc_r[i], kt)
-    return idx, parent, obj_t, obj_r, rot, tra, frames
+    clip = idx, parent, obj_t, obj_r, rot, tra, frames
+    return clip if raw else even(clip)[0]
+
+
+def even(clip):
+    """(clip with a 3-frame stutter evened, its 10 Hz ratio, tracks rebuilt): even_keys.py"""
+    idx, parent, obj_t, obj_r, rot, tra, frames = clip
+    rot, tra, ratio, n = even_keys.fix(rot, tra, world(parent, rot, tra)[1])
+    return (idx, parent, obj_t, obj_r, rot, tra, frames), ratio, n
 
 
 def world(parent, rot, tra):
@@ -194,9 +204,10 @@ def retarget(clip_xml, tg):
     return rot, tra
 
 
-# WolvenKit's settings of an NPC set's clip, as its export writes them; player_extras sets the cook's own over them
+# WolvenKit's settings of an NPC set's clip, as its export writes them; player_extras sets the cook's own over them.
+# frameClamping off: on, the engine samples the nearest 30 fps key, a stair-step at any frame rate (measured in game)
 CLIP_EXTRAS = {"schema": {"type": "wkit.cp2077.gltf.anims", "version": 4}, "animationType": "Normal",
-               "rootMotionType": "Unknown", "frameClamping": True, "frameClampingStartFrame": -1,
+               "rootMotionType": "Unknown", "frameClamping": False, "frameClampingStartFrame": -1,
                "frameClampingEndFrame": -1, "numExtraJoints": 0, "numExtraTracks": 0}
 
 

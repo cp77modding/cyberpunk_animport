@@ -20,6 +20,7 @@ $tests = @(
   'retarget\test_retarget_glb',   # NPC-rig clip onto V's skeleton: motion kept, target lengths, no game data
   'retarget\test_rig_glb',   # a rig json as WolvenKit's armature: axes, parents, bind matrices, A-pose rest
   'retarget\test_skyrim_port',   # the port: tagfile -> packfile, skeleton padding, scene inventory, axes
+  'retarget\test_even_keys',   # a clip stuttering every third frame evened, its kept frames exact; a clean one and a slap left as they are
   'retarget\test_mb_soma',   # baked transitions: Cyberpunk rig <-> SOMA, the half turn, thigh names, seam and speed limits
   'retarget\test_mb_batch',   # the batch's move list and skips; capsule distance, surface to surface
   'retarget\test_pair_reach',   # an oral giver slid flat to the source's reach; the shift under a turned root

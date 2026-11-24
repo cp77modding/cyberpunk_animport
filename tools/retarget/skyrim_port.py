@@ -2,9 +2,10 @@
 
   inventory  skyrim_scenes.py: the scene XML -> manifest.json (clip, actor sex, set), scenes.json, source-map.json
   clips      per source clip, once: tagfile -> packfile XML (skyrim_tagfile) -> hkxc win32 -> blender-hkx unpack
-             against the padded skeleton of the actor's sex (skyrim_skeleton) -> decoded/<hash>.npz; then per body
+             against the padded skeleton of the actor's sex (skyrim_skeleton) -> decoded/<hash>.npz; a source that
+             stutters every third frame evened (even_keys.py, the cache keeps the raw decode); then per body
              skyrim_retarget onto man_base / woman_base -> clips/<npc set>/<clip>.npz. Four workers; a clip newer
-             than its source and skeleton is skipped, and a decode is reused by every body (only it needs Windows)
+             than its source, skeleton, donor glb and the retarget and even_keys code is skipped, and a decode is reused by every body (only it needs Windows)
   (glbs, cook and verify skip a set whose input has not changed; --all redoes every set. `all` runs verify only with
   --verify.)
   glbs       per set: the npc glb from its clips, an oral giver slid by pair_reach.py's pair_shift.json, and
@@ -266,33 +267,36 @@ def _decoded(row, src, skeleton):
     if os.path.isfile(path) and all(os.path.getmtime(s) <= os.path.getmtime(path) for s in (src, skeleton)):
         with np.load(path) as z:
             names = [str(n) for n in z["names"]]
-            return ({n: i for i, n in enumerate(names)}, [int(p) for p in z["parent"]], z["obj_t"], z["obj_r"],
-                    z["rot"].astype(np.float64), z["tra"].astype(np.float64), int(z["frames"])), False
+            return sr.even(({n: i for i, n in enumerate(names)}, [int(p) for p in z["parent"]], z["obj_t"], z["obj_r"],
+                            z["rot"].astype(np.float64), z["tra"].astype(np.float64), int(z["frames"]))), False
     with tempfile.TemporaryDirectory() as tmp:
-        clip = sr.read_clip(decode(src, skeleton, tmp, _cfg))
+        clip = sr.read_clip(decode(src, skeleton, tmp, _cfg), raw=True)   # the cache keeps the decode as it came
     idx, parent, obj_t, obj_r, rot, tra, frames = clip
     os.makedirs(os.path.dirname(path), exist_ok=True)
     np.savez_compressed(path + ".tmp.npz", names=np.array(sorted(idx, key=idx.get)), parent=np.array(parent),
                         obj_t=obj_t, obj_r=obj_r, rot=rot.astype(np.float32), tra=tra.astype(np.float32),
                         frames=frames)
     os.replace(path + ".tmp.npz", path)
-    return (idx, parent, obj_t, obj_r, rot.astype(np.float32).astype(np.float64),
-            tra.astype(np.float32).astype(np.float64), frames), True
+    return sr.even((idx, parent, obj_t, obj_r, rot.astype(np.float32).astype(np.float64),
+                    tra.astype(np.float32).astype(np.float64), frames)), True
 
 
 def _clip(row):
     out, src, skeleton = npz_path(row), os.path.join(_cfg["source"], row["file"]), skeleton_of(row)
-    if clip_done(row, out, (src, skeleton)):
+    # the retarget's code and target rig are sources too: clips from 2026-11-01 outlived three retarget fixes
+    if clip_done(row, out, (src, skeleton, sr.__file__, sr.rg.__file__, sr.even_keys.__file__, donor(row["rig"]))):
         return row["clip"], "kept", 0
     t0 = time.time()
     try:
-        clip, decoded = _decoded(row, src, skeleton)
+        (clip, ratio, evened), decoded = _decoded(row, src, skeleton)
         rot, tra = sr.retarget(clip, _targets[row["rig"]])
         os.makedirs(os.path.dirname(out), exist_ok=True)
         np.savez(out + ".tmp.npz", rot=rot.astype(np.float32), tra=tra.astype(np.float32),
                  skeleton=os.path.basename(skeleton))
         os.replace(out + ".tmp.npz", out)
-        return row["clip"], "decoded" if decoded else "retargeted", time.time() - t0
+        what = "decoded" if decoded else "retargeted"
+        return row["clip"], what + (", evened (stutter %.0fx, %d tracks)" % (ratio, evened) if evened else ""), \
+            time.time() - t0
     except (RuntimeError, ValueError, OSError) as e:
         return row["clip"], "FAILED %s" % str(e).strip().splitlines()[0], time.time() - t0
 
@@ -309,17 +313,20 @@ def stage_clips(a):
     groups = {}
     for r in rows:
         groups.setdefault(decoded_path(r), []).append(r)
-    failed, counts, n, t0 = [], {}, 0, time.time()
+    failed, counts, n, t0, evened = [], {}, 0, time.time(), 0
     with multiprocessing.Pool(a.workers, _init, (cfg,)) as pool:
         for done in pool.imap_unordered(_clips, list(groups.values())):
             for clip, what, dt in done:
                 n += 1
-                counts[what.split()[0]] = counts.get(what.split()[0], 0) + 1
+                key = what.split(",")[0].split()[0]
+                counts[key] = counts.get(key, 0) + 1
+                evened += "evened" in what
                 if what.startswith("FAILED"):
                     failed.append((clip, what))
-                if what != "kept" and (n % 25 == 0 or what.startswith("FAILED")):
+                if what != "kept" and (n % 25 == 0 or what.startswith("FAILED") or "evened" in what):
                     print("%4d/%d %-44s %s %.1fs" % (n, len(rows), clip, what, dt), flush=True)
-    print("%d clips in %.0fs: %s" % (len(rows), time.time() - t0, ", ".join("%d %s" % (v, k) for k, v in sorted(counts.items()))))
+    print("%d clips in %.0fs: %s; %d evened (even_keys.py)" % (len(rows), time.time() - t0, ", ".join(
+        "%d %s" % (v, k) for k, v in sorted(counts.items())), evened))
     for clip, what in failed:
         print("  %s: %s" % (clip, what))
     return not failed
@@ -334,7 +341,7 @@ def _player_glb(job):
 def stage_glbs(a):
     import pair_reach  # imports this module
     sets = sets_of(manifest(), a.only)
-    shifts, slid, meshed = pair_reach.load(PORT), 0, 0
+    shifts, slid, meshed, stale = pair_reach.load(PORT), 0, 0, []
     jobs, skipped = [], 0
     shift_file = os.path.join(PORT, "pair_shift.json")
     for depot, (rig, rows) in sorted(sets.items()):
@@ -354,9 +361,10 @@ def stage_glbs(a):
             if not os.path.isfile(p):
                 sys.exit("not decoded: %s (run the clips stage)" % p)
             m = mesh_path(r)
-            if os.path.isfile(m):
-                if os.path.getmtime(m) < os.path.getmtime(p):
-                    sys.exit("stale: %s is older than its clip (rerun pair_batch.py with SAVE=1)" % m)
+            # solver output older than its clip was solved on a retarget since replaced: the clip plays instead
+            if os.path.isfile(m) and os.path.getmtime(m) < os.path.getmtime(p):
+                stale.append(m)
+            elif os.path.isfile(m):
                 z = np.load(m)
                 clips.append((r["clip"], z["rot"].astype(np.float64), z["tra"].astype(np.float64)))
                 meshed += 1
@@ -375,6 +383,10 @@ def stage_glbs(a):
             jobs.append((out, glb_path(player), rows[0]["playerRig"]))
     print("%d clips slid by pair_shift.json, %d from the interaction mesh; %d npc sets unchanged, %d V sets to bake" % (
         slid, meshed, skipped, len(jobs)), flush=True)
+    if stale:
+        print("%d interaction-mesh clips older than their clip, not used (rerun pair_batch.py with SAVE=1): %s" % (
+            len(stale), ", ".join(os.path.basename(m) for m in stale[:5]) + (" ..." if len(stale) > 5 else "")),
+              flush=True)
     with multiprocessing.Pool(a.workers) as pool:
         for out in pool.imap_unordered(_player_glb, jobs):
             print("  V  " + os.path.relpath(out, PORT), flush=True)

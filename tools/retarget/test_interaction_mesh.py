@@ -184,6 +184,46 @@ if set(seen.get("loose", ())) != want:
 if seen.get("names", [""])[0] != "her0 Hips" or im.labels([True, False]) != ["his", "her"]:
     fails.append("labels: %s first, a pair's %s" % (seen.get("names", [""])[0], im.labels([True, False])))
 
+# A seat pinned 5 cm lower (opensex-port.md 9.8): the sitter's hips come down with it, 8 cm over it as in the source,
+# the feet on the floor and the bones at length. Unpinned, the seat's points are only the mesh's and nothing moves.
+S = np.array([[0, 0.48, 0], [0.45, 0.47, 0.03], [0.46, 0.0, 0.02], [0.01, 0.78, -0.02], [0.0, 1.08, 0.01],
+              [0.15, 0.6, 0.2], [-0.1, 0.40, -0.2], [-0.1, 0.40, 0.2], [0.3, 0.40, -0.2], [0.3, 0.40, 0.2],
+              [0.1, 0.40, 0.0]], float)
+S = np.tile(S, (F, 1, 1))
+sb = [(0, 1), (1, 2), (0, 3), (3, 4), (3, 5)]
+sl = np.array([np.linalg.norm(S[0, c] - S[0, p]) for p, c in sb])
+seat = [6, 7, 8, 9, 10]
+low = S[:, seat] - [0, 0.05, 0]
+free = im.solve(S, sb, sl, sl, [2], [], set(), log=quiet)
+pinned = im.solve(S, sb, sl, sl, [2], [], set(), log=quiet, pins=seat, pin_to=low)
+# the mesh alone shares the drop with the feet held on the floor: the hips' touch on the seat is a tie, as a body's
+off = S[:, 0] - S[:, 10]
+sat = im.solve(S, sb, sl, sl, [2], [], set(), log=quiet, pins=seat, pin_to=low, ties=[(0, 10)],
+               tie_offset=lambda P: off[None])
+hip_gap = (sat[:, 0, 1] - sat[:, 10, 1]).max()
+if not (abs(sat[:, 0, 1] - 0.43).max() < 0.005 and abs(sat[:, 2, 1]).max() < 1e-6
+        and im.length_error(sat, sb, sl).max() < 0.005 and np.abs(sat[:, seat] - low).max() < 1e-6):
+    fails.append("seat: hips at %.3f (want 0.43), %.3f over the seat, bones off %.3f, foot %.3f" % (
+        sat[:, 0, 1].max(), hip_gap, im.length_error(sat, sb, sl).max(), abs(sat[:, 2, 1]).max()))
+if not (abs(free[:, 0, 1] - 0.48).max() < 0.005 and 0.01 < 0.48 - pinned[:, 0, 1].max() < 0.045):
+    fails.append("seat: hips at %.3f unpinned (want 0.48), %.3f pinned untied (want between)" % (
+        free[:, 0, 1].max(), pinned[:, 0, 1].max()))
+
+# A touch pull (opensex-port.md 9.8): two sticks' skin points 20 cm apart pulled to 15, the bones at length. On the
+# joints alone the skin point stayed and the bone to it stretched 8.6 cm.
+P2 = np.tile(np.array([[0, 0, 0], [0, 1, 0.01], [0.05, 1, 0.02], [0.3, 0, 0.03], [0.3, 1, 0], [0.25, 1, 0.01],
+                       [0.15, 0.5, 0.3]], float), (F, 1, 1))
+pb = [(0, 1), (1, 2), (3, 4), (4, 5)]
+pl = np.array([np.linalg.norm(P2[0, c] - P2[0, p]) for p, c in pb])
+Vp = im.solve(P2, pb, pl, pl, [0, 3], [], set(), log=quiet, touch=[(2, 5, 1, 4, np.full(F, 0.15), np.ones(F))])
+pd = np.linalg.norm(Vp[:, 2] - Vp[:, 5], axis=1)
+if not (abs(pd - 0.15).max() < 0.01 and im.length_error(Vp, pb, pl).max() < 0.005):
+    fails.append("touch pull: %.3f apart (want 0.15), bones off %.3f" % (pd.max(), im.length_error(Vp, pb, pl).max()))
+# never a push: asked for more than the source's gap, nothing moves
+Vq = im.solve(P2, pb, pl, pl, [0, 3], [], set(), log=quiet, touch=[(2, 5, 1, 4, np.full(F, 0.30), np.ones(F))])
+if np.abs(Vq - P2).max() > 1e-6:
+    fails.append("touch pull pushed apart by %.3f" % np.abs(Vq - P2).max())
+
 # No steps: the source back, and the solver closed without one ever made.
 if not np.array_equal(im.solve(src, bones, l_src, l_our, [0, 5], [], set(), steps=0, log=quiet), src):
     fails.append("steps=0 changed the points")

@@ -24,5 +24,6 @@ pass() {    # label, then env for pair_contact
     $PY $RT/pod/pod_run.py --collect results_$label.zip
     echo "PASS DONE $label"
 }
-pass handfit MESH_SKIN=1 HANDFIT=1
+# POSE=1: solved in our rig's turns, each joint held to the retarget's (the free points hollowed the backs in game)
+pass pose MESH_SKIN=1 HANDFIT=1 TOUCHES=1 POSE=1
 echo "SWEEP DONE"

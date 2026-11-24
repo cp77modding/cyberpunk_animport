@@ -9,6 +9,7 @@ tools/port.py setup and run) holds this machine's tool paths, source inputs and 
   python build_config.py --get tools.game   one value, "" when unset
 """
 import json
+import ntpath
 import os
 import sys
 
@@ -19,7 +20,8 @@ TOOLS = ("hkxc", "blender_hkx", "skeletons", "wolvenkit", "wolvenkit_cook", "gam
 
 
 def _abs(p, base):
-    return os.path.normpath(p if os.path.isabs(p) else os.path.join(base, p))
+    # ntpath too: on a pod, this machine's C:/ paths are absolute and pod_run remaps them, not joined under base
+    return os.path.normpath(p if os.path.isabs(p) or ntpath.isabs(p) else os.path.join(base, p))
 
 
 def _inside(a, b):
