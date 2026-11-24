@@ -31,6 +31,7 @@ W_TOUCH = float(os.environ.get("W_TOUCH", 25.0))   # a touch pulled back to Skyr
 W_TIE = 25.0              # her entry held at Skyrim's offset from his penis root: the Laplacian alone left it 5 cm up his body
 MOUTHS = ("s_lips", "s_mouth")  # mesh_skin's mouth points: they ride the head, never aim it
 KISS = (0.05, 0.08)      # m: Skyrim's lips this near his mouth tie the heads fully, past the second not at all
+JOIN = (0.20, 0.30)      # m: in a cast over two, her opening this near his penis root (a shaft's length) ties them fully
 W_TIE_BACK = (5.0, 1.0, 0.0) # tried in turn when a bone breaks: from behind 25 stretched his hips-to-spine 2-3 cm, 1 held it
 JOINTS = ["Hips", "Spine", "Spine1", "Spine3", "Neck", "Head"]
 for _s in ("Left", "Right"):
@@ -654,8 +655,20 @@ def scene(acts, F, virt, log=print, skin=None, touch=()):
     # her entry on his penis root as Skyrim has it (mesh_skin.py's points for a penetrative clip), held through the
     # pelvis joints: a tie on the skin points alone was undone by put_back, which carries them on the joints' turn
     # (actor, its point, actor, its point, the joint each rides, (F,) share of the weight)
-    pair = [(t, "s_entry", s, "s_root", ("Hips", "Hips"), np.ones(F)) for s in range(n) if "s_root" in sides[s].names
-            for t in range(n) if t != s and "s_entry" in sides[t].names]
+    # A pair is tied always; in a bigger cast each man only to the woman whose opening is nearest his root in Skyrim,
+    # in the frames it is within JOIN
+    pair = []
+    for s in range(n):
+        ts = [t for t in range(n) if t != s and "s_root" in sides[s].names and "s_entry" in sides[t].names]
+        if not ts:
+            continue
+        d = np.array([np.linalg.norm(sides[t].src[:, sides[t].names.index("s_entry")]
+                                     - sides[s].src[:, sides[s].names.index("s_root")], axis=1) for t in ts])
+        for i, t in enumerate(ts):
+            share = np.ones(F) if n == 2 else \
+                np.clip((JOIN[1] - d[i]) / (JOIN[1] - JOIN[0]), 0, 1) * (d[i] <= d.min(0))
+            if share.any():
+                pair.append((t, "s_entry", s, "s_root", ("Hips", "Hips"), share))
     # her lips on his mouth, the same way through the head joints, only while Skyrim's are near (a kiss)
     for t in range(n):
         for s in range(n):

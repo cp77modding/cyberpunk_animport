@@ -93,24 +93,47 @@ def heel(verts, ix, wrist, knuckles):
 
 
 def points(acts, base, pack, F, log=print):
-    """{act: {name: (segment, our bind point, Skyrim's (F, 3))}} for a man and a woman; {} for any other cast"""
-    if len(acts) != 2 or [a.male for a in acts] != [True, False]:
-        log("mesh_skin: %s is not a man and a woman, no skin points" % base)
+    """{act: {name: (segment, our bind point, Skyrim's (F, 3))}} for every man and woman of a cast of any size: his
+    palms, mouth and penis root, her buttocks, lips and opening; {} for a cast without both a man and a woman"""
+    men, women = [a for a in acts if a.male], [a for a in acts if not a.male]
+    if not men or not women:
+        log("mesh_skin: %s has no man and woman, no skin points" % base)
         return {}
-    him, her = acts
     _, src = pair_reach.PORTS[pack]
     (mb, ma), (fb, fa) = sky_bodies()
     hb = sb.Body(sb.FEMALE_HEAD)
     ha = sb.head_areas(hb.verts)
-    s_him, s_her = sc.Actor(him.row, [(mb, ma)], src), sc.Actor(her.row, [(fb, fa), (hb, ha)], src)
-    n = min(F, s_him.frames, s_her.frames)
+    sky = {a: sc.Actor(a.row, [(mb, ma)] if a.male else [(fb, fa), (hb, ha)], src) for a in men + women}
+    n = min([F] + [s.frames for s in sky.values()])
     if n < F:
         raise ValueError("%s: Skyrim's clip has %d frames, the solve %d" % (base, n, F))
     s_dom = np.array(mb.bones)[np.argmax(mb.weights, 1)]
+    s_mo = np.where((ma == "head") & (sb.head_areas(
+        (np.c_[mb.verts, np.ones(len(mb.verts))] @ mb.skin_to_bone["NPC Head [Head]"].T)[:, :3]) == "lips"))[0]
+    s_lp = len(fb.verts) + np.where(ha == "lips")[0]
+    entry = entry_of(base, pack)
+    want = {}   # (actor, name): (segment, our bind point, Skyrim actor, Skyrim point indices)
+    for him in men:
+        want.update(_his(him, sky[him], mb, ma, s_dom, s_mo, entry))
+    for her in women:
+        want.update(_hers(her, sky[her], fb, fa, s_lp, entry))
+    srcs = {k: np.zeros((F, 3)) for k in want}
+    for f in range(F):
+        posed = {sa: sa.pose(f) for sa in sky.values()}
+        for k, (_, _, sa, ix) in want.items():
+            srcs[k][f] = posed[sa][ix].mean(0)
+    out = {a: {} for a in men + women}
+    for (a, k), (seg, p, _, _) in want.items():
+        out[a][k] = (seg, p, to_ours(srcs[(a, k)]))
+    log("mesh_skin: %s skin points %s" % (base, ", ".join(sorted({k for _, k in want}))))
+    return out
+
+
+def _his(him, s_him, mb, ma, s_dom, s_mo, entry):
+    """a man's skin points: three per palm, his mouth, his penis root when the clip penetrates"""
     body = him.parts_src[0][0]
     dom = np.array(body.bones)[np.argmax(body.weights, 1)]
-    her_area = her.area[:len(her.parts_src[0][0].verts)]
-    want = {}   # name: (actor, segment, our bind point, Skyrim actor, Skyrim point indices)
+    want = {}
     for S in ("Left", "Right"):
         # three points per hand, so the mesh keeps the palm's roll against her and not only its centre
         sb_ = lambda b: "NPC %s %s [%s%s]" % (S[0], b, S[0], {"Hand": "Hnd"}.get(b, b.replace("Finger", "F")))
@@ -123,41 +146,40 @@ def points(acts, base, pack, F, log=print):
         for k, o, s in (("heel", o_heel, s_heel), ("index", o_ix, s_ix), ("pinky", o_pk, s_pk)):
             if not len(o) or not len(s):
                 raise ValueError("%s %s: %d points on ours, %d on Skyrim's" % (S, k, len(o), len(s)))
-            want["s_%s_%s" % (k, S)] = (him, S + "Hand", body.verts[o].mean(0), s_him, s)
+            want[(him, "s_%s_%s" % (k, S))] = (S + "Hand", body.verts[o].mean(0), s_him, s)
+    # his face point is the centre of his face, so a kiss Skyrim has 0.8 cm off kept 8 cm (missionary hug)
+    o_mo = his_mouth(him)
+    if not len(o_mo) or not len(s_mo):
+        raise ValueError("mouth: %d points on ours, %d on Skyrim's" % (len(o_mo), len(s_mo)))
+    want[(him, "s_mouth")] = ("Head", him.verts[o_mo].mean(0), s_him, s_mo)
+    # the genital contact, as Skyrim has it on the skin: our retarget's pelvis turn put her vulva 11.6 cm up his belly
+    # in a cowgirl (opensex-port.md 9.7). Skyrim's genital bones keep their bind, so his root is good and his tip not
+    if entry:
+        o_rt = root(him.verts, him.area, him.tg.w_t[him.idx["Hips"]])
+        s_rt = root(mb.verts, ma, np.linalg.inv(mb.skin_to_bone["NPC Pelvis [Pelv]"])[:3, 3])
+        if not len(o_rt) or not len(s_rt):
+            raise ValueError("%s root: %d points on ours, %d on Skyrim's" % (entry, len(o_rt), len(s_rt)))
+        want[(him, "s_root")] = ("Hips", him.verts[o_rt].mean(0), s_him, s_rt)
+    return want
+
+
+def _hers(her, s_her, fb, fa, s_lp, entry):
+    """a woman's skin points: her buttocks, her lips, her opening when the clip penetrates"""
+    her_area = her.area[:len(her.parts_src[0][0].verts)]
+    want = {}
     for side in ("l", "r"):
         ours = np.where(her_area == "butt_" + side)[0]
         sky = np.where(fa == "butt_" + side)[0]
         if not len(ours) or not len(sky):
             raise ValueError("butt_%s: %d points on ours, %d on Skyrim's" % (side, len(ours), len(sky)))
-        want["s_butt_" + side] = (her, "Hips", her.parts_src[0][0].verts[ours].mean(0), s_her, sky)
-    # both mouths: his face point is the centre of his face, so a kiss Skyrim has 0.8 cm off kept 8 cm (missionary hug)
-    o_lp, s_lp = np.where(her.area == "lips")[0], len(fb.verts) + np.where(ha == "lips")[0]
-    o_mo, s_mo = his_mouth(him), np.where((ma == "head") & (sb.head_areas(
-        (np.c_[mb.verts, np.ones(len(mb.verts))] @ mb.skin_to_bone["NPC Head [Head]"].T)[:, :3]) == "lips"))[0]
-    for k, o, s in (("lips", o_lp, s_lp), ("mouth", o_mo, s_mo)):
-        if not len(o) or not len(s):
-            raise ValueError("%s: %d points on ours, %d on Skyrim's" % (k, len(o), len(s)))
-    want["s_lips"] = (her, "Head", her.verts[o_lp].mean(0), s_her, s_lp)
-    want["s_mouth"] = (him, "Head", him.verts[o_mo].mean(0), s_him, s_mo)
-    # the genital contact, as Skyrim has it on the skin: our retarget's pelvis turn put her vulva 11.6 cm up his belly
-    # in a cowgirl (opensex-port.md 9.7). Skyrim's genital bones keep their bind, so his root is good and his tip not
-    entry = entry_of(base, pack)
+        want[(her, "s_butt_" + side)] = ("Hips", her.parts_src[0][0].verts[ours].mean(0), s_her, sky)
+    o_lp = np.where(her.area == "lips")[0]
+    if not len(o_lp) or not len(s_lp):
+        raise ValueError("lips: %d points on ours, %d on Skyrim's" % (len(o_lp), len(s_lp)))
+    want[(her, "s_lips")] = ("Head", her.verts[o_lp].mean(0), s_her, s_lp)
     if entry:
         o_in, s_in = opening(her.verts, her.area, entry), opening(fb.verts, fa, entry)
-        o_rt = root(him.verts, him.area, him.tg.w_t[him.idx["Hips"]])
-        s_rt = root(mb.verts, ma, np.linalg.inv(mb.skin_to_bone["NPC Pelvis [Pelv]"])[:3, 3])
-        for k, o, s in (("entry", o_in, s_in), ("root", o_rt, s_rt)):
-            if not len(o) or not len(s):
-                raise ValueError("%s %s: %d points on ours, %d on Skyrim's" % (entry, k, len(o), len(s)))
-        want["s_entry"] = (her, "Hips", her.verts[o_in].mean(0), s_her, s_in)
-        want["s_root"] = (him, "Hips", him.verts[o_rt].mean(0), s_him, s_rt)
-    src = {k: np.zeros((F, 3)) for k in want}
-    for f in range(F):
-        posed = {s_him: s_him.pose(f), s_her: s_her.pose(f)}
-        for k, (_, _, _, sa, ix) in want.items():
-            src[k][f] = posed[sa][ix].mean(0)
-    out = {him: {}, her: {}}
-    for k, (a, seg, p, _, _) in want.items():
-        out[a][k] = (seg, p, to_ours(src[k]))
-    log("mesh_skin: %s skin points %s" % (base, ", ".join(want)))
-    return out
+        if not len(o_in) or not len(s_in):
+            raise ValueError("%s entry: %d points on ours, %d on Skyrim's" % (entry, len(o_in), len(s_in)))
+        want[(her, "s_entry")] = ("Hips", her.verts[o_in].mean(0), s_her, s_in)
+    return want

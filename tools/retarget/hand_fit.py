@@ -92,7 +92,7 @@ def pelvis_axes(side, up):
     return np.array([side, up, np.cross(side, up)])
 
 
-def skyrim_palm_on(base, pack, F):
+def skyrim_palm_on(base, pack, F, pair=None):
     """(on, dirs, (spot, spot_area), (bind, area)) per hand and frame: Skyrim's palm (HIMBO's Hand-bone skin) within ON
     of her CBBE skin, staying on until past OFF; its hand frame in her pelvis's (side, up, fwd); the bind point and area
     of her skin under it; her bind points and areas, labelled as our woman's were (mark_dark: vulva, areolas)"""
@@ -101,7 +101,7 @@ def skyrim_palm_on(base, pack, F):
     for r in json.load(open(os.path.join(port, "manifest.json"))):
         rows.setdefault(r["clip"], r)
     (mb, ma), (fb, fa) = ms.sky_bodies()
-    c0, c1 = pair_cast.clips(pack, base)[:2]
+    c0, c1 = pair or pair_cast.clips(pack, base)[:2]     # pair: his clip and hers, in a cast of any size
     him, her = sc.Actor(rows[c0], [(mb, ma)], src), sc.Actor(rows[c1], [(fb, fa)], src)
     dom = np.array(mb.bones)[np.argmax(mb.weights, 1)]
     palm = {S: np.where(dom == "NPC %s Hand [%sHnd]" % (S[0], S[0]))[0] for S in ("Left", "Right")}
@@ -460,20 +460,35 @@ def curl_finger_many(act, S, fn, frames, ang, base_rot, n, world):
 
 
 def fit(acts, base, pack, F, log=print):
-    """acts as pair_contact made them, after the mesh; him the man, her the woman. A cast of other shape is left"""
-    if len(acts) != 2 or [a.male for a in acts] != [True, False]:
-        log("handfit: %s is not a man and a woman, left" % base)
+    """acts as pair_contact made them, after the mesh, a cast of any size: each man's hand fitted on the woman
+    Skyrim's palm is on in the most frames. A cast without both a man and a woman is left"""
+    men = [i for i, a in enumerate(acts) if a.male]
+    women = [i for i, a in enumerate(acts) if not a.male]
+    if not men or not women:
+        log("handfit: %s has no man and woman, left" % base)
         return
-    him, her = acts
-    on, sky_dirs, sky_spot, (sky_verts, sky_area) = skyrim_palm_on(base, pack, F)
+    for i in men:
+        on_her = {j: skyrim_palm_on(base, pack, F, (acts[i].row["clip"], acts[j].row["clip"])) for j in women}
+        hands = {j: [S for S in ("Left", "Right")
+                     if j == max(women, key=lambda w: (on_her[w][0][S][:F].sum(), -w))] for j in women}
+        for j in women:
+            if hands[j]:
+                if len(acts) > 2:
+                    log("handfit: %s actor %d's %s on actor %d" % (base, i, " and ".join(hands[j]), j))
+                _fit_pair(acts[i], acts[j], base, F, log, on_her[j], hands[j])
+
+
+def _fit_pair(him, her, base, F, log, palm_on, hands):
+    """his hands (Left, Right) fitted on her, palm_on her skyrim_palm_on"""
+    on, sky_dirs, sky_spot, (sky_verts, sky_area) = palm_on
     body = him.parts_src[0][0]
     dom = np.array(body.bones)[np.argmax(body.weights, 1)]
     her_body = her.parts_src[0][0]
     nb = len(her_body.verts)
     tris = bm.OurBody(her_body.path).tris
-    ws = {S: ramp(on[S][:F]) for S in ("Left", "Right")}
+    ws = {S: ramp(on[S][:F]) for S in hands}
     her_skin = HerSkin(her, nb, sorted({int(f) for w in ws.values() for f in np.nonzero(w)[0]}))
-    for S in ("Left", "Right"):
+    for S in hands:
         w = ws[S]
         if not w.any():
             log("handfit: %s %s palm never on her skin in Skyrim, left" % (base, S))

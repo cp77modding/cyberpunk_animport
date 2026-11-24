@@ -291,6 +291,13 @@ def _clip(row):
         (clip, ratio, evened), decoded = _decoded(row, src, skeleton)
         rot, tra = sr.retarget(clip, _targets[row["rig"]])
         os.makedirs(os.path.dirname(out), exist_ok=True)
+        # the same clip is not rewritten: a newer file would re-bake its set's glb and cook for nothing
+        if os.path.isfile(out):
+            with np.load(out) as z:
+                same = (np.array_equal(z["rot"], rot.astype(np.float32)) and np.array_equal(z["tra"], tra.astype(np.float32))
+                        and str(z.get("skeleton", "")) == os.path.basename(skeleton))
+            if same:
+                return row["clip"], "unchanged", time.time() - t0
         np.savez(out + ".tmp.npz", rot=rot.astype(np.float32), tra=tra.astype(np.float32),
                  skeleton=os.path.basename(skeleton))
         os.replace(out + ".tmp.npz", out)
