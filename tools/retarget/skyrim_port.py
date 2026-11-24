@@ -11,7 +11,7 @@
   glbs       per set: the npc glb from its clips, an oral giver slid by pair_reach.py's pair_shift.json, and
              retarget_glb.py from it onto V's skeleton
   cook       every set's container (anims_json prep), deserialized, then wk_anims --list, one process per worker
-  bodies     every npc set's glb retargeted onto man_big / man_fat / woman_big / woman_fat and cooked
+  bodies     every npc set's glb retargeted onto man_big / man_fat / man_massive / woman_big / woman_fat and cooked
   verify     every cooked set re-exported and checked against its glb (verify_retarget.py), buffers all SIMD
   pack       depot, scenes.json and source-map.json into the pack repo, and its archive
 
@@ -68,7 +68,7 @@ def skel_name(rig):
 def rig_json(rig):
     return os.path.join(SKEL, skel_name(rig) + ".rig.json")
 # The big and fat NPC rigs: each npc set's glb retargeted onto them (the bodies stage), as retarget.ps1 -Rig did
-BODIES = {"man_base": ("man_big", "man_fat"), "woman_base": ("woman_big", "woman_fat")}
+BODIES = {"man_base": ("man_big", "man_fat", "man_massive"), "woman_base": ("woman_big", "woman_fat")}
 SKELETON = {"f": ("femskeleton.hkx", "female242.hkx"), "m": ("skeleton.hkx", "male242.hkx")}
 # A 242-track clip: its track names pad the skeletons (skyrim_skeleton.py).
 PAD_CLIP = r"meshes\0SA\mod\0Sex\anim\OpS\KneAFo\Ap\FemaleAllFours\_Ap-FemaleAllFours_0.hkx"

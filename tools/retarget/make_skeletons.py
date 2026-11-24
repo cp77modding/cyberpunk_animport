@@ -17,7 +17,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(os.path.dirname(os.path.dirname(HERE)), "skeletons", "cyberpunk")
 # rig name -> its depot path
 RIGS = {r: "base\\characters\\base_entities\\%s\\%s.rig" % (r, r)
-        for r in ("man_base", "woman_base", "man_big", "man_fat", "woman_big", "woman_fat")}
+        for r in ("man_base", "woman_base", "man_big", "man_fat", "man_massive", "woman_big", "woman_fat")}
 RIGS.update({r: "base\\characters\\entities\\player\\%s.rig" % r
              for r in ("player_man_skeleton", "player_woman_skeleton")})
 
