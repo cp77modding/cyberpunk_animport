@@ -12,7 +12,7 @@
    "run": "tools/retarget/work/skyrim/port",
    "pack": "opensex",
    "inventory": "opensex",
-   "ship_glb": false
+   "ship_glb": true
   },
   "ostimng": {
    "run": "tools/retarget/work/skyrim/ostimng",
