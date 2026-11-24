@@ -50,6 +50,12 @@ want("a cage on a bed: bed, never random", sl.furniture_of([], "Bed Cage"), ("be
 want("a bed tagged furniture is a placed bed", sl.furniture_of(["furniture"], "Lux Bed"), ("bed", False))
 want("tags in any case", sl.furniture_of(["Bed"], ""), ("bed", False))
 want("barrel is no bar table", sl.furniture_of([], "Anubs_barrel_mast"), ("barrel", True))
+want("a chair in the name seats the cowgirl's man", sl.rate(["vaginal", "cowgirl"], ["m", "f"], "Anubs_a_chair_cg")[0],
+     ["sitting", "kneeling"])
+want("the author's tag is dropped", sl.shown_name({"id": "Anubs_lustcowgirl", "name": "Anubs  Lust Cowgirl"}),
+     "Lust Cowgirl")
+want("a name that is only the tag stays", sl.shown_name({"id": "Anubs_x", "name": "Anubs"}), "Anubs")
+want("no tag, name kept", sl.shown_name({"id": "lustcowgirl", "name": "Lust Cowgirl"}), "Lust Cowgirl")
 want("open floor", sl.furniture_of(["missionary"], "Anubs_missionary_r Missionary"), (None, False))
 
 for x in fails:

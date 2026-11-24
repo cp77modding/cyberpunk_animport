@@ -279,7 +279,7 @@ def rate(tags, sexes, id_name=""):
     if len(sexes) != 2 or len(pen) != 1 or sexes[1 - pen[0]] != "f":
         return postures, acts, furniture
     g, r = pen[0], 1 - pen[0]
-    sit = bool(t & {"chair", "throne", "sitting", "bench", "couch", "sofa"})
+    sit = bool(t & {"chair", "throne", "sitting", "bench", "couch", "sofa"}) or furniture in ("chair", "bench")
     if t & {"vaginal", "anal"}:
         acts.append({"type": "penetrative", "actor": "ab"[g], "target": "ab"[r]})
     if t & {"blowjob", "oral", "deepthroat"} and "cunnilingus" not in t:
@@ -301,6 +301,14 @@ def rate(tags, sexes, id_name=""):
     return postures, acts, furniture
 
 
+def shown_name(s):
+    """the stage's name without the author's tag every id and name starts with (Anubs_x "Anubs Lust" -> "Lust")"""
+    name, tag = (s["name"] or "").strip(), s["id"].split("_")[0]
+    if "_" in s["id"] and name.lower().startswith(tag.lower() + " ") and name[len(tag):].strip():
+        name = name[len(tag):].strip()
+    return name or s["id"]
+
+
 def scene_list(pack_dir, root):
     """The scene list (scene_list.py): a SexLab stage is a scene of its own that moves on to the next stage. Its
     postures, acts and furniture come from the stage's tags (rate)."""
@@ -316,7 +324,7 @@ def scene_list(pack_dir, root):
             postures, acts, furniture = rate(tags, [x["sex"] for x in actors], id_name)
             no_place = furniture_of(tags, id_name)[1]
             out.append({
-                "id": sid, "name": "%s %d" % (s["name"] or s["id"], k + 1), "animator": s.get("author"),
+                "id": sid, "name": "%s %d" % (shown_name(s), k + 1), "animator": s.get("author"),
                 "sources": [{"pack": pack, "id": "%s#%s" % (s["id"], a["stage"]), "file": s["file"], "actions": []}],
                 "actors": [dict(x, posture=p) if p else dict(x) for x, p in zip(actors, postures)],
                 "speeds": [{"clips": [pack + "/" + c if c else None for c in a["clips"]], "playback": 1.0,
