@@ -54,6 +54,11 @@ TORSO = [("Hips", "Spine"), ("Spine", "Spine1"), ("Spine1", "Spine3")]
 THIGHS = [(s + "UpLeg", s + "Leg") for s in ("Left", "Right")]
 HEAD = [("Neck", "Head"), ("Head", "v_Head")]
 ANKLE_ROOM = 0.9          # an ankle's height is held while Skyrim's ankle-over-toe drop is under this share of our foot
+# a foot stands while Skyrim's moves under 1.5 mm a frame (5-frame mean) within 3 cm of its lowest, 10 frames or more
+# (Skyrim's standing feet: median 0.5, max 1.9 mm a frame)
+PLANT = (0.0015, 0.03, 5, 10)
+W_PLANT = float(os.environ.get("W_PLANT", 25.0))   # a planted foot pulled to its stand (plant_rows)
+PLANT_EASE = 8            # frames the pull eases in after a step lands and out before it lifts
 LENGTH_TOL = 0.01         # m: a solved bone further than this off its length is a broken clip
 PENIS = ("shaft", "tip")
 HAND_TURN = np.radians(15)  # a hand's local turn off the retarget's: her fists by her own shoulders folded her wrists 70 deg
@@ -333,10 +338,20 @@ def mesh_rows(src, bones, loose=(), fixed=(), shape=None, body=None):
         np.concatenate(B)
 
 
+def plant_rows(plant, feet, F, m):
+    """(rows, b) soft: each planted foot point's x and z pulled to its stand by W_PLANT times its share (planted's
+    pair). Hard, the ankle and toe both pinned with the hips over-constrained the leg and the solve blew up"""
+    at, share = plant
+    pf, pk, pa = np.nonzero(np.isfinite(at) & (share[..., None] > 0))
+    if not len(pf):
+        return None, None
+    ft = np.array(feet, dtype=np.int64)
+    s = (W_PLANT * share[pf, pk]) ** 0.5
+    P = spm.csr_matrix((s, (np.arange(len(pf)), (pf * m + ft[pk]) * 3 + 2 * pa)), shape=(len(pf), F * m * 3))
+    return P, s * at[pf, pk, pa]
+
+
 def hard_rows(V, bones, feet, l, src, held=None, pins=(), pin_at=None):
-    """(H, b): bone lengths linearised at the current V (Eq. 5); the feet's source heights (section 6) in the frames
-    held (F, len(feet)) marks, every frame when None; point 0's x and z in every frame; each pin point at pin_at
-    (F, len(pins), 3) in every frame (furniture, opensex-port.md 9.8)"""
     F, m, _ = V.shape
     nb = len(bones)
     p, c = (np.array([b[k] for b in bones], dtype=np.int64) for k in (0, 1))   # none: pose_solve's lengths are exact
@@ -606,6 +621,43 @@ def labels(males):
     return [w + ("%d" % i if who.count(w) > 1 else "") for i, w in enumerate(who)]
 
 
+def planted(src, feet, log=print, labels=None):
+    """((F, len(feet), 2), (F, len(feet))) the x and z each foot point is held at while Skyrim's stands still on its
+    floor, NaN while it moves (a stand's mean place), and the pull's share, eased in and out over PLANT_EASE frames.
+    Only the height was held, and our standing feet slid 3 cm where Skyrim's kept 0.7; pulled at full strength from a
+    stand's first frame, a stepping foot snapped there and an approach's elbow jumped 5 cm"""
+    F = len(src)
+    out = np.full((F, len(feet), 2), np.nan)
+    share = np.zeros((F, len(feet)))
+    for k, i in enumerate(feet):
+        xz = src[:, i][:, [0, 2]]
+        speed = np.r_[0.0, np.linalg.norm(np.diff(xz, axis=0), axis=1)]
+        win = min(PLANT[2], F)       # "same" returns the longer of the two: a 3-frame clip came back 5 long
+        speed = np.convolve(speed, np.ones(win) / win, "same")
+        low = src[:, i, 1] < src[:, i, 1].min() + PLANT[1]
+        still = (speed < PLANT[0]) & low
+        f, n = 0, 0
+        while f < F:
+            if not still[f]:
+                f += 1
+                continue
+            e = f
+            while e < F and still[e]:
+                e += 1
+            if e - f >= PLANT[3]:
+                out[f:e, k] = xz[f:e].mean(0)
+                j = np.arange(f, e)
+                # a stand at the clip's start or end is no step: held from the first frame / to the last (a loop)
+                ramp = np.minimum(1.0 if f == 0 else (j - f + 1) / (PLANT_EASE + 1),
+                                  1.0 if e == F else (e - j) / (PLANT_EASE + 1))
+                share[f:e, k] = np.clip(ramp, 0, 1) ** 2 * (3 - 2 * np.clip(ramp, 0, 1))
+                n += e - f
+            f = e
+        if n and labels:
+            log("  %s planted in %d of %d frames" % (labels[k], n, F))
+    return out, share
+
+
 def scene(acts, F, virt, log=print, skin=None, touch=()):
     """what a clip's solve holds, shared by adapt and pose_solve: the actors' points, bones, capsules, feet, ties.
     skin: {act: {name: (segment, our bind point, Skyrim's (F, 3))}}, extra points from mesh_skin.py and touch_ties.py;
@@ -646,6 +698,7 @@ def scene(acts, F, virt, log=print, skin=None, touch=()):
             if free.any():
                 log("  %s %sFoot height free in %d of %d frames: Skyrim's ankle up to %.1f cm over the toe, our foot "
                     "%.1f cm" % (who, side, free.sum(), F, 100 * drop.max(), 100 * foot))
+    plant = planted(src, feet, log, [who_of[s] + " " + ft for s in range(n) for ft in FEET])
     names = [w + " " + nm for w, side in zip(who_of, sides) for nm in side.names]
     # a penis inside a body sits a centimetre from its hip or spine joint and took 80% of its Laplacian: his pelvis
     # turning swung it 14 cm a step and tore her lower spine 6.5 cm (opensex-port.md 9.6). Loose on every other body
@@ -685,8 +738,8 @@ def scene(acts, F, virt, log=print, skin=None, touch=()):
               np.linalg.norm(src[:, g(t, a)] - src[:, g(s, b)], axis=1), w) for t, a, s, b, w in touch]
     ties = [(g(t, j[0]), g(s, j[1])) for t, _, s, _, j, _ in pair]
     return SimpleNamespace(sides=sides, n=n, offs=offs, g=g, bones=bones, caps=caps, exempt=exempt, src=src, feet=feet,
-                           held=held, names=names, loose=loose, l_src=l_src, l_our=l_our, pair=pair, pulls=pulls,
-                           ties=ties)
+                           held=held, plant=plant, names=names, loose=loose, l_src=l_src, l_our=l_our, pair=pair,
+                           pulls=pulls, ties=ties)
 
 
 def adapt(acts, F, virt, steps=N_STEPS, log=print, skin=None, touch=()):

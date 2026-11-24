@@ -166,6 +166,9 @@ def solve(acts, F, virt, log=print, skin=None, touch=(), pins=(), pin_to=None):
     if ties:
         T = im.tie_rows(F, M, ties, tie_w)
         AtA, Atb0 = AtA + T.T @ T, Atb0 + T.T @ im.tie_b(want, tie_w)
+    Pl, pl_b = im.plant_rows(sc.plant, sc.feet, F, M)
+    if Pl is not None:
+        AtA, Atb0 = AtA + Pl.T @ Pl, Atb0 + Pl.T @ pl_b
     pairs = [(u, v) for u in range(len(sc.caps)) for v in range(u + 1, len(sc.caps))
              if not set(sc.caps[u][:2]) & set(sc.caps[v][:2]) and frozenset((u, v)) not in sc.exempt]
     caps = im.pair_caps(pairs, sc.caps)
@@ -179,6 +182,8 @@ def solve(acts, F, virt, log=print, skin=None, touch=(), pins=(), pin_to=None):
         e = np.sum((base @ v - base_b) ** 2)
         if ties:
             e += np.sum((T @ v - im.tie_b(want, tie_w)) ** 2)
+        if Pl is not None:
+            e += np.sum((Pl @ v - pl_b) ** 2)
         C, cb, hits = im.collision_rows(V, caps, allow, side)
         if hits:
             e += np.sum((C @ v - cb) ** 2)

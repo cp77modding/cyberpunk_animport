@@ -228,6 +228,37 @@ if np.abs(Vq - P2).max() > 1e-6:
 if not np.array_equal(im.solve(src, bones, l_src, l_our, [0, 5], [], set(), steps=0, log=quiet), src):
     fails.append("steps=0 changed the points")
 
+# Feet: one stands (0.5 mm a frame of wobble), one walks (1 cm a frame), one stands lifted 20 cm: only the first plants,
+# at its mean place; the soft rows pull it there
+F = 40
+pts = np.zeros((F, 3, 3))
+pts[:, 0] = [0.1, 0.0, 0.2] + 0.0005 * np.sin(np.arange(F))[:, None] * [1, 0, 1]
+pts[:, 1, 0] = 0.01 * np.arange(F)
+pts[:, 2] = [0.5, 0.2, 0.0]
+pts[0, 2, 1] = 0.0                     # its lowest is a frame on the floor: lifted after it
+plant = im.planted(pts, [0, 1, 2], quiet)
+at, share = plant
+if not np.isfinite(at[:, 0]).all() or np.abs(at[:, 0] - pts[:, 0][:, [0, 2]].mean(0)).max() > 1e-9:
+    fails.append("a standing foot was not planted at its mean place")
+if (share[:, 0] != 1).any():
+    fails.append("a stand over the whole clip eased in or out: it is no step")
+if np.isfinite(at[:, 1]).any() or share[:, 1].any():
+    fails.append("a walking foot was planted")
+if np.isfinite(at[1:, 2]).any() or share[1:, 2].any():
+    fails.append("a lifted foot was planted")
+P, b = im.plant_rows(plant, [0, 1, 2], F, 3)
+if P.shape[0] != 2 * F or not np.allclose(P @ pts.ravel() / im.W_PLANT ** 0.5, np.repeat(pts[:, 0][:, [0, 2]].mean(0)[None], F, 0).ravel(), atol=2e-3):
+    fails.append("plant_rows do not pull the standing foot's x and z")
+if im.planted(np.zeros((3, 1, 3)), [0], quiet)[0].shape != (3, 1, 2):
+    fails.append("a clip shorter than the smoothing window")
+# a step: a foot walks, stands 30 frames mid-clip, walks on. The pull eases in and out, never a jump
+step = np.zeros((F + 30, 1, 3))
+step[:, 0, 0] = np.r_[0.01 * np.arange(20), np.full(30, 0.19), 0.19 + 0.01 * np.arange(1, 21)]
+_, sh = im.planted(step, [0], quiet)
+on = np.nonzero(sh[:, 0])[0]
+if not len(on) or sh[on[0], 0] > 0.2 or sh[on[-1], 0] > 0.2 or np.abs(np.diff(sh[:, 0])).max() > 0.25 or sh[:, 0].max() != 1:
+    fails.append("a mid-clip stand's pull does not ease in and out: %s" % np.round(sh[on, 0], 2))
+
 for f in fails:
     print("FAIL", f)
 print("test_interaction_mesh:", "FAILED" if fails else "ok")
